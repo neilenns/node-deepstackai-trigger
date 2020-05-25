@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/triggerConfiguration.schema.json",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/triggerConfiguration.schema.json",
   "type": "object",
   "title": "A list of triggers",
   "description": "Defines the triggers that are used for responding to DeepStack AI predictions.",
@@ -73,11 +73,11 @@
             "properties": {
               "webRequest": {
                 "description": "Sets the configuration for a web request handler.",
-                "$ref": "./webRequestHandlerConfig.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/webRequestHandlerConfig.schema.json"
               },
               "mqtt": {
                 "description": "Sets the configuration for an MQTT event.",
-                "$ref": "./mqttHandlerConfiguration.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/mqttHandlerConfiguration.schema.json"
               }
             }
           },

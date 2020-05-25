@@ -1,5 +1,5 @@
 {
-  "$schema": "../src/schemas/mqttManagerConfiguration.schema.json",
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/mqttManagerConfiguration.schema.json",
   "uri": "http://mqtt:1883",
   "username": "user",
   "password": "pass"
