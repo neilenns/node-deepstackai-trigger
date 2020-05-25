@@ -19,8 +19,9 @@ services:
 
     secrets:
       - triggers
-      # To disable MQTT support comment out the following line
-      - mqtt
+      # To enable MQTT uncomment the following line and add the server
+      # connection settings to mqtt.json
+      # - mqtt
 
     # ------------------------------------------------------------------------
     # Don't change anything below this line unless you know what you are doing
