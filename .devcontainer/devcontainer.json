@@ -28,11 +28,8 @@
   "extensions": [
     "dbaeumer.vscode-eslint",
     "davidanson.vscode-markdownlint",
-    "christian-kohler.npm-intellisense",
     "esbenp.prettier-vscode",
-    "github.vscode-pull-request-github",
-    "mike-co.import-sorter",
-    "mikestead.dotenv"
+    "mike-co.import-sorter"
   ]
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
