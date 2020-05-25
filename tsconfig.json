@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es5",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src", "package.json"],
+  "exclude": ["node_modules"]
+}

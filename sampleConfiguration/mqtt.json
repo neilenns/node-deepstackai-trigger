@@ -1,0 +1,6 @@
+{
+  "$schema": "../src/schemas/mqttManagerConfiguration.schema.json",
+  "uri": "http://mqtt:1883",
+  "username": "user",
+  "password": "pass"
+}

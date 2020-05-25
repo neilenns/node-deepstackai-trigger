@@ -1,0 +1,41 @@
+version: "3.8"
+secrets:
+  triggers:
+    # This should point to the location of the triggers.json configuration file
+    file: ./triggers.json
+    # This should point to the location of the mqtt.json configuration file
+  mqtt:
+    file: ./mqtt.json
+
+services:
+  trigger:
+    volumes:
+      # Change ./images to point to the folder that will have the images to analyze
+      - ./images:/images
+    environment:
+      - TZ=America/Los_Angeles
+
+      # Don't change anything below this line unless you know what you are doing
+
+      # This is pre-configured for service-to-service connectivity in
+      # Docker. Don't change this unless there is a need to talk to an
+      # external DeepStack server somewhere and you know what you are doing.
+      - DEEPSTACK_URI=http://deepstack-ai:5000/
+    image: danecreekphotography/nodeblueirisdeepstackai:latest
+    restart: always
+    depends_on:
+      - deepstack-ai
+    secrets:
+      - triggers
+      - mqtt
+
+  deepstack-ai:
+    image: deepquestai/deepstack:latest
+    restart: always
+    volumes:
+      - localstorage:/datastore
+    environment:
+      - VISION-DETECTION=True
+
+volumes:
+  localstorage:

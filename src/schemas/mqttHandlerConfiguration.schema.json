@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/mqttHandlerConfiguration.schema.json",
+  "type": "object",
+  "title": "The configuration for an MQTT trigger handler",
+  "description": "Defines the MQTT information sent with trigger notifications.",
+  "required": ["topic"],
+  "properties": {
+    "topic": {
+      "description": "The topic to send when this handler is triggered.",
+      "type": "string",
+      "minLength": 1,
+      "examples": ["aimotion/trigger/dog"]
+    },
+    "enabled": {
+      "description": "Enables the MQTT handler on this trigger. Default is true.",
+      "type": "boolean",
+      "default": "true",
+      "examples": ["false"]
+    }
+  }
+}

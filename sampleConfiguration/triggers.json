@@ -1,0 +1,41 @@
+{
+  "$schema": "../src/schemas/triggerConfiguration.schema.json",
+  "triggers": [
+    {
+      "name": "Cat detector",
+      "watchPattern": "/images/Cat*.jpg",
+      "enabled": true,
+      "threshold": {
+        "minimum": 10,
+        "maximum": 90
+      },
+      "handlers": {
+        "webRequest": {
+          "triggerUris": ["http://localhost:81/admin?trigger&camera=Cat"]
+        },
+        "mqtt": {
+          "topic": "aimotion/triggers/cat"
+        }
+      },
+      "watchObjects": ["cat"]
+    },
+    {
+      "name": "Dog detector",
+      "watchPattern": "/images/Dog*.jpg",
+      "enabled": true,
+      "threshold": {
+        "minimum": 50,
+        "maximum": 100
+      },
+      "handlers": {
+        "webRequest": {
+          "triggerUris": ["http://localhost:81/admin?trigger&camera=Cat"]
+        },
+        "mqtt": {
+          "topic": "aimotion/triggers/dog"
+        }
+      },
+      "watchObjects": ["dog"]
+    }
+  ]
+}

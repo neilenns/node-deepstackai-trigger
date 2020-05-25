@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/triggerConfiguration.schema.json",
+  "type": "object",
+  "title": "A list of triggers",
+  "description": "Defines the triggers that are used for responding to DeepStack AI predictions.",
+  "required": ["triggers"],
+  "properties": {
+    "triggers": {
+      "$id": "#/properties/triggers",
+      "type": "array",
+      "title": "The list of triggers",
+      "description": "Add one trigger for each different type of prediction to respond to.",
+      "additionalProperties": false,
+      "items": {
+        "title": "Trigger",
+        "description": "A trigger that responds to DeepStack predictions.",
+        "type": "object",
+        "required": ["handlers", "name", "watchPattern", "watchObjects"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "A friendly name for the trigger",
+            "type": "string"
+          },
+          "watchPattern": {
+            "description": "The file name pattern this trigger watches for to start processing.",
+            "examples": ["images/Dog*.jpg"],
+            "type": "string"
+          },
+          "cooldownTime": {
+            "description": "Number of seconds required between detecting images that match the watchPattern before processing another image.",
+            "examples": [5],
+            "default": 0,
+            "exclusiveMinimum": 0,
+            "maximum": 600,
+            "type": "integer"
+          },
+          "enabled": {
+            "description": "Set to true to enable the trigger. If false the trigger will be ignored.",
+            "examples": [true],
+            "default": true,
+            "type": "boolean"
+          },
+          "threshold": {
+            "description": "Sets the minimum and maximum prediction confidence required to fire the trigger.",
+            "type": "object",
+            "required": ["minimum", "maximum"],
+            "properties": {
+              "minimum": {
+                "description": "The minimum value required to fire the trigger, inclusive.",
+                "default": 0,
+                "examples": [50],
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "maximum": {
+                "description": "The maximum value required to fire the trigger, inclusive.",
+                "examples": [100],
+                "default": 100,
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          },
+          "handlers": {
+            "description": "The list of handlers to call and their configurations",
+            "type": "object",
+            "minItems": 1,
+            "uniqueItems": true,
+            "properties": {
+              "webRequest": {
+                "description": "Sets the configuration for a web request handler.",
+                "$ref": "./webRequestHandlerConfig.schema.json"
+              },
+              "mqtt": {
+                "description": "Sets the configuration for an MQTT event.",
+                "$ref": "./mqttHandlerConfiguration.schema.json"
+              }
+            }
+          },
+          "watchObjects": {
+            "description": "A list of objects the trigger will activate on.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "person",
+                "bicycle",
+                "car",
+                "motorcycle",
+                "airplane",
+                "bus",
+                "train",
+                "truck",
+                "boat",
+                "traffic light",
+                "fire hydrant",
+                "stop_sign",
+                "parking meter",
+                "bench",
+                "bird",
+                "cat",
+                "dog",
+                "horse",
+                "sheep",
+                "cow",
+                "elephant",
+                "bear",
+                "zebra",
+                "giraffe",
+                "backpack",
+                "umbrella",
+                "handbag",
+                "tie",
+                "suitcase",
+                "frisbee",
+                "skis",
+                "snowboard",
+                "sports ball",
+                "kite",
+                "baseball bat",
+                "baseball glove",
+                "skateboard",
+                "surfboard",
+                "tennis racket",
+                "bottle",
+                "wine glass",
+                "cup",
+                "fork",
+                "knife",
+                "spoon",
+                "bowl",
+                "banana",
+                "apple",
+                "sandwich",
+                "orange",
+                "broccoli",
+                "carrot",
+                "hot dog",
+                "pizza",
+                "donot",
+                "cake",
+                "chair",
+                "couch",
+                "potted plant",
+                "bed",
+                "dining table",
+                "toilet",
+                "tv",
+                "laptop",
+                "mouse",
+                "remote",
+                "keyboard",
+                "cell phone",
+                "microwave",
+                "oven",
+                "toaster",
+                "sink",
+                "refrigerator",
+                "book",
+                "clock",
+                "vase",
+                "scissors",
+                "teddy bear",
+                "hair dryer",
+                "toothbrush"
+              ]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      }
+    }
+  }
+}

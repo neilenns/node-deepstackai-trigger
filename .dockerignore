@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+docker-compose.yaml
+Dockerfile
+.dockerignore
+.devcontainer
+.github
+.vscode
+.env
+.gitattributes
+.prettierrc
+dist
+config
+images
