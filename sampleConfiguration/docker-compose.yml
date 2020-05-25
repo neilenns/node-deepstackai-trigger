@@ -21,7 +21,7 @@ services:
       # Docker. Don't change this unless there is a need to talk to an
       # external DeepStack server somewhere and you know what you are doing.
       - DEEPSTACK_URI=http://deepstack-ai:5000/
-    image: danecreekphotography/nodeblueirisdeepstackai:latest
+    image: danecreekphotography/node-deepstackai-trigger:latest
     restart: always
     depends_on:
       - deepstack-ai
