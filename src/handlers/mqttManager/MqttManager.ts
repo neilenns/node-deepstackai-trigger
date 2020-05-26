@@ -23,9 +23,18 @@ let mqttUri: string;
  */
 export async function loadConfiguration(configFilePath: string): Promise<void> {
   const rawConfig = await readRawConfigFile(configFilePath);
+
+  if (!rawConfig) {
+    return;
+  }
+
   const mqttConfigJson = parseConfigFile(rawConfig);
 
   if (!(await validateJsonAgainstSchema(mqttManagerConfigurationSchema, mqttConfigJson))) {
+    // This throws an error instead of allowing startup to proceed since the assumption is
+    // if the user specified a configuration file they actually do want MQTT enabled
+    // and running. It would be bad if this continued to run with MQTT disabled
+    // and the user thought MQTT events were getting sent when they weren't.
     throw new Error("[MQTT Manager] Invalid configuration file.");
   }
 
@@ -80,16 +89,22 @@ async function readRawConfigFile(configFilePath: string): Promise<string> {
       "MQTT Manager",
       `No configuration file was specified so MQTT events won't be sent. To enable MQTT events make sure the mqtt secret in the docker-compose.yaml points to a configuration file.`,
     );
-    return;
+    return null;
   }
 
   let rawConfig: string;
   try {
     rawConfig = await fsPromise.readFile(configFilePath, "utf-8");
   } catch (e) {
-    throw new Error(`[MQTT Manager] Unable to load configuration file ${configFilePath}: ${e.message}`);
+    log.warn(
+      "MQTT Manager",
+      `Unable to read the MQTT configuration file: ${e.message}. If MQTT was disabled in the Docker configuration then this warning can be safely ignored. Otherwise it means something is wrong in the secrets file mapping in the Docker configuration.`,
+    );
+    return null;
   }
 
+  // This shouldn't happen. Keeping the check here in case it does in the real world
+  // and someone reports things not working.
   if (!rawConfig) {
     throw new Error(`[MQTT Manager] Unable to load configuration file ${configFilePath}.`);
   }
