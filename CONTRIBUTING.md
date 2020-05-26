@@ -8,7 +8,7 @@ only to spend hours fighting with various dependencies to get it working.
 
 ## Seting up the project
 
-The setup takes less than 5 minutes if you use [Visual Studio Code](http://code.visualstudio.com/)
+The setup takes less than five minutes if you use [Visual Studio Code](http://code.visualstudio.com/)
 and the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
 
 Here's what to do:
@@ -25,7 +25,8 @@ if you'd like to help make those go away.)
 
 If you are on Windows you'll need to be running Windows Subsystem for Linux 2 before this
 all works. Until that's available in the public release in late May you'll need to
-install the [Insiders Slow Ring](https://docs.microsoft.com/en-us/windows/wsl/wsl2-index) build. This does work, as it's how the entire project was initially written and tested.
+install the [Insiders Slow Ring](https://docs.microsoft.com/en-us/windows/wsl/wsl2-index) build. This does work, as it's how the
+entire project was initially written and tested.
 
 Note that while you may be tempted to try and open this project using the _Remote-Containers: Open Repository in Container_
 command it won't work as the extnesion doesn't currently support docker-compose.yml-based projects.
