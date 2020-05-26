@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.1.3
+
+- Resolve an issue where disabling Telegram prevented startup
+
 ## Version 1.1.2
 
 - Add timestamp to log messages
