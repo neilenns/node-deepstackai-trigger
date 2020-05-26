@@ -65,7 +65,7 @@ triggers need adjusting.
 | Property | Description                                                                                                                               | Example |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | minimum  | Optional. Default `0`. A value between `0` and `100` that determines the minimum label confidence level required to activate the trigger. | `50`    |
-| maximum  | Optional. Default `100`. A value between 0 and 100 that determines the maximum confidence level allowed to activate the trigger.          | `90`    |
+| maximum  | Optional. Default `100`. A value between `0` and `100` that determines the maximum confidence level allowed to activate the trigger.      | `90`    |
 
 ### Defining webRequest handlers
 
