@@ -2,16 +2,16 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { promises as fsPromise } from "fs";
-import * as JSONC from "jsonc-parser";
-import TelegramBot from "node-telegram-bot-api";
+import { promises as fsPromise } from 'fs';
+import * as JSONC from 'jsonc-parser';
+import TelegramBot from 'node-telegram-bot-api';
 
-import * as log from "../../Log";
-import telegramManagerConfigurationSchema from "../../schemas/telegramManagerConfiguration.schema.json";
-import validateJsonAgainstSchema from "../../schemaValidator";
-import Trigger from "../../Trigger";
-import IDeepStackPrediction from "../../types/IDeepStackPrediction";
-import ITelegramManagerConfigJson from "./ITelegramManagerConfigJson";
+import * as log from '../../Log';
+import telegramManagerConfigurationSchema from '../../schemas/telegramManagerConfiguration.schema.json';
+import validateJsonAgainstSchema from '../../schemaValidator';
+import Trigger from '../../Trigger';
+import IDeepStackPrediction from '../../types/IDeepStackPrediction';
+import ITelegramManagerConfigJson from './ITelegramManagerConfigJson';
 
 let isEnabled = false;
 let telegramBot: TelegramBot;
@@ -39,9 +39,9 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
 
   log.info("Telegram manager", `Loaded configuration from ${configFilePath}`);
 
-  // See https://github.com/yagop/node-telegram-bot-api/issues/319
-  process.env.NTBA_FIX_319 = "true";
-  telegramBot = new TelegramBot(telegramConfigJson.botToken);
+  telegramBot = new TelegramBot(telegramConfigJson.botToken, {
+    filepath: false,
+  });
 
   isEnabled = true;
 }
@@ -73,7 +73,14 @@ export async function processTrigger(
 
 async function sendTelegramMessage(name: string, fileName: string, chatId: number): Promise<TelegramBot.Message> {
   log.info("Telegram manager", `Sending message to ${chatId}`);
-  return telegramBot.sendPhoto(chatId, fileName);
+  let message: Promise<TelegramBot.Message>;
+
+  try {
+    message = telegramBot.sendPhoto(chatId, await fsPromise.readFile(fileName));
+  } catch (e) {
+    log.warn("Telegram Manager", `Unable to send message: ${e.message}`);
+  }
+  return message;
 }
 
 /**
