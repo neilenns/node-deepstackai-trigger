@@ -37,8 +37,8 @@ may exist.
 
 ## Defining triggers
 
-The trigger.conf file is used to define a list of triggers that fire when certain AI detection
-parameters are met. Triggers, when fired, can call a web request URL or send an MQTT event (or both!).
+The `trigger.conf` file is used to define a list of triggers that fire when certain AI detection
+parameters are met. Triggers can call a web request url and/or send an MQTT event when activated.
 
 In the case of using this to make BlueIris start recording the web request URL is the way to go.
 MQTT is useful if you want to do fancier automation based on the detected objects.
