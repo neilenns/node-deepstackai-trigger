@@ -13,7 +13,8 @@ While the C# application is nifty it was difficult to install as a service and o
 ## General installation guidelines (more to come)
 
 - Copy the `docker-compose.yml`, `mqtt.json` and `triggers.json` file locally
-- Edit the `docker-compose.yml` file to modify the mount point for source images and to set the timezone
+- Edit the `docker-compose.yml` file to modify the mount point for source images, set the timezone
+  and optionally enable MQTT
 - Edit `mqtt.json` to specify the connection information for your MQTT server
 - Edit `triggers.json` to define the triggers you want to use
 
