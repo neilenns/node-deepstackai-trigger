@@ -107,11 +107,12 @@ the line in the file to be sure the right line is changed.
 
 MQTT is configured using the _mqtt.conf_ file. The following properties are supported:
 
-| Property | Description                                         | Example                       |
-| -------- | --------------------------------------------------- | ----------------------------- |
-| uri      | Required. The address of the MQTT server.           | `"http://192.168.1.100:1883"` |
-| username | Optional. The username to log into the server with. | `"mqttuser"`                  |
-| password | Optional. The password to log into the server with. | `"mqttpass"`                  |
+| Property           | Description                                                                                                                                                                                               | Example                       |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| uri                | Required. The address of the MQTT server.                                                                                                                                                                 | `"mqtt://192.168.1.100:1883"` |
+| username           | Optional. The username to log into the server with.                                                                                                                                                       | `"mqttuser"`                  |
+| password           | Optional. The password to log into the server with.                                                                                                                                                       | `"mqttpass"`                  |
+| rejectUnauthorized | Optional. Default true. Controls whether connections to mqtts:// servers should allow self-signed certificates. Set to false if your MQTT certificates are self-signed and are getting connection errors. | `false`                       |
 
 The only authentication method currently supported is basic.
 

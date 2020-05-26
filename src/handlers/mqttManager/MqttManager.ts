@@ -1,21 +1,21 @@
+import MQTT from 'async-mqtt';
+import { promises as fsPromise } from 'fs';
 import * as JSONC from 'jsonc-parser';
+
 import * as log from '../../Log';
+import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
+import validateJsonAgainstSchema from '../../schemaValidator';
+import Trigger from '../../Trigger';
 import IDeepStackPrediction from '../../types/IDeepStackPrediction';
 import IMqttManagerConfigJson from './IMqttManagerConfigJson';
-import MQTT from 'async-mqtt';
-import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
-import Trigger from '../../Trigger';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import { promises as fsPromise } from 'fs';
+
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 let isEnabled = false;
 let mqttClient: MQTT.AsyncClient;
-let mqttUri: string;
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
@@ -40,19 +40,18 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
 
   log.info("MQTT manager", `Loaded configuration from ${configFilePath}`);
 
-  mqttUri = mqttConfigJson.uri;
-
   try {
-    mqttClient = await MQTT.connectAsync(mqttUri, {
+    mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
       username: mqttConfigJson.username,
       password: mqttConfigJson.password,
       clientId: "node-deepstackai-trigger",
+      rejectUnauthorized: mqttConfigJson.rejectUnauthorized ?? true,
     });
   } catch (e) {
     throw new Error(`[MQTT Manager] Unable to connect: ${e.message}`);
   }
 
-  log.info("MQTT Manager", `Connected to MQTT server ${mqttUri}`);
+  log.info("MQTT Manager", `Connected to MQTT server ${mqttConfigJson.uri}`);
   isEnabled = true;
 }
 
