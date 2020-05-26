@@ -12,14 +12,14 @@ and provide quick deployment via Docker.
 
 ## General installation guidelines
 
-- Copy the `docker-compose.yml`, `mqtt.json` and `triggers.json` files from the
-  `sampleConfiguration` directory locally.
-- Edit the `docker-compose.yml` file to modify the mount point for source images, set the timezone
+- Copy the _docker-compose.yml_, _mqtt.json_ and _triggers.json_ files from the
+  _sampleConfiguration_ directory locally.
+- Edit the _docker-compose.yml_ file to modify the mount point for source images, set the timezone
   and optionally [enable MQTT](#configuring-mqtt).
-- Edit `triggers.json` to [define the triggers](#defining-triggers) you want to use.
-- Edit `mqtt.json` to [specify the connection information](#configuring-mqtt) for your MQTT server (if using MQTT).
+- Edit _triggers.json_ to [define the triggers](#defining-triggers) you want to use.
+- Edit _mqtt.json_ to [specify the connection information](#configuring-mqtt) for your MQTT server (if using MQTT).
 
-Setting the timezone via the `TZ` environment variable in `docker-compose.yml` is important for
+Setting the timezone via the `TZ` environment variable in _docker-compose.yml_ is important for
 every thing to work smoothly. By default Docker containers are in UTC and that messes up
 logic to skip existing images on restart. A list of valid timezones is available on
 [Wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Use any value
