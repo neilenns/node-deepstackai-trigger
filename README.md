@@ -15,8 +15,8 @@ While the C# application is nifty it was difficult to install as a service and o
 - Copy the `docker-compose.yml`, `mqtt.json` and `triggers.json` files from the
   `sampleConfiguration` directory locally.
 - Edit the `docker-compose.yml` file to modify the mount point for source images, set the timezone
-  and optionally enable MQTT.
-- Edit `mqtt.json` to specify the connection information for your MQTT server (if using MQTT).
+  and optionally [enable MQTT](#configuring-mqtt).
+- Edit `mqtt.json` to [specify the connection information](#configuring-mqtt) for your MQTT server (if using MQTT).
 - Edit `triggers.json` to define the triggers you want to use. See the [defining triggers](#Defining triggers)
   section below for details on supported values.
 
@@ -37,7 +37,7 @@ may exist.
 
 ## Defining triggers
 
-The `trigger.conf` file is used to define a list of triggers that fire when certain AI detection
+The _trigger.conf_ file defines a list of triggers that fire when certain AI detection
 parameters are met. Triggers can call a web request url and/or send an MQTT event when activated.
 
 In the case of using this to make BlueIris start recording the web request URL is the way to go.
@@ -52,9 +52,9 @@ real-time schema validation (such as Visual Studio Code).
 | name         | Required. A name for the trigger. This is shown in the logs.                                                                                                                                                                                                                                                                           | `"Front door"`               |
 | watchPattern | Required. A wildcard pattern that determins which images are processed by this trigger. For Blue Iris use this will be something like "/images/FrontDoorSD\*.jpg". By default the image folder is mounted to _/images_ so unless you mounted the image folder elsewhere for some reason all watchPatterns should start with _/images_. | "/images/FrontDoorSD\*.jpg"  |
 | watchObjects | Required. An array of object types that the trigger watches for. The list of supported objects is available in the [DeepStack AI documentation](https://nodejs.deepstack.cc/object-detection) however the most useful are: "person", "car", "truck", "dog", "bear"                                                                     | `["car", "truck", "person"]` |
-| handlers     | Required. A list of handlers that get called when the trigger fires. Currently [webRequest](#defining_webrequest_handlers) and [mqtt](#defining_mqtt_handlers) handlers are supported.                                                                                                                                                 |
+| handlers     | Required. A list of handlers that get called when the trigger fires. Currently [webRequest](#defining-webrequest-handlers) and [mqtt](#defining-mqtt-handlers) handlers are supported.                                                                                                                                                 |
 | enabled      | Optional. Default `true`. When set to `false` the trigger will be ignored.                                                                                                                                                                                                                                                             | `false`                      |
-| threshold    | Optional. A minimum and maximum threshold that must be satisifed for the trigger to fire. See [defining trigger thresholds](#defining_trigger_thresholds) for more information.                                                                                                                                                        |                              |
+| threshold    | Optional. A minimum and maximum threshold that must be satisifed for the trigger to fire. See [defining trigger thresholds](#defining-trigger-thresholds) for more information.                                                                                                                                                        |                              |
 
 ### Defining trigger thresholds
 
@@ -106,7 +106,7 @@ Here is an example of the data sent in the message:
 MQTT is enabled by uncommenting the `- mqtt` line in the `docker-compose.yml` file. See the comment above
 the line in the file to be sure the right line is changed.
 
-MQTT is configured using the `mqtt.conf` file. The following properties are supported:
+MQTT is configured using the _mqtt.conf_ file. The following properties are supported:
 
 | Property | Description                                         | Example                       |
 | -------- | --------------------------------------------------- | ----------------------------- |
