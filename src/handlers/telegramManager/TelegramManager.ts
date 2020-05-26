@@ -1,3 +1,7 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Neil Enns. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 import { promises as fsPromise } from 'fs';
 import * as JSONC from 'jsonc-parser';
 import TelegramBot from 'node-telegram-bot-api';
@@ -8,11 +12,6 @@ import validateJsonAgainstSchema from '../../schemaValidator';
 import Trigger from '../../Trigger';
 import IDeepStackPrediction from '../../types/IDeepStackPrediction';
 import ITelegramManagerConfigJson from './ITelegramManagerConfigJson';
-
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Neil Enns. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
 
 let isEnabled = false;
 let telegramBot: TelegramBot;
@@ -74,7 +73,7 @@ export async function processTrigger(
 
 async function sendTelegramMessage(name: string, fileName: string, chatId: number): Promise<TelegramBot.Message> {
   log.info("Telegram manager", `Sending message to ${chatId}`);
-  return await telegramBot.sendPhoto(chatId, fileName);
+  return telegramBot.sendPhoto(chatId, fileName);
 }
 
 /**
