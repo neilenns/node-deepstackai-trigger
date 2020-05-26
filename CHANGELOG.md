@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 1.0.3
+
+- Updated the README.md sample with the new MQTT message format
+  from v1.0.1.
+
 ## Version 1.0.2
 
 - Minor file code structure cleanup
