@@ -4,11 +4,11 @@ A Docker container that runs [DeepStack AI](https://deepstack.cc/) to process im
 folder and then fire web request calls and/or MQTT eventsif the image matches a defined list of
 triggers.
 
-While general purpose the idea behind this service draws inspiration from a C# desktop application
-by GentlePumpkin on [ipcamtalk.com](https://ipcamtalk.com/threads/tool-tutorial-free-ai-person-detection-for-blue-iris.37330/)
-that uses BlueIris video survelliance software to grab images when motion is detected, processes
-the images using DeepStack, and then triggers video recording if the image matches certain parameters.
+This project was heavily inspired by GentlePumpkin's post on [ipcamtalk.com](https://ipcamtalk.com/threads/tool-tutorial-free-ai-person-detection-for-blue-iris.37330/)
+that triggers BlueIris video survelliance using DeepStack as the motion sensing system.
 While the C# application is nifty it was difficult to install as a service and only ran on Windows.
+This project is an attempt to take the idea behind the C# app, make it a bit more general purpose,
+and provide quick deployment via Docker.
 
 ## General installation guidelines
 
