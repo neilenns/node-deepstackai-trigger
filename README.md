@@ -25,3 +25,8 @@ After modifying the configuration files run `docker-compose up -d` and everythin
 spin up and work. Use your Docker client to review log messages from the `trigger`
 container: there's ample logging to help track down any configuration errors that
 may exist.
+
+## Building this yourself
+
+Interested in building this locally? Check out the [CONTRIBUTING.md](CONTRIBUTING.md) guide
+for quick steps on how to clone and run in under five minutes.
