@@ -31,7 +31,7 @@
           "cooldownTime": {
             "description": "Number of seconds required between detecting images that match the watchPattern before processing another image.",
             "examples": [5],
-            "default": 0,
+            "default": 1,
             "exclusiveMinimum": 0,
             "maximum": 600,
             "type": "integer"
