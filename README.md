@@ -13,9 +13,15 @@ While the C# application is nifty it was difficult to install as a service and o
 ## General installation guidelines (more to come)
 
 - Copy the `docker-compose.yml`, `mqtt.json` and `triggers.json` file locally
-- Edit the `docker-compose.yml` file to modify the mount point for source images
+- Edit the `docker-compose.yml` file to modify the mount point for source images and to set the timezone
 - Edit `mqtt.json` to specify the connection information for your MQTT server
 - Edit `triggers.json` to define the triggers you want to use
+
+Setting the timezone via the `TZ` environment variable in `docker-compose.yml` is important for
+every thing to work smoothly. By default Docker containers are in UTC and that messes up
+logic to skip existing images on restart. A list of valid timezones is available on
+[Wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Use any value
+from the `TZ database name` column.
 
 Editing the .json files in [Visual Studio Code](https://code.visualstudio.com/) or some other editor
 that understands JSON Schemas is recommended: you'll get full auto-complete and documentation as
