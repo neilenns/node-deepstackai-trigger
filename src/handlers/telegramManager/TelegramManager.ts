@@ -2,16 +2,16 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { promises as fsPromise } from 'fs';
-import * as JSONC from 'jsonc-parser';
-import TelegramBot from 'node-telegram-bot-api';
+import { promises as fsPromise } from "fs";
+import * as JSONC from "jsonc-parser";
+import TelegramBot from "node-telegram-bot-api";
 
-import * as log from '../../Log';
-import telegramManagerConfigurationSchema from '../../schemas/telegramManagerConfiguration.schema.json';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import Trigger from '../../Trigger';
-import IDeepStackPrediction from '../../types/IDeepStackPrediction';
-import ITelegramManagerConfigJson from './ITelegramManagerConfigJson';
+import * as log from "../../Log";
+import telegramManagerConfigurationSchema from "../../schemas/telegramManagerConfiguration.schema.json";
+import validateJsonAgainstSchema from "../../schemaValidator";
+import Trigger from "../../Trigger";
+import IDeepStackPrediction from "../../types/IDeepStackPrediction";
+import ITelegramManagerConfigJson from "./ITelegramManagerConfigJson";
 
 let isEnabled = false;
 let telegramBot: TelegramBot;
@@ -31,9 +31,9 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
 
   if (!(await validateJsonAgainstSchema(telegramManagerConfigurationSchema, telegramConfigJson))) {
     // This throws an error instead of allowing startup to proceed since the assumption is
-    // if the user specified a configuration file they actually do want MQTT enabled
-    // and running. It would be bad if this continued to run with MQTT disabled
-    // and the user thought MQTT events were getting sent when they weren't.
+    // if the user specified a configuration file they actually do want Telegram enabled
+    // and running. It would be bad if this continued to run with Telegram disabled
+    // and the user thought Telegram events were getting sent when they weren't.
     throw new Error("[Telegram Manager] Invalid configuration file.");
   }
 
@@ -56,19 +56,14 @@ export async function processTrigger(
     return [];
   }
 
-  // It's possible to not set up an mqtt handler on a trigger or to disable it, so don't
+  // It's possible to not set up an Telegram handler on a trigger or to disable it, so don't
   // process if that's the case.
   if (!trigger?.telegramConfig?.enabled) {
     return [];
   }
 
-  log.info("Telegram Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
-
-  const messagePromises = trigger.telegramConfig.chatIds.map(chatId =>
-    sendTelegramMessage(trigger.name, fileName, chatId),
-  );
-
-  return Promise.all(messagePromises);
+  // Send all the messages
+  return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(trigger.name, fileName, chatId)));
 }
 
 async function sendTelegramMessage(
@@ -77,15 +72,16 @@ async function sendTelegramMessage(
   chatId: number,
 ): Promise<TelegramBot.Message> {
   log.info("Telegram manager", `Sending message to ${chatId}`);
-  let message: Promise<TelegramBot.Message>;
 
-  try {
-    message = telegramBot.sendPhoto(chatId, await fsPromise.readFile(fileName), {
+  const message = telegramBot
+    .sendPhoto(chatId, await fsPromise.readFile(fileName), {
       caption: triggerName,
+    })
+    .catch(e => {
+      log.warn("Telegram Manager", `Unable to send message: ${e.message}`);
+      return undefined;
     });
-  } catch (e) {
-    log.warn("Telegram Manager", `Unable to send message: ${e.message}`);
-  }
+
   return message;
 }
 
@@ -103,16 +99,13 @@ async function readRawConfigFile(configFilePath: string): Promise<string> {
     return null;
   }
 
-  let rawConfig: string;
-  try {
-    rawConfig = await fsPromise.readFile(configFilePath, "utf-8");
-  } catch (e) {
+  const rawConfig = await fsPromise.readFile(configFilePath, "utf-8").catch(e => {
     log.warn(
       "Telegram Manager",
       `Unable to read the Telegram configuration file: ${e.message}. If Telegram was disabled in the Docker configuration then this warning can be safely ignored. Otherwise it means something is wrong in the secrets file mapping in the Docker configuration.`,
     );
     return null;
-  }
+  });
 
   // This shouldn't happen. Keeping the check here in case it does in the real world
   // and someone reports things not working.
@@ -126,7 +119,7 @@ async function readRawConfigFile(configFilePath: string): Promise<string> {
 /**
  * Takes a raw JSON string and converts it to an ITelegramManagerConfigJson
  * @param rawConfig The raw JSON in a string
- * @returns An IMqttManagerConfigJson from the parsed JSON
+ * @returns An ITelegramManagerConfigJson from the parsed JSON
  */
 function parseConfigFile(rawConfig: string): ITelegramManagerConfigJson {
   let parseErrors: JSONC.ParseError[];

@@ -9,7 +9,7 @@
     "botToken": {
       "description": "The access token for Telegram.",
       "type": "string",
-      "examples": ["110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw"]
+      "examples": ["1122334455:AABBCCDDEEFFGGhhiijjkkllmm"]
     }
   }
 }
