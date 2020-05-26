@@ -47,14 +47,14 @@ A sample file to start from is included in the _sampleConfiguration/triggers.jso
 above you'll have a happier time editing the trigger configuration if you use a text editor that supports
 real-time schema validation (such as Visual Studio Code).
 
-| Property     | Description                                                                                                                                                                                                                                                                                                                            | Example                     |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| name         | Required. A name for the trigger. This is shown in the logs.                                                                                                                                                                                                                                                                           | "Front door camera"         |
-| watchPattern | Required. A wildcard pattern that determins which images are processed by this trigger. For Blue Iris use this will be something like "/images/FrontDoorSD\*.jpg". By default the image folder is mounted to _/images_ so unless you mounted the image folder elsewhere for some reason all watchPatterns should start with _/images_. | "/images/FrontDoorSD\*.jpg" |
-| watchObjects | Required. An array of object types that the trigger watches for. The list of supported objects is available in the [DeepStack AI documentation](https://nodejs.deepstack.cc/object-detection) however the most useful are: "person", "car", "truck", "dog", "bear"                                                                     | ["car", "truck", "person"]  |
+| Property     | Description                                                                                                                                                                                                                                                                                                                            | Example                      |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| name         | Required. A name for the trigger. This is shown in the logs.                                                                                                                                                                                                                                                                           | `"Front door"`               |
+| watchPattern | Required. A wildcard pattern that determins which images are processed by this trigger. For Blue Iris use this will be something like "/images/FrontDoorSD\*.jpg". By default the image folder is mounted to _/images_ so unless you mounted the image folder elsewhere for some reason all watchPatterns should start with _/images_. | "/images/FrontDoorSD\*.jpg"  |
+| watchObjects | Required. An array of object types that the trigger watches for. The list of supported objects is available in the [DeepStack AI documentation](https://nodejs.deepstack.cc/object-detection) however the most useful are: "person", "car", "truck", "dog", "bear"                                                                     | `["car", "truck", "person"]` |
 | handlers     | Required. A list of handlers that get called when the trigger fires. Currently [webRequest](#defining_webrequest_handlers) and [mqtt](#defining_mqtt_handlers) handlers are supported.                                                                                                                                                 |
-| enabled      | Optional. Default true. When set to false the trigger will be ignored.                                                                                                                                                                                                                                                                 | false                       |
-| threshold    | Optional. A minimum and maximum threshold that must be satisifed for the trigger to fire. See [defining trigger thresholds](#defining_trigger_thresholds) for more information.                                                                                                                                                        |                             |
+| enabled      | Optional. Default `true`. When set to `false` the trigger will be ignored.                                                                                                                                                                                                                                                             | `false`                      |
+| threshold    | Optional. A minimum and maximum threshold that must be satisifed for the trigger to fire. See [defining trigger thresholds](#defining_trigger_thresholds) for more information.                                                                                                                                                        |                              |
 
 ### Defining trigger thresholds
 
@@ -62,27 +62,29 @@ The trigger threshold can help fine tune how sensitive the trigger is to detecte
 optional and suggested to omit until you've looked at some of the output logs to see which
 triggers need adjusting.
 
-| Property | Description                                                                                                                         | Example |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| minimum  | Optional. Default 0. A value between 0 and 100 that determines the minimum label confidence level required to activate the trigger. | 50      |
-| maximum  | Optional. Default 100. A value between 0 and 100 that determines the maximum confidence level allowed to activate the trigger.      | 90      |
+| Property | Description                                                                                                                               | Example |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| minimum  | Optional. Default `0`. A value between `0` and `100` that determines the minimum label confidence level required to activate the trigger. | `50`    |
+| maximum  | Optional. Default `100`. A value between 0 and 100 that determines the maximum confidence level allowed to activate the trigger.          | `90`    |
 
 ### Defining webRequest handlers
 
-A webRequest handler calls a web URI any time the trigger is fired. In the BlueIris use case this is how to define the URI that tells Blue Iris to start recording the HD camera.
+A webRequest handler calls a web URI any time the trigger is fired. In the BlueIris use case this is how to define the URI that tells Blue Iris to start recording the HD camera. Note that you will
+likely have to specify the host as an IP address rather than as a hostname if you want to
+use a host on your internal network.
 
-| Property    | Description                                                | Example                                                                          |
-| ----------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| triggerUris | Required. An array of URIs to call when the trigger fires. | "http://localhost:81/admin?trigger&camera=FrontDoorHD&user=username&pw=password" |
+| Property    | Description                                                | Example                                                                                |
+| ----------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| triggerUris | Required. An array of URIs to call when the trigger fires. | `"http://192.168.1.100:81/admin?trigger&camera=FrontDoorHD&user=username&pw=password"` |
 
 ### Defining mqtt handlers
 
 An mqtt handler sends an MQTT event any time the trigger is fired. The event includes an array of all the predictions
 that matched the trigger configuration, making it easy to do advanced automation based on the specific detected objects.
 
-| Property | Description                                          | Example                      |
-| -------- | ---------------------------------------------------- | ---------------------------- |
-| topic    | Required. The topics to post when the trigger fires. | "aimotion/trigger/FrontDoor" |
+| Property | Description                                          | Example                        |
+| -------- | ---------------------------------------------------- | ------------------------------ |
+| topic    | Required. The topics to post when the trigger fires. | `"aimotion/trigger/FrontDoor"` |
 
 Here is an example of the data sent in the message:
 
@@ -106,11 +108,11 @@ the line in the file to be sure the right line is changed.
 
 MQTT is configured using the `mqtt.conf` file. The following properties are supported:
 
-| Property | Description                                         | Example                     |
-| -------- | --------------------------------------------------- | --------------------------- |
-| uri      | Required. The address of the MQTT server.           | "http://192.168.1.100:1883" |
-| username | Optional. The username to log into the server with. | "mqttuser"                  |
-| password | Optional. The password to log into the server with. | "mqttpass"                  |
+| Property | Description                                         | Example                       |
+| -------- | --------------------------------------------------- | ----------------------------- |
+| uri      | Required. The address of the MQTT server.           | `"http://192.168.1.100:1883"` |
+| username | Optional. The username to log into the server with. | `"mqttuser"`                  |
+| password | Optional. The password to log into the server with. | `"mqttpass"`                  |
 
 The only authentication method currently supported is basic.
 
