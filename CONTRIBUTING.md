@@ -45,6 +45,6 @@ Feel free to open pull requests but please keep the following in mind:
   must get bumped by running `npm version`. New features should be a minor release increment. Bug fixes
   should be a patch release increment.
 - Pull requests must pass the automatic Docker and node.js build checks
-- The repo is set up to auto-apply Prettier, ESLint, Markdownlint rules, and import ordering rules. If you're using VS Code
-  in a dev container the necessary extensions will automatically be installed to keep this clean prior to opening the pull
-  request.
+- The repo is set up to auto-apply Prettier, ESLint, and Markdownlint rules. If you're using VS Code
+  in a dev container the necessary extensions will automatically be installed to keep this clean prior
+  to opening the pull request.
