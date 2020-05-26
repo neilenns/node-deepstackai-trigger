@@ -1,12 +1,13 @@
+import { promises as fsPromise } from 'fs';
 import * as JSONC from 'jsonc-parser';
+import TelegramBot from 'node-telegram-bot-api';
+
 import * as log from '../../Log';
+import telegramManagerConfigurationSchema from '../../schemas/telegramManagerConfiguration.schema.json';
+import validateJsonAgainstSchema from '../../schemaValidator';
+import Trigger from '../../Trigger';
 import IDeepStackPrediction from '../../types/IDeepStackPrediction';
 import ITelegramManagerConfigJson from './ITelegramManagerConfigJson';
-import TelegramBot from 'node-telegram-bot-api';
-import telegramManagerConfigurationSchema from '../../schemas/telegramManagerConfiguration.schema.json';
-import Trigger from '../../Trigger';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import { promises as fsPromise } from 'fs';
 
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
@@ -39,6 +40,8 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
 
   log.info("Telegram manager", `Loaded configuration from ${configFilePath}`);
 
+  // See https://github.com/yagop/node-telegram-bot-api/issues/319
+  process.env.NTBA_FIX_319 = "true";
   telegramBot = new TelegramBot(telegramConfigJson.botToken);
 
   isEnabled = true;
