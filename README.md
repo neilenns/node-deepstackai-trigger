@@ -45,7 +45,7 @@ MQTT is useful if you want to do fancier automation based on the detected object
 
 A sample file to start from is included in the _sampleConfiguration/triggers.json_ folder. As mentioned
 above you'll have a happier time editing the trigger configuration if you use a text editor that supports
-real-time schema validation (like as Visual Studio Code).
+real-time schema validation (such as Visual Studio Code).
 
 | Property     | Description                                                                                                                                                                                                                                                                                                                            | Example                     |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
