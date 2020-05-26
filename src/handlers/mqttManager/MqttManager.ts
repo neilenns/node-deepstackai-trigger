@@ -80,8 +80,8 @@ export async function processTrigger(
     await mqttClient.publish(
       trigger.mqttConfig.topic,
       JSON.stringify({
-        fileName: fileName,
-        baseFileName: path.basename(fileName),
+        fileName,
+        basename: path.basename(fileName),
         predictions,
       }),
     ),
