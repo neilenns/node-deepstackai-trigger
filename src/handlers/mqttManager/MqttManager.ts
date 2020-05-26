@@ -1,6 +1,7 @@
 import MQTT from 'async-mqtt';
 import { promises as fsPromise } from 'fs';
 import * as JSONC from 'jsonc-parser';
+import path from 'path';
 
 import * as log from '../../Log';
 import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
@@ -75,7 +76,16 @@ export async function processTrigger(
 
   // Even though this only calls one topic the way this gets used elsewhere
   // the expectation is it returns an array.
-  return [await mqttClient.publish(trigger.mqttConfig.topic, JSON.stringify(predictions))];
+  return [
+    await mqttClient.publish(
+      trigger.mqttConfig.topic,
+      JSON.stringify({
+        fileName: fileName,
+        baseFileName: path.basename(fileName),
+        predictions,
+      }),
+    ),
+  ];
 }
 
 /**
