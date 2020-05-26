@@ -1,33 +1,33 @@
 version: "3.8"
-secrets:
-  triggers:
-    # This should point to the location of the triggers.json configuration file
-    file: ./triggers.json
-    # This should point to the location of the mqtt.json configuration file
-  mqtt:
-    file: ./mqtt.json
-
 services:
   trigger:
     volumes:
       # Change ./images to point to the folder that will have the images to analyze
       - ./images:/images
+
     environment:
+      # Change this to match the timezone the images are produced in,
+      # Typically this will be the timezone of the machine running
+      # the Docker container. For a list of valid timezone values
+      # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      # The value to use is in the "TZ database name" column.
       - TZ=America/Los_Angeles
-
-      # Don't change anything below this line unless you know what you are doing
-
       # This is pre-configured for service-to-service connectivity in
       # Docker. Don't change this unless there is a need to talk to an
       # external DeepStack server somewhere and you know what you are doing.
       - DEEPSTACK_URI=http://deepstack-ai:5000/
+
+    secrets:
+      - triggers
+      # To disable MQTT support comment out the following line
+      - mqtt
+
+    # ------------------------------------------------------------------------
+    # Don't change anything below this line unless you know what you are doing
     image: danecreekphotography/node-deepstackai-trigger:latest
     restart: always
     depends_on:
       - deepstack-ai
-    secrets:
-      - triggers
-      - mqtt
 
   deepstack-ai:
     image: deepquestai/deepstack:latest
@@ -39,3 +39,11 @@ services:
 
 volumes:
   localstorage:
+
+secrets:
+  triggers:
+    # This should point to the location of the triggers.json configuration file
+    file: ./triggers.json
+    # This should point to the location of the mqtt.json configuration file
+  mqtt:
+    file: ./mqtt.json
