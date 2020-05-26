@@ -71,12 +71,18 @@ export async function processTrigger(
   return Promise.all(messagePromises);
 }
 
-async function sendTelegramMessage(name: string, fileName: string, chatId: number): Promise<TelegramBot.Message> {
+async function sendTelegramMessage(
+  triggerName: string,
+  fileName: string,
+  chatId: number,
+): Promise<TelegramBot.Message> {
   log.info("Telegram manager", `Sending message to ${chatId}`);
   let message: Promise<TelegramBot.Message>;
 
   try {
-    message = telegramBot.sendPhoto(chatId, await fsPromise.readFile(fileName));
+    message = telegramBot.sendPhoto(chatId, await fsPromise.readFile(fileName), {
+      caption: triggerName,
+    });
   } catch (e) {
     log.warn("Telegram Manager", `Unable to send message: ${e.message}`);
   }
