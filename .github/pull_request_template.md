@@ -5,4 +5,4 @@ Fixes #<insert issue number>
 ## Checklist
 
 - [ ] CHANGELOG.md updated
-- [ ] Package version updated
+- [ ] `npm version` run
