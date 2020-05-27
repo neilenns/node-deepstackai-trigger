@@ -1,12 +1,12 @@
+import * as log from './Log';
+import * as MqttManager from './handlers/mqttManager/MqttManager';
+import * as TelegramManager from './handlers/telegramManager/TelegramManager';
+import npmPackageInfo from '../package.json';
+import TriggerManager from './TriggerManager';
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import npmPackageInfo from '../package.json';
-import * as MqttManager from './handlers/mqttManager/MqttManager';
-import * as TelegramManager from './handlers/telegramManager/TelegramManager';
-import * as log from './Log';
-import TriggerManager from './TriggerManager';
 
 let triggerManager: TriggerManager;
 
