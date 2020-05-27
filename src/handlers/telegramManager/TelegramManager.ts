@@ -1,12 +1,12 @@
-import { promises as fsPromise } from 'fs';
 import * as JSONC from 'jsonc-parser';
-
 import * as log from '../../Log';
-import telegramManagerConfigurationSchema from '../../schemas/telegramManagerConfiguration.schema.json';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import Trigger from '../../Trigger';
 import IDeepStackPrediction from '../../types/IDeepStackPrediction';
 import ITelegramManagerConfigJson from './ITelegramManagerConfigJson';
+import TelegramBot from 'node-telegram-bot-api';
+import telegramManagerConfigurationSchema from '../../schemas/telegramManagerConfiguration.schema.json';
+import Trigger from '../../Trigger';
+import validateJsonAgainstSchema from '../../schemaValidator';
+import { promises as fsPromise } from 'fs';
 
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
@@ -14,6 +14,7 @@ import ITelegramManagerConfigJson from './ITelegramManagerConfigJson';
  *--------------------------------------------------------------------------------------------*/
 
 let isEnabled = false;
+let telegramBot: TelegramBot;
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
@@ -38,6 +39,8 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
 
   log.info("Telegram manager", `Loaded configuration from ${configFilePath}`);
 
+  telegramBot = new TelegramBot(telegramConfigJson.botToken);
+
   isEnabled = true;
 }
 
@@ -46,7 +49,7 @@ export async function processTrigger(
   trigger: Trigger,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   predictions: IDeepStackPrediction[],
-): Promise<void[]> {
+): Promise<TelegramBot.Message[]> {
   if (!isEnabled) {
     return [];
   }
@@ -59,12 +62,16 @@ export async function processTrigger(
 
   log.info("Telegram Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
 
-  trigger.telegramConfig.chatIds.map(chatId => log.info("Telegram Manager", `Sending photo to chatId ${chatId}.`));
+  const messagePromises = trigger.telegramConfig.chatIds.map(chatId =>
+    sendTelegramMessage(trigger.name, fileName, chatId),
+  );
 
-  return [];
-  // Even though this only calls one topic the way this gets used elsewhere
-  // the expectation is it returns an array.
-  // return [await mqttClient.publish(trigger.mqttConfig.topic, JSON.stringify(predictions))];
+  return Promise.all(messagePromises);
+}
+
+async function sendTelegramMessage(name: string, fileName: string, chatId: number): Promise<TelegramBot.Message> {
+  log.info("Telegram manager", `Sending message to ${chatId}`);
+  return await telegramBot.sendPhoto(chatId, fileName);
 }
 
 /**

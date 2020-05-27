@@ -1,3 +1,7 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Neil Enns. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 import * as chokidar from 'chokidar';
 import * as JSONC from 'jsonc-parser';
 import * as log from './Log';
@@ -10,10 +14,6 @@ import MqttConfig from './handlers/mqttManager/MqttConfig';
 import TelegramConfig from './handlers/telegramManager/TelegramConfig';
 import WebRequestConfig from './handlers/webRequest/WebRequestConfig';
 import { Stats } from 'fs';
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Neil Enns. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
 
 export default class Trigger {
   private _initalizedTime: Date;
