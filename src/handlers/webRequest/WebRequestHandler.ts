@@ -2,11 +2,11 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import request from 'request-promise-native';
+import request from "request-promise-native";
 
-import * as log from '../../Log';
-import Trigger from '../../Trigger';
-import IDeepStackPrediction from '../../types/IDeepStackPrediction';
+import * as log from "../../Log";
+import Trigger from "../../Trigger";
+import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 
 /**
  * Handles calling a list of web URLs.

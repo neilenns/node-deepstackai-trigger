@@ -2,17 +2,17 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import * as chokidar from 'chokidar';
-import { Stats } from 'fs';
-import * as JSONC from 'jsonc-parser';
+import * as chokidar from "chokidar";
+import { Stats } from "fs";
+import * as JSONC from "jsonc-parser";
 
-import analyzeImage from './DeepStack';
-import MqttConfig from './handlers/mqttManager/MqttConfig';
-import * as MqttManager from './handlers/mqttManager/MqttManager';
-import WebRequestConfig from './handlers/webRequest/WebRequestConfig';
-import * as WebRequestHandler from './handlers/webRequest/WebRequestHandler';
-import * as log from './Log';
-import IDeepStackPrediction from './types/IDeepStackPrediction';
+import analyzeImage from "./DeepStack";
+import MqttConfig from "./handlers/mqttManager/MqttConfig";
+import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
+import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
+import * as log from "./Log";
+import IDeepStackPrediction from "./types/IDeepStackPrediction";
 
 export default class Trigger {
   private _initalizedTime: Date;
