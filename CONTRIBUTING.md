@@ -6,6 +6,10 @@ The project was designed from the start to be easy to clone and run to simplify 
 trying out different changes. There's nothing worse than coming across a nifty project on GitHub
 only to spend hours fighting with various dependencies to get it working.
 
+If you would like to contribute changes to the repo please start by assigning the issue to yourself
+in github. Good issues for first time contributors are tagged accordingly in the issues list. Don't
+forget to read the [opening pull requests](#opening-pull-requests) guidelines below.
+
 ## Seting up the project
 
 The setup takes less than five minutes if you use [Visual Studio Code](http://code.visualstudio.com/)
