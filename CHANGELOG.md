@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.0.2
+
+- Minor file code structure cleanup
+
 ## Version 1.0.1
 
 - MQTT messages now inclue a fileName and baseFileName property.
