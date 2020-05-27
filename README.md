@@ -92,16 +92,18 @@ that matched the trigger configuration, making it easy to do advanced automation
 Here is an example of the data sent in the message:
 
 ```javascript
-[
-  {
-    confidence: 0.99903184,
-    label: "person",
-    y_min: 57,
-    x_min: 164,
-    y_max: 363,
-    x_max: 347,
-  },
-];
+{
+  "fileName":"/images/Dog_20200523-075000.jpg",
+  "basename":"Dog_20200523-075000.jpg",
+  "predictions":[
+    {"confidence":0.9681682,
+    "label":"dog",
+    "y_min":31,
+    "x_min":125,
+    "y_max":784,
+    "x_max":1209}
+  ]
+}
 ```
 
 ### Defining Telegram handlers
