@@ -6,4 +6,5 @@ export default interface IMqttManagerConfigJson {
   uri: string;
   username: string;
   password: string;
+  rejectUnauthorized: boolean;
 }
