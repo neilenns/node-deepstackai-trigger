@@ -22,6 +22,9 @@ services:
       # To enable MQTT uncomment the following line and add the server
       # connection settings to mqtt.json
       # - mqtt
+      # To enable Telegram uncomment the following line and add the bot
+      # token to telegram.json
+      # - telegram
 
     # ------------------------------------------------------------------------
     # Don't change anything below this line unless you know what you are doing
@@ -45,6 +48,9 @@ secrets:
   triggers:
     # This should point to the location of the triggers.json configuration file
     file: ./triggers.json
-    # This should point to the location of the mqtt.json configuration file
   mqtt:
+    # This should point to the location of the mqtt.json configuration file
     file: ./mqtt.json
+  telegram:
+    # This should point to the location of the telegram.json configuration file
+    file: ./telegram.json

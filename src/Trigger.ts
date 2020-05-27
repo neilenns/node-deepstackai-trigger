@@ -9,6 +9,8 @@ import * as JSONC from 'jsonc-parser';
 import analyzeImage from './DeepStack';
 import MqttConfig from './handlers/mqttManager/MqttConfig';
 import * as MqttManager from './handlers/mqttManager/MqttManager';
+import TelegramConfig from './handlers/telegramManager/TelegramConfig';
+import * as TelegramManager from './handlers/telegramManager/TelegramManager';
 import WebRequestConfig from './handlers/webRequest/WebRequestConfig';
 import * as WebRequestHandler from './handlers/webRequest/WebRequestHandler';
 import * as log from './Log';
@@ -34,6 +36,7 @@ export default class Trigger {
   // Handler configurations
   public webRequestHandlerConfig: WebRequestConfig;
   public mqttConfig: MqttConfig;
+  public telegramConfig: TelegramConfig;
 
   constructor(init?: Partial<Trigger>) {
     Object.assign(this, init);
@@ -91,6 +94,7 @@ export default class Trigger {
     await Promise.all([
       ...(await WebRequestHandler.processTrigger(fileName, this, triggeredPredictions)),
       ...(await MqttManager.processTrigger(fileName, this, triggeredPredictions)),
+      ...(await TelegramManager.processTrigger(fileName, this, triggeredPredictions)),
     ]);
   }
 

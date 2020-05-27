@@ -11,6 +11,8 @@ secrets:
     file: ../sampleConfiguration/triggers.json
   mqtt:
     file: ../sampleConfiguration/mqtt.json
+  telegram:
+    file: ../sampleConfiguration/telegram.json
 
 services:
   trigger:
@@ -30,6 +32,7 @@ services:
     secrets:
       - triggers
       - mqtt
+      - telegram
 
     # Overrides default command so things don't shut down after the process ends.
     command: /bin/sh -c "while sleep 1000; do :; done"

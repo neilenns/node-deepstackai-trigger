@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramManagerConfiguration.schema.json",
+  "type": "object",
+  "title": "The configuration for Telegram",
+  "description": "Defines the connection information for Telegram to send trigger notifications.",
+  "required": ["botToken"],
+  "properties": {
+    "botToken": {
+      "description": "The access token for Telegram.",
+      "type": "string",
+      "examples": ["110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw"]
+    }
+  }
+}

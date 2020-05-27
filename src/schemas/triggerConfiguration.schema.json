@@ -78,6 +78,10 @@
               "mqtt": {
                 "description": "Sets the configuration for an MQTT event.",
                 "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/mqttHandlerConfiguration.schema.json"
+              },
+              "telegram": {
+                "description": "Sets the configuration for a Telegram message.",
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramHandlerConfiguration.schema.json"
               }
             }
           },

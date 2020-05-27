@@ -6,6 +6,7 @@ import { promises as fsPromise } from 'fs';
 import * as JSONC from 'jsonc-parser';
 
 import MqttConfig from './handlers/mqttManager/MqttConfig';
+import TelegramConfig from './handlers/telegramManager/TelegramConfig';
 import WebRequestConfig from './handlers/webRequest/WebRequestConfig';
 import * as log from './Log';
 import triggerSchema from './schemas/triggerConfiguration.schema.json';
@@ -105,6 +106,9 @@ export default class TriggerManager {
       }
       if (triggerJson.handlers.mqtt) {
         configuredTrigger.mqttConfig = new MqttConfig(triggerJson.handlers.mqtt);
+      }
+      if (triggerJson.handlers.telegram) {
+        configuredTrigger.telegramConfig = new TelegramConfig(triggerJson.handlers.telegram);
       }
 
       return configuredTrigger;
