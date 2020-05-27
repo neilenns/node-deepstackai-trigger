@@ -32,7 +32,7 @@
       },
       "handlers": {
         "webRequest": {
-          "triggerUris": ["http://localhost:81/admin?trigger&camera=Cat"]
+          "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog"]
         },
         "mqtt": {
           "topic": "aimotion/triggers/dog"
