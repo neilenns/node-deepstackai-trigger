@@ -2,16 +2,16 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { promises as fsPromise } from 'fs';
-import * as JSONC from 'jsonc-parser';
+import { promises as fsPromise } from "fs";
+import * as JSONC from "jsonc-parser";
 
-import MqttConfig from './handlers/mqttManager/MqttConfig';
-import WebRequestConfig from './handlers/webRequest/WebRequestConfig';
-import * as log from './Log';
-import triggerSchema from './schemas/triggerConfiguration.schema.json';
-import validateJsonAgainstSchema from './schemaValidator';
-import Trigger from './Trigger';
-import ITriggerConfigJson from './types/ITriggerConfigJson';
+import MqttConfig from "./handlers/mqttManager/MqttConfig";
+import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
+import * as log from "./Log";
+import triggerSchema from "./schemas/triggerConfiguration.schema.json";
+import validateJsonAgainstSchema from "./schemaValidator";
+import Trigger from "./Trigger";
+import ITriggerConfigJson from "./types/ITriggerConfigJson";
 
 export default class TriggerManager {
   public Ready: Promise<boolean>;

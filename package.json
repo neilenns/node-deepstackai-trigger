@@ -1,6 +1,6 @@
 {
   "name": "node-deepstackai-trigger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Detects motion using DeepStack AI and calls registered triggers based on trigger rules.",
   "main": "dist/src/main.js",
   "files": [
