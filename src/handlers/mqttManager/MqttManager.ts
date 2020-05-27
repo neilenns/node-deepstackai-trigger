@@ -1,17 +1,17 @@
+import * as JSONC from 'jsonc-parser';
+import * as log from '../../Log';
+import IDeepStackPrediction from '../../types/IDeepStackPrediction';
+import IMqttManagerConfigJson from './IMqttManagerConfigJson';
+import MQTT from 'async-mqtt';
+import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
+import Trigger from '../../Trigger';
+import validateJsonAgainstSchema from '../../schemaValidator';
+import { promises as fsPromise } from 'fs';
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import MQTT from 'async-mqtt';
-import { promises as fsPromise } from 'fs';
-import * as JSONC from 'jsonc-parser';
 
-import * as log from '../../Log';
-import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import Trigger from '../../Trigger';
-import IDeepStackPrediction from '../../types/IDeepStackPrediction';
-import IMqttManagerConfigJson from './IMqttManagerConfigJson';
 
 let isEnabled = false;
 let mqttClient: MQTT.AsyncClient;
@@ -46,6 +46,7 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
     mqttClient = await MQTT.connectAsync(mqttUri, {
       username: mqttConfigJson.username,
       password: mqttConfigJson.password,
+      clientId: "node-deepstackai-trigger",
     });
   } catch (e) {
     throw new Error(`[MQTT Manager] Unable to connect: ${e.message}`);
