@@ -2,16 +2,16 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { promises as fsPromise } from 'fs';
-import * as JSONC from 'jsonc-parser';
-import TelegramBot from 'node-telegram-bot-api';
+import { promises as fsPromise } from "fs";
+import * as JSONC from "jsonc-parser";
+import TelegramBot from "node-telegram-bot-api";
 
-import * as log from '../../Log';
-import telegramManagerConfigurationSchema from '../../schemas/telegramManagerConfiguration.schema.json';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import Trigger from '../../Trigger';
-import IDeepStackPrediction from '../../types/IDeepStackPrediction';
-import ITelegramManagerConfigJson from './ITelegramManagerConfigJson';
+import * as log from "../../Log";
+import telegramManagerConfigurationSchema from "../../schemas/telegramManagerConfiguration.schema.json";
+import validateJsonAgainstSchema from "../../schemaValidator";
+import Trigger from "../../Trigger";
+import IDeepStackPrediction from "../../types/IDeepStackPrediction";
+import ITelegramManagerConfigJson from "./ITelegramManagerConfigJson";
 
 let isEnabled = false;
 let telegramBot: TelegramBot;

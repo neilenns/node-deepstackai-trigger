@@ -1,10 +1,10 @@
-import * as log from './Log';
-import Ajv from 'ajv';
-import mqttHandlerConfiguration from './schemas/mqttHandlerConfiguration.schema.json';
-import mqttManagerConfiguration from './schemas/mqttManagerConfiguration.schema.json';
-import telegramHandlerConfiguration from './schemas/telegramHandlerConfiguration.schema.json';
-import triggerSchema from './schemas/triggerConfiguration.schema.json';
-import webRequestHandlerConfig from './schemas/webRequestHandlerConfig.schema.json';
+import * as log from "./Log";
+import Ajv from "ajv";
+import mqttHandlerConfiguration from "./schemas/mqttHandlerConfiguration.schema.json";
+import mqttManagerConfiguration from "./schemas/mqttManagerConfiguration.schema.json";
+import telegramHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
+import triggerSchema from "./schemas/triggerConfiguration.schema.json";
+import webRequestHandlerConfig from "./schemas/webRequestHandlerConfig.schema.json";
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.

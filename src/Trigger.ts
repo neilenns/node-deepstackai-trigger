@@ -2,18 +2,18 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import * as chokidar from 'chokidar';
-import * as JSONC from 'jsonc-parser';
-import * as log from './Log';
-import * as MqttManager from './handlers/mqttManager/MqttManager';
-import * as TelegramManager from './handlers/telegramManager/TelegramManager';
-import * as WebRequestHandler from './handlers/webRequest/WebRequestHandler';
-import analyzeImage from './DeepStack';
-import IDeepStackPrediction from './types/IDeepStackPrediction';
-import MqttConfig from './handlers/mqttManager/MqttConfig';
-import TelegramConfig from './handlers/telegramManager/TelegramConfig';
-import WebRequestConfig from './handlers/webRequest/WebRequestConfig';
-import { Stats } from 'fs';
+import * as chokidar from "chokidar";
+import * as JSONC from "jsonc-parser";
+import * as log from "./Log";
+import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
+import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
+import analyzeImage from "./DeepStack";
+import IDeepStackPrediction from "./types/IDeepStackPrediction";
+import MqttConfig from "./handlers/mqttManager/MqttConfig";
+import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
+import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
+import { Stats } from "fs";
 
 export default class Trigger {
   private _initalizedTime: Date;
