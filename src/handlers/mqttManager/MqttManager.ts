@@ -127,7 +127,7 @@ function parseConfigFile(rawConfig: string): IMqttManagerConfigJson {
   if (parseErrors && parseErrors.length > 0) {
     throw new Error(
       `[MQTT Manager] Unable to load configuration file: ${parseErrors
-        .map(error => log.error("Trigger manager", `${error?.error}`))
+        .map(error => log.error("MQTT manager", `${error?.error}`))
         .join("\n")}`,
     );
   }
