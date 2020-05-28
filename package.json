@@ -15,7 +15,7 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint",
-    "postversion": "git push && git push --tags",
+    "postversion": "git push",
     "version": "npm run format && git add -A src",
     "start": "node dist/src/main.js",
     "webpack": "npx webpack --mode=production",
