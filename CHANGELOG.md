@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.1.2
+
+- Add timestamp to log messages
+
 ## Version 1.1.1
 
 - Added two optional dependencies to resolve build warnings
