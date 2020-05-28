@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.1.0
+
+- Added support for Telegram bots
+
 ## Version 1.0.4
 
 - Updated the README.md sample with the new MQTT message format
