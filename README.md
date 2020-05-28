@@ -108,7 +108,8 @@ Here is an example of the data sent in the message:
 
 ### Defining Telegram handlers
 
-A Telegram handler sends message with the photo that triggered the event.
+A Telegram handler sends message with the photo that triggered the event. See [Configuring Telegram](#configuring-telegram)
+below for details on how to obtain chatIds.
 
 | Property | Description                                                      | Example            |
 | -------- | ---------------------------------------------------------------- | ------------------ |
@@ -140,6 +141,22 @@ Telegram is configured using the _telegram.conf_ file. The following properties 
 | Property | Description                                           | Example                                 |
 | -------- | ----------------------------------------------------- | --------------------------------------- |
 | botToken | Required. The bot token for your Telegram bot server. | `"123987123:adfk2893r7akdskanfsdalskf"` |
+
+Obtaining the `botToken` and `chatIds` for the trigger configuration is not hard but does take a few
+steps. Here's what you need to do:
+
+1. Contact `BotFather` on Telegram
+2. Send the `/newbot` command. Follow the instructions and you'll get back a token that looks something like
+   the one in the example above.
+3. Connect to the bot in your Telegram personal account and send it a message
+4. Go to `https://api.telegram.org/bot123987123:adfk2893r7akdskanfsdalskf/getUpdates`, after replacing
+   the token in the URL with the one you obtained in step 2.
+5. In the response look for the `id` field to obtain the chatId. In the below sample response the chatId is `12345`.
+
+```javascript
+{"ok":true,"result":[{"update_id":297596982,
+"message":{"message_id":2,"from":{"id":12345,"is_bot":false,"first_name":"Neil","last_name":"Enns","language_code":"en"},"chat":{"id":12345,"first_name":"Neil","last_name":"Enns","type":"private"},"date":1590551469,"text":"hi"}}]}
+```
 
 ## Building this yourself
 
