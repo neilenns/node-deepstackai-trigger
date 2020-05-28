@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.1.1
+
+- Added two optional dependencies to resolve build warnings
+
 ## Version 1.1.0
 
 - Added support for Telegram bots
