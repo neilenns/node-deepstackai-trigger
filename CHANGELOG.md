@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.1.6
+
+- Implemented issue [#68](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/68)
+
 ## Version 1.1.5
 
 - Add a cooldownTime option to the Telegram handler. This makes it easier
