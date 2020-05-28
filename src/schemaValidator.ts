@@ -2,11 +2,11 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import Ajv from "ajv";
-
 import * as log from "./Log";
+import Ajv from "ajv";
 import mqttHandlerConfiguration from "./schemas/mqttHandlerConfiguration.schema.json";
 import mqttManagerConfiguration from "./schemas/mqttManagerConfiguration.schema.json";
+import telegramHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
 import triggerSchema from "./schemas/triggerConfiguration.schema.json";
 import webRequestHandlerConfig from "./schemas/webRequestHandlerConfig.schema.json";
 
@@ -34,12 +34,16 @@ export default async function validateJsonAgainstSchema(
     "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/webRequestHandlerConfig.schema.json",
   );
   validator.addSchema(
+    mqttHandlerConfiguration,
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/mqttHandlerConfiguration.schema.json",
+  );
+  validator.addSchema(
     mqttManagerConfiguration,
     "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/mqttManagerConfiguration.schema.json",
   );
   validator.addSchema(
-    mqttHandlerConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/mqttHandlerConfiguration.schema.json",
+    telegramHandlerConfiguration,
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/telegramHandlerConfiguration.schema.json",
   );
 
   const isValid = await validator.validate(schemaFileName, jsonObject);

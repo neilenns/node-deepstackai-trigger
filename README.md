@@ -1,8 +1,8 @@
 # DeepStack AI Triggers
 
 A Docker container that runs [DeepStack AI](https://deepstack.cc/) to process images from a watch
-folder and then fire web request calls and/or MQTT eventsif the image matches a defined list of
-triggers.
+folder and then fire web request calls, MQTT events, and Telegram messages if the image matches a
+defined list of triggers.
 
 This project was heavily inspired by GentlePumpkin's post on [ipcamtalk.com](https://ipcamtalk.com/threads/tool-tutorial-free-ai-person-detection-for-blue-iris.37330/)
 that triggers BlueIris video survelliance using DeepStack as the motion sensing system.
@@ -15,9 +15,11 @@ and provide quick deployment via Docker.
 - Copy the `docker-compose.yml`, `mqtt.json` and `triggers.json` files from the
   `sampleConfiguration` directory locally.
 - Edit the `docker-compose.yml` file to modify the mount point for source images, set the timezone
-  and optionally [enable MQTT](#configuring-mqtt).
+  and optionally enable [MQTT](#configuring-mqtt) and [telegram](#configuring-telegram).
 - Edit `triggers.json` to [define the triggers](#defining-triggers) you want to use.
 - Edit `mqtt.json` to [specify the connection information](#configuring-mqtt) for your MQTT server (if using MQTT).
+- Edit `telegram.json` to [specify the connection information](#configuring-telegram) for your Telegram bot
+  server (if using Telegram).
 
 Setting the timezone via the `TZ` environment variable in `docker-compose.yml` is important for
 every thing to work smoothly. By default Docker containers are in UTC and that messes up
@@ -37,10 +39,12 @@ may exist.
 ## Defining triggers
 
 The _trigger.conf_ file defines a list of triggers that fire when certain AI detection
-parameters are met. Triggers can call a web request url and/or send an MQTT event when activated.
+parameters are met. Triggers can call a web request url, send an MQTT event, and
+send an Telegram message when activated.
 
 In the case of using this to make BlueIris start recording the web request URL is the way to go.
-MQTT is useful if you want to do fancier automation based on the detected objects.
+MQTT is useful if you want to do fancier automation based on the detected objects. Telegram
+is nice if you want a quick photo notification of the event.
 
 A sample file to start from is included in the _sampleConfiguration/triggers.json_ folder. As mentioned
 above you'll have a happier time editing the trigger configuration if you use a text editor that supports
@@ -51,7 +55,7 @@ real-time schema validation (such as Visual Studio Code).
 | name         | Required. A name for the trigger. This is shown in the logs.                                                                                                                                                                                                                                                                           | `"Front door"`                |
 | watchPattern | Required. A wildcard pattern that determins which images are processed by this trigger. For Blue Iris use this will be something like "/images/FrontDoorSD\*.jpg". By default the image folder is mounted to _/images_ so unless you mounted the image folder elsewhere for some reason all watchPatterns should start with _/images_. | `"/images/FrontDoorSD\*.jpg"` |
 | watchObjects | Required. An array of object types that the trigger watches for. The list of supported objects is available in the [DeepStack AI documentation](https://nodejs.deepstack.cc/object-detection) however the most useful are: "person", "car", "truck", "dog", "bear"                                                                     | `["car", "truck", "person"]`  |
-| handlers     | Required. A list of handlers that get called when the trigger fires. Currently [webRequest](#defining-webrequest-handlers) and [mqtt](#defining-mqtt-handlers) handlers are supported.                                                                                                                                                 |
+| handlers     | Required. A list of handlers that get called when the trigger fires. Currently [webRequest](#defining-webrequest-handlers), [mqtt](#defining-mqtt-handlers), and [Telegram](#defining-telegram-handlers) handlers are supported.                                                                                                       |
 | enabled      | Optional. Default `true`. When set to `false` the trigger will be ignored.                                                                                                                                                                                                                                                             | `false`                       |
 | threshold    | Optional. A minimum and maximum threshold that must be satisifed for the trigger to fire. See [defining trigger thresholds](#defining-trigger-thresholds) for more information.                                                                                                                                                        |                               |
 
@@ -102,6 +106,15 @@ Here is an example of the data sent in the message:
 }
 ```
 
+### Defining Telegram handlers
+
+A Telegram handler sends message with the photo that triggered the event. See [Configuring Telegram](#configuring-telegram)
+below for details on how to obtain chatIds.
+
+| Property | Description                                                      | Example            |
+| -------- | ---------------------------------------------------------------- | ------------------ |
+| chatIds  | Required. An array of chatIds to message when the trigger fires. | `[123123, 227352]` |
+
 ## Configuring MQTT
 
 MQTT is enabled by uncommenting the `- mqtt` line in the `docker-compose.yml` file. See the comment above
@@ -117,6 +130,33 @@ MQTT is configured using the _mqtt.conf_ file. The following properties are supp
 | rejectUnauthorized | Optional. Default true. Controls whether connections to mqtts:// servers should allow self-signed certificates. Set to false if your MQTT certificates are self-signed and are getting connection errors. | `false`                       |
 
 The only authentication method currently supported is basic.
+
+## Configuring Telegram
+
+Telegram is enabled by uncommenting the `- telegram` line in the `docker-compose.yml` file. See the comment above
+the line in the file to be sure the right line is changed.
+
+Telegram is configured using the _telegram.conf_ file. The following properties are supported:
+
+| Property | Description                                           | Example                                 |
+| -------- | ----------------------------------------------------- | --------------------------------------- |
+| botToken | Required. The bot token for your Telegram bot server. | `"123987123:adfk2893r7akdskanfsdalskf"` |
+
+Obtaining the `botToken` and `chatIds` for the trigger configuration is not hard but does take a few
+steps. Here's what you need to do:
+
+1. Contact `BotFather` on Telegram
+2. Send the `/newbot` command. Follow the instructions and you'll get back a token that looks something like
+   the one in the example above.
+3. Connect to the bot in your Telegram personal account and send it a message
+4. Go to `https://api.telegram.org/bot123987123:adfk2893r7akdskanfsdalskf/getUpdates`, after replacing
+   the token in the URL with the one you obtained in step 2.
+5. In the response look for the `id` field to obtain the chatId. In the below sample response the chatId is `12345`.
+
+```javascript
+{"ok":true,"result":[{"update_id":297596982,
+"message":{"message_id":2,"from":{"id":12345,"is_bot":false,"first_name":"Neil","last_name":"Enns","language_code":"en"},"chat":{"id":12345,"first_name":"Neil","last_name":"Enns","type":"private"},"date":1590551469,"text":"hi"}}]}
+```
 
 ## Building this yourself
 

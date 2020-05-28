@@ -35,6 +35,14 @@ entire project was initially written and tested.
 Note that while you may be tempted to try and open this project using the _Remote-Containers: Open Repository in Container_
 command it won't work as the extnesion doesn't currently support docker-compose.yml-based projects.
 
+## A note about developing with Telegram
+
+Due to how Telegram bot keys are assigned, the development configuration has Telegram support disabled by default.
+If you want to mess around with Telegram while working in the repo you'll need to enable it following the steps
+in the [README.md](README.md). The one difference is you should enable it in `.devcontainer/docker-compose.yml`, not
+the one in the `sampleConfig` directory. To set up `botToken` and `chatIds` edit the `telegram.conf` and `triggers.conf`
+files located in `sampleConfiguration`.
+
 ## Opening pull requests
 
 Feel free to open pull requests but please keep the following in mind:

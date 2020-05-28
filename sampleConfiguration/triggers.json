@@ -15,6 +15,9 @@
         },
         "mqtt": {
           "topic": "aimotion/triggers/cat"
+        },
+        "telegram": {
+          "chatIds": [1, 2, 3]
         }
       },
       "watchObjects": ["cat"]
@@ -33,6 +36,9 @@
         },
         "mqtt": {
           "topic": "aimotion/triggers/dog"
+        },
+        "telegram": {
+          "chatIds": [1, 2, 3]
         }
       },
       "watchObjects": ["dog"]

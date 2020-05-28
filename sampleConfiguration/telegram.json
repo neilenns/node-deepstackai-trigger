@@ -1,0 +1,4 @@
+{
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramManagerConfiguration.schema.json",
+  "botToken": "insert bot token here"
+}
