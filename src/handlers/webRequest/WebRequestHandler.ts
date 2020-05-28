@@ -32,9 +32,7 @@ export async function processTrigger(
  */
 async function callTriggerUri(fileName: string, trigger: Trigger, uri: string): Promise<void> {
   log.info("Web request", `${fileName}: Calling trigger uri ${uri}`);
-  try {
-    await request.get(uri);
-  } catch (e) {
+  await request.get(uri).catch(e => {
     log.warn("Web request", `${fileName}: Failed to call trigger uri ${uri}: ${e}`);
-  }
+  });
 }

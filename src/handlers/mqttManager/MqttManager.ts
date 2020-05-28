@@ -41,16 +41,14 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
 
   log.info("MQTT manager", `Loaded configuration from ${configFilePath}`);
 
-  try {
-    mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
-      username: mqttConfigJson.username,
-      password: mqttConfigJson.password,
-      clientId: "node-deepstackai-trigger",
-      rejectUnauthorized: mqttConfigJson.rejectUnauthorized ?? true,
-    });
-  } catch (e) {
+  mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
+    username: mqttConfigJson.username,
+    password: mqttConfigJson.password,
+    clientId: "node-deepstackai-trigger",
+    rejectUnauthorized: mqttConfigJson.rejectUnauthorized ?? true,
+  }).catch(e => {
     throw new Error(`[MQTT Manager] Unable to connect: ${e.message}`);
-  }
+  });
 
   log.info("MQTT Manager", `Connected to MQTT server ${mqttConfigJson.uri}`);
   isEnabled = true;
@@ -102,16 +100,13 @@ async function readRawConfigFile(configFilePath: string): Promise<string> {
     return null;
   }
 
-  let rawConfig: string;
-  try {
-    rawConfig = await fsPromise.readFile(configFilePath, "utf-8");
-  } catch (e) {
+  const rawConfig: string = await fsPromise.readFile(configFilePath, "utf-8").catch(e => {
     log.warn(
       "MQTT Manager",
       `Unable to read the MQTT configuration file: ${e.message}. If MQTT was disabled in the Docker configuration then this warning can be safely ignored. Otherwise it means something is wrong in the secrets file mapping in the Docker configuration.`,
     );
     return null;
-  }
+  });
 
   // This shouldn't happen. Keeping the check here in case it does in the real world
   // and someone reports things not working.
