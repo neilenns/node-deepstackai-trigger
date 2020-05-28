@@ -107,12 +107,6 @@ async function readRawConfigFile(configFilePath: string): Promise<string> {
     return null;
   });
 
-  // This shouldn't happen. Keeping the check here in case it does in the real world
-  // and someone reports things not working.
-  if (!rawConfig) {
-    throw new Error(`[Telegram Manager] Unable to load configuration file ${configFilePath}.`);
-  }
-
   return rawConfig;
 }
 

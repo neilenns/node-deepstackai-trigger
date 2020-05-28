@@ -7,8 +7,8 @@
 // Everywhere else console.log() is a build breaking error to prevent
 // accidental use of it.
 /* eslint-disable no-console */
-import chalk from 'chalk';
-import moment from 'moment';
+import chalk from "chalk";
+import moment from "moment";
 
 /**
  * Formats a message for output to the logs.
