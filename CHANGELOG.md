@@ -2,7 +2,7 @@
 
 ## Version 1.1.4
 
-- Changed the log error message from "Trigger manager" to "MQTT manager" in MqttManager.ts.
+- Fixed a bug where MQTT log messages contained "Trigger" as the message tag.
 
 ## Version 1.1.3
 
