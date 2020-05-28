@@ -21,6 +21,7 @@ export default class Trigger {
   private _processExisting: boolean;
   private _watcher: chokidar.FSWatcher;
 
+  public receivedDate: Date;
   public name: string;
   public watchPattern: string;
   public watchObjects?: string[];
@@ -122,9 +123,9 @@ export default class Trigger {
     // Copying files in Windows preserves the lastModified and createdDate fields
     // from the original. Using lastAccessTime ensures all these checks perform
     // correctly even during development.
-    const receivedDate = new Date(stats.atimeMs);
+    this.receivedDate = new Date(stats.atimeMs);
 
-    if (receivedDate < this._initalizedTime && !this._processExisting) {
+    if (this.receivedDate < this._initalizedTime && !this._processExisting) {
       log.info(`Trigger ${this.name}`, `${fileName}: Skipping as it was created before the service started.`);
       return false;
     }
@@ -133,12 +134,12 @@ export default class Trigger {
     if (!this.cooldownTime) return true;
 
     // getTime() returns milliseconds so divide by 1000 to get seconds
-    const secondsSinceLastTrigger = (receivedDate.getTime() - this._lastTriggerTime.getTime()) / 1000;
+    const secondsSinceLastTrigger = (this.receivedDate.getTime() - this._lastTriggerTime.getTime()) / 1000;
 
     // Only check cooldown on images that have timestamps after startup.
     // This eases testing since this code only gets to this point for images
     // that arrived prior to startup when _processExisting is true.
-    if (secondsSinceLastTrigger < this.cooldownTime && receivedDate > this._initalizedTime) {
+    if (secondsSinceLastTrigger < this.cooldownTime && this.receivedDate > this._initalizedTime) {
       log.info(
         `Trigger ${this.name}`,
         `${fileName}: Skipping as it was received before the cooldown period of ${this.cooldownTime} seconds expired.`,

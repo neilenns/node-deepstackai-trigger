@@ -5,6 +5,7 @@
 export default class TelegramConfig {
   public chatIds: number[];
   public enabled: boolean;
+  public cooldownTime: number;
 
   constructor(init?: Partial<TelegramConfig>) {
     Object.assign(this, init);
