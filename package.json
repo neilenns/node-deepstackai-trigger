@@ -34,6 +34,7 @@
   "dependencies": {
     "ajv": "^6.12.2",
     "async-mqtt": "^2.6.0",
+    "bufferutil": "^4.0.1",
     "chalk": "^3.0.0",
     "chokidar": "^3.4.0",
     "commander": "^4.0.1",
@@ -43,7 +44,8 @@
     "node-telegram-bot-api": "^0.50.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
-    "safe-regex": "^2.1.1"
+    "safe-regex": "^2.1.1",
+    "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
     "@types/node": "^13.1.2",
