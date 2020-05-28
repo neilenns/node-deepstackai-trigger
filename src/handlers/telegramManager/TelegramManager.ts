@@ -15,6 +15,8 @@ import ITelegramManagerConfigJson from "./ITelegramManagerConfigJson";
 
 let isEnabled = false;
 let telegramBot: TelegramBot;
+// Tracks the last time each trigger fired, for use when calculating cooldown time windows
+const cooldowns = new Map<Trigger, Date>();
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
@@ -62,6 +64,14 @@ export async function processTrigger(
     return [];
   }
 
+  // Don't send if within the cooldown time
+  if (!passesCooldownTime(fileName, trigger)) {
+    return [];
+  }
+
+  // Save the trigger's last fire time
+  cooldowns.set(trigger, new Date());
+
   // Send all the messages
   return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(trigger.name, fileName, chatId)));
 }
@@ -85,6 +95,34 @@ async function sendTelegramMessage(
   return message;
 }
 
+/**
+ * Checks to see if a trigger fired within the cooldownw window
+ * specified for the Telegram handler.
+ * @param fileName The filename of the image that fired the trigger
+ * @param trigger The trigger
+ * @returns true if the trigger happened outside of the cooldown window
+ */
+function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
+  const lastTriggerTime = cooldowns.get(trigger);
+
+  // If this was never triggered then no cooldown applies.
+  if (!lastTriggerTime) {
+    return true;
+  }
+
+  // getTime() returns milliseconds so divide by 1000 to get seconds
+  const secondsSinceLastTrigger = (trigger.receivedDate.getTime() - lastTriggerTime.getTime()) / 1000;
+
+  if (secondsSinceLastTrigger < trigger.telegramConfig.cooldownTime) {
+    log.info(
+      `Telegram manager`,
+      `${fileName}: Skipping sending message as the cooldown period of ${trigger.telegramConfig.cooldownTime} seconds hasn't expired.`,
+    );
+    return false;
+  }
+
+  return true;
+}
 /**
  * Loads a trigger configuration file
  * @param configFilePath The path to the configuration file

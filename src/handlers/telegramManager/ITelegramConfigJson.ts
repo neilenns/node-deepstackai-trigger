@@ -4,4 +4,5 @@
  *--------------------------------------------------------------------------------------------*/
 export default interface ITelegramConfigJson {
   chatIds: number[];
+  cooldownTime: number;
 }

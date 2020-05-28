@@ -15,6 +15,14 @@
       "minItems": 1,
       "uniqueItems": true
     },
+    "cooldownTime": {
+      "description": "Number of seconds required between sending notifications to the listed chats.",
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 600,
+      "examples": [5]
+    },
     "enabled": {
       "description": "Enables the telegram handler on this trigger. Default is true.",
       "type": "boolean",
