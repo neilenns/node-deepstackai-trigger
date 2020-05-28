@@ -26,7 +26,7 @@ services:
       - mqtt
       # To enable Telegram support during development uncomment this line.
       # See CONTRIBUTING.md for more details.
-      # - telegram
+      - telegram
 
     # Overrides default command so things don't shut down after the process ends.
     command: /bin/sh -c "while sleep 1000; do :; done"
