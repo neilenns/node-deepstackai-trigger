@@ -58,6 +58,7 @@ real-time schema validation (such as Visual Studio Code).
 | handlers     | Required. A list of handlers that get called when the trigger fires. Currently [webRequest](#defining-webrequest-handlers), [mqtt](#defining-mqtt-handlers), and [Telegram](#defining-telegram-handlers) handlers are supported.                                                                                                       |
 | enabled      | Optional. Default `true`. When set to `false` the trigger will be ignored.                                                                                                                                                                                                                                                             | `false`                       |
 | threshold    | Optional. A minimum and maximum threshold that must be satisifed for the trigger to fire. See [defining trigger thresholds](#defining-trigger-thresholds) for more information.                                                                                                                                                        |                               |
+| cooldownTime | Optional. Default 0. Specifies the length of time in seconds that have to pass between detected images for the trigger to fire again.                                                                                                                                                                                                  | `60`                          |
 
 ### Defining trigger thresholds
 
@@ -111,9 +112,10 @@ Here is an example of the data sent in the message:
 A Telegram handler sends message with the photo that triggered the event. See [Configuring Telegram](#configuring-telegram)
 below for details on how to obtain chatIds.
 
-| Property | Description                                                      | Example            |
-| -------- | ---------------------------------------------------------------- | ------------------ |
-| chatIds  | Required. An array of chatIds to message when the trigger fires. | `[123123, 227352]` |
+| Property     | Description                                                                                                                                                                                                                                                                                                | Example            |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| chatIds      | Required. An array of chatIds to message when the trigger fires.                                                                                                                                                                                                                                           | `[123123, 227352]` |
+| cooldownTime | Optional. Default 0. Specifies the length of time in seconds that have to pass between detected images for the chat messages to get sent again. This is independent from the cooldownTime specified for the overall trigger, and allows the trigger to fire more often overall than the Telegram messages. | `60`               |
 
 ## Configuring MQTT
 

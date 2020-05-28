@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 1.1.5
+
+- Add a cooldownTime option to the Telegram handler. This makes it easier
+  to have a trigger that fires frequently without spamming Telegram chats with
+  pictures.
+
 ## Version 1.1.4
 
 - Fixed a bug where MQTT log messages contained "Trigger" as the message tag.
