@@ -39,7 +39,7 @@ command it won't work as the extnesion doesn't currently support docker-compose.
 
 Due to how Telegram bot keys are assigned, the development configuration has Telegram support disabled by default.
 If you want to mess around with Telegram while working in the repo you'll need to enable it following the steps
-in the (README.md)[README.md]. The one difference is you should enable it in `.devcontainer/docker-compose.yml`, not
+in the [README.md](README.md). The one difference is you should enable it in `.devcontainer/docker-compose.yml`, not
 the one in the `sampleConfig` directory. To set up `botToken` and `chatIds` edit the `telegram.conf` and `triggers.conf`
 files located in `sampleConfiguration`.
 
