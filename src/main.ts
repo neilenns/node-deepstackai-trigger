@@ -5,11 +5,11 @@
 
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
-import npmPackageInfo from '../package.json';
-import * as MqttManager from './handlers/mqttManager/MqttManager';
-import * as TelegramManager from './handlers/telegramManager/TelegramManager';
-import * as log from './Log';
-import TriggerManager from './TriggerManager';
+import npmPackageInfo from "../package.json";
+import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
+import * as log from "./Log";
+import TriggerManager from "./TriggerManager";
 
 let triggerManager: TriggerManager;
 
