@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.1.4
+
+- Changed the log error message from "Trigger manager" to "MQTT manager" in MqttManager.ts.
+
 ## Version 1.1.3
 
 - Resolve an issue where disabling Telegram prevented startup
