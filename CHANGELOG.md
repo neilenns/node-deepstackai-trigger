@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.1.4
+
+- Fixed a bug where MQTT log messages contained "Trigger" as the message tag.
+
 ## Version 1.1.3
 
 - Resolve an issue where disabling Telegram prevented startup
