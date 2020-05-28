@@ -66,7 +66,7 @@ export async function processTrigger(
 
   // Don't send if within the cooldown time
   if (!passesCooldownTime(fileName, trigger)) {
-    return;
+    return [];
   }
 
   // Save the trigger's last fire time
@@ -104,10 +104,16 @@ async function sendTelegramMessage(
  */
 function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
   const lastTriggerTime = cooldowns.get(trigger);
+
+  // If this was never triggered then no cooldown applies.
+  if (!lastTriggerTime) {
+    return true;
+  }
+
   // getTime() returns milliseconds so divide by 1000 to get seconds
   const secondsSinceLastTrigger = (trigger.receivedDate.getTime() - lastTriggerTime.getTime()) / 1000;
 
-  if (secondsSinceLastTrigger < this.cooldownTime) {
+  if (secondsSinceLastTrigger < trigger.telegramConfig.cooldownTime) {
     log.info(
       `Telegram manager`,
       `${fileName}: Skipping sending message as the cooldown period of ${trigger.telegramConfig.cooldownTime} seconds hasn't expired.`,
