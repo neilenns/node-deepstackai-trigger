@@ -14,14 +14,15 @@ export default async function analyzeImage(fileName: string): Promise<IDeepStack
   const imageStream = fs.createReadStream(fileName);
   const form = { image: imageStream };
 
-  try {
-    const rawResponse = await request.post({
+  const rawResponse = await request
+    .post({
       formData: form,
       uri: new URL("/v1/vision/detection", process.env.DEEPSTACK_URI).toString(),
+    })
+    .catch(e => {
+      log.error("DeepStack", `Failed to call DeepStack at ${process.env.DEEPSTACK_URI}: ${e.error}`);
+      return undefined;
     });
-    return JSONC.parse(rawResponse) as IDeepStackResponse;
-  } catch (e) {
-    log.error("DeepStack", `Failed to call DeepStack at ${process.env.DEEPSTACK_URI}: ${e.error}`);
-    return undefined;
-  }
+
+  return JSONC.parse(rawResponse) as IDeepStackResponse;
 }

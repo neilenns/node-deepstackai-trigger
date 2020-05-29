@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.2.1
+
+- Changes try/catch to .catch() for issue [#68](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/68)
+
 ## Version 1.1.5
 
 - Add a cooldownTime option to the Telegram handler. This makes it easier
