@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Integrate linting and prettier formatting at git stage time to ensure things are nice
+  before pushing to the repo.
+
 ## Version 1.2.1
 
 - Changes try/catch to .catch() for issue [#68](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/68)
