@@ -9,9 +9,7 @@ import npmPackageInfo from "../package.json";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as log from "./Log";
-import TriggerManager from "./TriggerManager";
-
-let triggerManager: TriggerManager;
+import * as TriggerManager from "./TriggerManager";
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -42,13 +40,12 @@ async function main() {
     }
 
     // Load the trigger details
-    triggerManager = new TriggerManager();
-    await triggerManager.loadTriggers("/run/secrets/triggers");
+    await TriggerManager.loadTriggers("/run/secrets/triggers");
     await MqttManager.loadConfiguration("/run/secrets/mqtt");
     await TelegramManager.loadConfiguration("/run/secrets/telegram");
 
     // Start watching
-    triggerManager.startWatching();
+    TriggerManager.startWatching();
 
     wait();
   } catch (e) {
