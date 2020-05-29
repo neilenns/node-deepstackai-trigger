@@ -2,8 +2,9 @@ version: "3.8"
 services:
   trigger:
     volumes:
-      # Change ./images to point to the folder that will have the images to analyze
-      - ./images:/images
+      # Change ./path_to_local_ai_images_folder to point to the folder that
+      # will have the images to analyze
+      - ./path_to_local_ai_images_folder:/aiinput
 
     environment:
       # Change this to match the timezone the images are produced in,
