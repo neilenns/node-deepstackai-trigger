@@ -16,6 +16,7 @@
     "prepublishOnly": "npm run lint",
     "postversion": "git push",
     "start": "node dist/src/main.js",
+    "test": "jest",
     "webpack": "npx webpack --mode=production",
     "webpack:dev": "npx webpack --mode=development"
   },
@@ -46,6 +47,7 @@
     "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.3",
     "@types/node": "^13.1.2",
     "@types/node-telegram-bot-api": "^0.40.3",
     "@types/request": "^2.48.5",
@@ -57,12 +59,14 @@
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-notice": "^0.9.10",
+    "jest": "^26.0.1",
     "markdownlint-cli": "^0.21.0",
     "prettier": "^1.19.1",
+    "ts-jest": "^26.0.0",
     "ts-loader": "^7.0.4",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.4",
+    "typescript": "^3.9.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   }
