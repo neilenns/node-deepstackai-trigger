@@ -240,6 +240,7 @@ export default class Trigger {
       log.error(`Trigger ${this.name}`, `Unable to stop watching for images: ${e}`);
       throw e;
     });
+
     log.info(`Trigger ${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
   }
 }
