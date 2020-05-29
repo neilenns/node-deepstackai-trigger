@@ -34,7 +34,9 @@ export default class TriggerManager {
       );
     }
 
-    const rawConfig: string = await fsPromise.readFile(configFilePath, "utf-8");
+    const rawConfig: string = await fsPromise.readFile(configFilePath, "utf-8").catch(e => {
+      throw new Error(`[Trigger Manager] Unable to load configuration file ${configFilePath}: ${e.message}`);
+    });
 
     if (!rawConfig) {
       throw new Error(`[Trigger Manager] Unable to load configuration file ${configFilePath}.`);
