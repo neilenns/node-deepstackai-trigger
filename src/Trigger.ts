@@ -194,7 +194,7 @@ export default class Trigger {
    * @param confidence The confidence level
    * @returns True if the confidence level is with the range that activates the trigger.
    */
-  private confidenceMeetsThreshold(fileName: string, confidence: number) {
+  private confidenceMeetsThreshold(fileName: string, confidence: number): boolean {
     const meetsThreshold = confidence >= this.threshold.minimum && confidence <= this.threshold.maximum;
 
     if (!meetsThreshold) {
