@@ -19,6 +19,13 @@
       "problemMatcher": ["$eslint-stylish"],
       "label": "npm:lint",
       "detail": "npm run lint:eslint && npm run markdownlint"
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "problemMatcher": ["$eslint-stylish"],
+      "label": "npm:test",
+      "detail": "Runs jest unit tests"
     }
   ]
 }
