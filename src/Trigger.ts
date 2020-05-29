@@ -215,7 +215,7 @@ export default class Trigger {
    * Starts watching for file changes.
    * @returns True if watching was started, false if it was skipped because the trigger isn't enabled
    */
-  public startWatching(): boolean {
+  public startWatching() {
     if (!this.enabled) {
       return false;
     }
