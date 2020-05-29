@@ -75,7 +75,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "eslint --cache --fix",
+      "eslint --cache --fix --max-warnings=0",
       "prettier --write"
     ],
     "*.md": [

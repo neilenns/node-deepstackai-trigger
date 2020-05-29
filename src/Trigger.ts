@@ -194,7 +194,7 @@ export default class Trigger {
    * @param confidence The confidence level
    * @returns True if the confidence level is with the range that activates the trigger.
    */
-  private confidenceMeetsThreshold(fileName: string, confidence: number): boolean {
+  private confidenceMeetsThreshold(fileName: string, confidence: number) {
     const meetsThreshold = confidence >= this.threshold.minimum && confidence <= this.threshold.maximum;
 
     if (!meetsThreshold) {
@@ -215,7 +215,7 @@ export default class Trigger {
    * Starts watching for file changes.
    * @returns True if watching was started, false if it was skipped because the trigger isn't enabled
    */
-  public startWatching() {
+  public startWatching(): boolean {
     if (!this.enabled) {
       return false;
     }
