@@ -74,11 +74,11 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
+    "**/*.ts": [
       "eslint --cache --fix --max-warnings=0",
       "prettier --write"
     ],
-    "*.md": [
+    "**/*.md": [
       "node ./node_modules/markdownlint-cli/markdownlint.js"
     ]
   }
