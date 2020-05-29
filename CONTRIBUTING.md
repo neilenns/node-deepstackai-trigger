@@ -49,9 +49,9 @@ Feel free to open pull requests but please keep the following in mind:
 
 - All pull requests must reference an issue
 - All pull requests must be made from a feature branch, not master
-- If your change touches anything under the `src/` directory or the `README.md` file the version number
-  must get bumped by running `npm version`. New features should be a minor release increment. Bug fixes
-  should be a patch release increment.
+- If your change touches anything under the `src/` directory or the `README.md` file add
+  a user-facing explanation of the change to [CHANGELOG.md](CHANGELOG.md) under the **Unreleased**
+  header. These notes will get applied to the next release version for you.
 - Pull requests must pass the automatic Docker and node.js build checks
 - The repo is set up to auto-apply Prettier, ESLint, and Markdownlint rules. If you're using VS Code
   in a dev container the necessary extensions will automatically be installed to keep this clean prior
