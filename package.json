@@ -79,7 +79,7 @@
       "prettier --write"
     ],
     "**/*.md": [
-      "node ./node_modules/markdownlint-cli/markdownlint.js"
+      "node ./node_modules/markdownlint-cli/markdownlint.js --fix"
     ]
   }
 }
