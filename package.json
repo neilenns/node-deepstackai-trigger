@@ -57,8 +57,6 @@
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-notice": "^0.9.10",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.6",
     "markdownlint-cli": "^0.21.0",
     "prettier": "^1.19.1",
     "ts-loader": "^7.0.4",
@@ -67,19 +65,5 @@
     "typescript": "^3.7.4",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.ts": [
-      "eslint --cache --fix --max-warnings=0",
-      "prettier --write"
-    ],
-    "**/*.md": [
-      "node ./node_modules/markdownlint-cli/markdownlint.js --fix"
-    ]
   }
 }
