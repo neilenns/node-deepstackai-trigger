@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+- README.md updated to provide simplified instructions and links to
+  the project wiki for additional details
+
 ## Version 1.2.1
 
 - Changes try/catch to .catch() for issue [#68](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/68)
