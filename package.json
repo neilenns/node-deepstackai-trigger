@@ -60,6 +60,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-notice": "^0.9.10",
     "jest": "^26.0.1",
+    "jest-cli": "^26.0.1",
     "markdownlint-cli": "^0.21.0",
     "prettier": "^1.19.1",
     "ts-jest": "^26.0.0",
