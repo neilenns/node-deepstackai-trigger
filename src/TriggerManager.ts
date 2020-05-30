@@ -12,6 +12,7 @@ import triggerSchema from "./schemas/triggerConfiguration.schema.json";
 import validateJsonAgainstSchema from "./schemaValidator";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import { promises as fsPromise } from "fs";
+import Rect from "./Rect";
 
 let _triggers: Trigger[];
 
@@ -88,6 +89,11 @@ export async function loadTriggers(configFilePath: string): Promise<void> {
       watchPattern: triggerJson.watchPattern,
       watchObjects: triggerJson.watchObjects,
     });
+
+    // Set up the masks as real objects
+    configuredTrigger.masks = triggerJson.masks?.map(
+      mask => new Rect(mask.xMinimum, mask.yMinimum, mask.xMaximum, mask.yMaximum),
+    );
 
     // Set up the handlers
     if (triggerJson.handlers.webRequest) {

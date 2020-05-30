@@ -1,6 +1,6 @@
 {
   "name": "node-deepstackai-trigger",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Detects motion using DeepStack AI and calls registered triggers based on trigger rules.",
   "main": "dist/src/main.js",
   "files": [
@@ -60,6 +60,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-notice": "^0.9.10",
     "jest": "^26.0.1",
+    "jest-cli": "^26.0.1",
     "markdownlint-cli": "^0.21.0",
     "prettier": "^1.19.1",
     "ts-jest": "^26.0.0",

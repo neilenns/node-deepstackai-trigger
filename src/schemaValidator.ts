@@ -9,6 +9,7 @@ import mqttManagerConfiguration from "./schemas/mqttManagerConfiguration.schema.
 import telegramHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
 import triggerSchema from "./schemas/triggerConfiguration.schema.json";
 import webRequestHandlerConfig from "./schemas/webRequestHandlerConfig.schema.json";
+import maskConfiguration from "./schemas/maskConfiguration.schema.json";
 
 /**
  * Validates an object against a schema file
@@ -44,6 +45,10 @@ export default async function validateJsonAgainstSchema(
   validator.addSchema(
     telegramHandlerConfiguration,
     "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/telegramHandlerConfiguration.schema.json",
+  );
+  validator.addSchema(
+    maskConfiguration,
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/maskConfiguration.schema.json",
   );
 
   const isValid = await validator.validate(schemaFileName, jsonObject);
