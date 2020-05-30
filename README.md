@@ -6,8 +6,7 @@ defined list of triggers.
 
 This project was heavily inspired by GentlePumpkin's post on [ipcamtalk.com](https://ipcamtalk.com/threads/tool-tutorial-free-ai-person-detection-for-blue-iris.37330/)
 that triggers BlueIris video survelliance using DeepStack as the motion sensing system.
-While the C# application is nifty it was difficult to install as a service and only ran on Windows.
-This project is an attempt to take the idea behind the C# app, make it a bit more general purpose,
+This project is an attempt to take the idea behind a desktop app, make it a bit more general purpose,
 and provide quick deployment via Docker.
 
 ## General installation guidelines
