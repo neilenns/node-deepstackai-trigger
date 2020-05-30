@@ -11,10 +11,13 @@ and provide quick deployment via Docker.
 
 ## General installation guidelines
 
+These instructions assume you already have [Docker](http://www.docker.com/) installed on your computer.
+
 - Copy the `docker-compose.yml`, `mqtt.json` and `triggers.json` files from the
-  `sampleConfiguration` directory locally.
+  `sampleConfiguration` to a folder on your local computer (in the BlueIris case for a basic installation this should be
+  the same machine BlueIris is on).
 - Edit the `docker-compose.yml` file to modify the mount point for source images, set the timezone
-  and optionally enable [MQTT](#configuring-mqtt) and [telegram](#configuring-telegram).
+  and optionally enable [MQTT](#configuring-mqtt) and [Telegram](#configuring-telegram).
 - Edit `triggers.json` to [define the triggers](#defining-triggers) you want to use.
 - Edit `mqtt.json` to [specify the connection information](#configuring-mqtt) for your MQTT server (if using MQTT).
 - Edit `telegram.json` to [specify the connection information](#configuring-telegram) for your Telegram bot
@@ -27,7 +30,7 @@ logic to skip existing images on restart. A list of valid timezones is available
 from the `TZ database name` column.
 
 Editing the .json files in [Visual Studio Code](https://code.visualstudio.com/) or some other editor
-that understands JSON Schemas is recommended: you'll get full auto-complete and documentation as
+that understands JSON schemas is recommended: you'll get full auto-complete and documentation as
 you type.
 
 After modifying the configuration files run `docker-compose up` and everything should
