@@ -11,6 +11,6 @@ export default class TelegramConfig {
     Object.assign(this, init);
 
     // Default for enabled is true if it isn't specified in the config file
-    this.enabled = init.enabled ?? true;
+    this.enabled = init?.enabled ?? true;
   }
 }
