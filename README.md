@@ -31,7 +31,7 @@ Editing the .json files in [Visual Studio Code](https://code.visualstudio.com/) 
 that understands JSON Schemas is recommended: you'll get full auto-complete and documentation as
 you type.
 
-After modifying the configuration files run `docker-compose up -d` and everything should
+After modifying the configuration files run `docker-compose up` and everything should
 spin up and work. Use your Docker client to review log messages from the `trigger`
 container: there's ample logging to help track down any configuration errors that
 may exist.
@@ -115,11 +115,11 @@ below for details on how to obtain chatIds.
 | Property     | Description                                                                                                                                                                                                                                                                                                | Example            |
 | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
 | chatIds      | Required. An array of chatIds to message when the trigger fires.                                                                                                                                                                                                                                           | `[123123, 227352]` |
-| cooldownTime | Optional. Default 0. Specifies the length of time in seconds that have to pass between detected images for the chat messages to get sent again. This is independent from the cooldownTime specified for the overall trigger, and allows the trigger to fire more often overall than the Telegram messages. | `60`               |
+| cooldownTime | Optional. Default 0. Specifies the length of time in seconds that have to pass between detected images for the chat messages to get sent again. This is independent from the cooldownTime specified for the overall trigger and allows the Telegram messages to get sent less frequently than the events to MQTT or web requests. | `60`               |
 
 ## Configuring MQTT
 
-MQTT is enabled by uncommenting the `- mqtt` line in the `docker-compose.yml` file. See the comment above
+MQTT is disabled by default. Enable it by uncommenting the `- mqtt` line in the `docker-compose.yml` file. See the comment above
 the line in the file to be sure the right line is changed.
 
 MQTT is configured using the _mqtt.conf_ file. The following properties are supported:
@@ -131,11 +131,9 @@ MQTT is configured using the _mqtt.conf_ file. The following properties are supp
 | password           | Optional. The password to log into the server with.                                                                                                                                                       | `"mqttpass"`                  |
 | rejectUnauthorized | Optional. Default true. Controls whether connections to mqtts:// servers should allow self-signed certificates. Set to false if your MQTT certificates are self-signed and are getting connection errors. | `false`                       |
 
-The only authentication method currently supported is basic.
-
 ## Configuring Telegram
 
-Telegram is enabled by uncommenting the `- telegram` line in the `docker-compose.yml` file. See the comment above
+Telegram disabled by defailt. Enabled it by uncommenting the `- telegram` line in the `docker-compose.yml` file. See the comment above
 the line in the file to be sure the right line is changed.
 
 Telegram is configured using the _telegram.conf_ file. The following properties are supported:
