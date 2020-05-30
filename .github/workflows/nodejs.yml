@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-          - run: npm run lint
+      - run: npm run lint
       - run: npm audit
       - run: npm test
       - run: npm run webpack
