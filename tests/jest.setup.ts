@@ -6,3 +6,6 @@
 // and some dependency somewhere uses request-promise.
 // See https://github.com/request/request-promise/issues/247.
 jest.mock("request-promise");
+
+// Ensure there's no warning from the telegram bot module.
+process.env.NTBA_FIX_319 = "true";
