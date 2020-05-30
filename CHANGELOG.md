@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Address [issue 116](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/116)
+
 ## Version 1.4.0
 
 - Add support for mask regions to triggers. See the [defining triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-masks)
