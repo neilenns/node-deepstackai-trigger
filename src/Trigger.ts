@@ -174,7 +174,7 @@ export default class Trigger {
    * @param label The object label
    * @returns True if the trigger is activated by the label
    */
-  private isRegisteredForObject(fileName: string, label: string): boolean {
+  public isRegisteredForObject(fileName: string, label: string): boolean {
     const isRegistered = this.watchObjects.includes(label);
     if (!isRegistered) {
       log.info(
