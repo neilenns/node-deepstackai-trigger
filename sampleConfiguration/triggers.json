@@ -3,7 +3,7 @@
   "triggers": [
     {
       "name": "Cat detector",
-      "watchPattern": "/images/Cat*.jpg",
+      "watchPattern": "/aiinput/Cat*.jpg",
       "enabled": true,
       "threshold": {
         "minimum": 10,
@@ -25,7 +25,7 @@
     },
     {
       "name": "Dog detector",
-      "watchPattern": "/images/Dog*.jpg",
+      "watchPattern": "/aiinput/Dog*.jpg",
       "enabled": true,
       "threshold": {
         "minimum": 50,

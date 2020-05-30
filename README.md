@@ -25,7 +25,7 @@ logic to skip existing images on restart. A list of valid timezones is available
 from the `TZ database name` column.
 
 Editing the .json files in [Visual Studio Code](https://code.visualstudio.com/) or some other editor
-that understands JSON Schemas is recommended: you'll get full auto-complete and documentation as
+that understands JSON schemas is recommended: you'll get full auto-complete and documentation as
 you type.
 
 ## Quick start - enabling MQTT and Telegram
