@@ -1,6 +1,6 @@
 # Contributing to node-deepstackai-trigger
 
-Contributions are welcome to the project, either via feature requests, issue reports, or pull requests. Note that feature requests may take a while to get to 😂
+Contributions are welcome to the project, either via feature requests, issue reports, or pull requests.
 
 The project was designed from the start to be easy to clone and run to simplify experimenting and
 trying out different changes. There's nothing worse than coming across a nifty project on GitHub
