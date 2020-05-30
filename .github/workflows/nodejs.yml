@@ -19,13 +19,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: bahmutov/npm-install@v1
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm run lint
+
+          - run: npm run lint
       - run: npm audit
       - run: npm test
       - run: npm run webpack
