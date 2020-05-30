@@ -41,16 +41,14 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
 
   log.info("MQTT manager", `Loaded configuration from ${configFilePath}`);
 
-  try {
-    mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
-      username: mqttConfigJson.username,
-      password: mqttConfigJson.password,
-      clientId: "node-deepstackai-trigger",
-      rejectUnauthorized: mqttConfigJson.rejectUnauthorized ?? true,
-    });
-  } catch (e) {
+  mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
+    username: mqttConfigJson.username,
+    password: mqttConfigJson.password,
+    clientId: "node-deepstackai-trigger",
+    rejectUnauthorized: mqttConfigJson.rejectUnauthorized ?? true,
+  }).catch(e => {
     throw new Error(`[MQTT Manager] Unable to connect: ${e.message}`);
-  }
+  });
 
   log.info("MQTT Manager", `Connected to MQTT server ${mqttConfigJson.uri}`);
   isEnabled = true;

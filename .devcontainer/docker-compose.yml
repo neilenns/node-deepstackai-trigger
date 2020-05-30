@@ -20,7 +20,7 @@ services:
       - deepstack-ai
     volumes:
       - ..:/workspace:cached
-      - ../sampleConfiguration/images:/images
+      - ../sampleConfiguration/aiinput:/aiinput
     secrets:
       - triggers
       - mqtt

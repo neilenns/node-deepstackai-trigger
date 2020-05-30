@@ -233,15 +233,13 @@ export default class Trigger {
 
   /**
    * Stops watching for file changes.
-   * @returns True if watching was started, false if it was skipped because the trigger isn't enabled
    */
   public async stopWatching(): Promise<void> {
-    try {
-      await this._watcher.close();
-      log.info(`Trigger ${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
-    } catch (e) {
+    await this._watcher.close().catch(e => {
       log.error(`Trigger ${this.name}`, `Unable to stop watching for images: ${e}`);
       throw e;
-    }
+    });
+
+    log.info(`Trigger ${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
   }
 }
