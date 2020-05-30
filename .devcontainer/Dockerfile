@@ -14,5 +14,9 @@ RUN mkdir -p ${NPM_GLOBAL} \
     && chown ${USERNAME}:root ${NPM_GLOBAL} \
     && npm config -g set prefix ${NPM_GLOBAL}
 
+# Create the vscode workspace and .git folder and set the owner to
+# the node user so git commands work
+RUN mkdir -p /workspace/.git && chown -R node:node /workspace/.git
+
 ENV CHOKIDAR_USEPOLLING=true
 USER node
