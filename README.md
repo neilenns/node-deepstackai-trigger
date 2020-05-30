@@ -14,9 +14,9 @@ then call a web URL, e.g. triggering a [BlueIris camera](https://github.com/dane
 
 1. Install [Docker](http://www.docker.com/)
 2. Copy the `docker-compose.yml` and `triggers.json` files from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/master/sampleConfiguration) directory locally.
-3. Edit the `docker-compose.yml` file to modify the mount point for source images and set the timezone
+3. Edit the `docker-compose.yml` file to modify the mount point for source images and set the timezone.
 4. Edit `triggers.json` to [define the triggers](Defining-triggers.md) you want to use.
-5. Run `docker-compose up` to start the system running
+5. Run `docker-compose up` to start the system running.
 
 Setting the timezone via the `TZ` environment variable in `docker-compose.yml` is important for
 every thing to work smoothly. By default Docker containers are in UTC and that messes up
@@ -34,11 +34,11 @@ To enable [MQTT](https://github.com/danecreekphotography/node-deepstackai-trigge
 
 1. Copy `mqtt.json` and `telegram.json` from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/master/sampleConfiguration) directory locally.
 2. Edit `mqtt.json` to [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt) for your MQTT server (if using MQTT).
-3. Edit `telegram.json` to [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram) for your Telegram bot
+3. Edit `telegram.json` to [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram) for your Telegram bot.
    server (if using Telegram).
 4. Edit `triggers.json` to add [mqtt](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers) and [Telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-telegram-handlers) handlers.
-5. Stop the existing running containers
-6. Run `docker-compse up` to start the system with the new configuration
+5. Stop the existing running containers.
+6. Run `docker-compse up` to start the system with the new configuration.
 
 Having trouble? Check the logs output from Docker for any errors the system may throw.
 The [troubleshooting](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting)
