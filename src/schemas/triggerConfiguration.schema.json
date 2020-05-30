@@ -70,6 +70,7 @@
             "type": "object",
             "minItems": 1,
             "uniqueItems": true,
+            "additionalProperties": false,
             "properties": {
               "webRequest": {
                 "description": "Sets the configuration for a web request handler.",
@@ -83,6 +84,15 @@
                 "description": "Sets the configuration for a Telegram message.",
                 "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramHandlerConfiguration.schema.json"
               }
+            }
+          },
+          "masks": {
+            "description": "A list of rectangles that mask out detected objects to prevent the trigger from firing.",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/maskConfiguration.schema.json"
             }
           },
           "watchObjects": {

@@ -18,7 +18,7 @@
       "type": "node",
       "request": "launch",
       "name": "Jest Tests",
-      "program": "${workspaceRoot}\\node_modules\\jest\\bin\\jest.js",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "args": ["-i"],
       "preLaunchTask": "npm:build",
       "outFiles": ["${workspaceRoot}/dist/**/*.js"],

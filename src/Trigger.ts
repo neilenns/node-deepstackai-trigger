@@ -14,6 +14,7 @@ import MqttConfig from "./handlers/mqttManager/MqttConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import { Stats } from "fs";
+import Rect from "./Rect";
 
 export default class Trigger {
   private _initalizedTime: Date;
@@ -32,6 +33,8 @@ export default class Trigger {
     minimum: number;
     maximum: number;
   };
+
+  public masks: Rect[];
 
   // Handler configurations
   public webRequestHandlerConfig: WebRequestConfig;
@@ -115,6 +118,8 @@ export default class Trigger {
   /**
    * Checks to see if a file should be processed based on the last modified time
    * and the setting to process existing files.
+   * @param fileName The filename of the image being evaluated
+   * @param stats The fs.Stats for the file
    * @returns True if the file is more recent than when this trigger was created
    * or existing files should be processed
    */
@@ -152,14 +157,18 @@ export default class Trigger {
   /**
    * Checks to see if an identified object is registered for the trigger, and if the
    * confidence level is high enough to fire the trigger.
+   * @param fileName The filename of the image being evaluated
    * @param label The label of the identified object
    * @param confidence The confidence level of the identification
    * @returns True if the label is associated with the trigger and the confidence is within the threshold range
    */
-  private isTriggered(fileName: string, { label, confidence }: IDeepStackPrediction): boolean {
+  private isTriggered(fileName: string, prediction: IDeepStackPrediction): boolean {
+    const { confidence, label } = prediction;
     const scaledConfidence = confidence * 100;
     const isTriggered =
-      this.isRegisteredForObject(fileName, label) && this.confidenceMeetsThreshold(fileName, scaledConfidence);
+      this.isRegisteredForObject(fileName, label) &&
+      this.confidenceMeetsThreshold(fileName, scaledConfidence) &&
+      !this.isMasked(fileName, prediction);
 
     if (!isTriggered) {
       log.info(`Trigger ${this.name}`, `${fileName}: Not triggered by ${label} (${scaledConfidence})`);
@@ -167,6 +176,32 @@ export default class Trigger {
       log.info(`Trigger ${this.name}`, `${fileName}: Triggered by ${label} (${scaledConfidence})`);
     }
     return isTriggered;
+  }
+
+  /**
+   * Checks to see if predictions overlap the list of masks defined in the trigger
+   * @param fileName The filename of the image being evaluated
+   * @param predictions The list of predictions found in the image
+   * @returns True if any of the predictions are masked
+   */
+  public isMasked(fileName: string, prediction: IDeepStackPrediction): boolean {
+    if (!this.masks) {
+      return false;
+    }
+
+    // Loop throught the masks to see if any overlap the prediction
+    const result = this.masks.some(mask => {
+      const predictionRect = new Rect(prediction.x_min, prediction.y_min, prediction.x_max, prediction.y_max);
+      const doesOverlap = mask.overlaps(predictionRect);
+
+      if (doesOverlap) {
+        log.info(`Trigger ${this.name}`, `Prediction region ${predictionRect} blocked by trigger mask ${mask}.`);
+      }
+
+      return doesOverlap;
+    });
+
+    return result;
   }
 
   /**
@@ -191,6 +226,7 @@ export default class Trigger {
   /**
    * Checks to see if the confidence level of the identified object is within the threshold
    * range for the trigger
+   * @param fileName The filename of the image being evaluated
    * @param confidence The confidence level
    * @returns True if the confidence level is with the range that activates the trigger.
    */

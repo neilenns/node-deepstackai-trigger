@@ -30,6 +30,10 @@ export default class Rect {
     return !(aLeftOfB || aRightOfB || aAboveB || aBelowB);
   }
 
+  public toString = (): string => {
+    return `(${this.xMinimum}, ${this.yMinimum}, ${this.xMaximum}, ${this.yMaximum})`;
+  };
+
   constructor(xMinimum: number, yMinimum: number, xMaximum: number, yMaximum: number) {
     this.xMinimum = xMinimum;
     this.xMaximum = xMaximum;

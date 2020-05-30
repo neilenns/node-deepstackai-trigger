@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/maskConfiguration.schema.json",
+  "type": "object",
+  "title": "The configuration for a trigger mask",
+  "description": "Defines a rectangle to mask out detected objects.",
+  "required": ["xMinimum", "yMinimum", "xMaximum", "yMaximum"],
+  "properties": {
+    "xMinimum": {
+      "description": "The x coordinate of the top right of the mask rectangle.",
+      "type": "number",
+      "minimum": 0,
+      "examples": [10]
+    },
+    "yMinimum": {
+      "description": "The y coordinate of the top right of the mask rectangle.",
+      "type": "number",
+      "minimum": 0,
+      "examples": [40]
+    },
+    "xMaximum": {
+      "description": "The x coordinate of the bottom left of the mask rectangle.",
+      "type": "number",
+      "minimum": 0,
+      "examples": [200]
+    },
+    "yMaximum": {
+      "description": "The y coordinate of the top right of the mask rectangle.",
+      "type": "number",
+      "minimum": 0,
+      "examples": [240]
+    }
+  }
+}
