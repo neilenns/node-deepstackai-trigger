@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 1.3.0
+
+- The default mount point for the image folder in the sample configuration now points
+  to /aiinput. This better aligns with future documentation and will simplify configuration
+  for first time users following the step by step guide. Existing `docker-compose.yml` and
+  `trigger.conf` files aren't impacted as they won't be copying the new sample files locally.
+  Developers working on the project using _Remote - Containers_ will need to rebuild their
+  containers to pick up the new mount point. VSCode should automatically prompt for this.
+
 ## Version 1.2.1
 
 - Changes try/catch to .catch() for issue [#68](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/68)
