@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+- README.md updated to provide simplified instructions and links to
+  the project wiki for additional details
+
 ## Version 1.3.0
 
 - The default mount point for the image folder in the sample configuration now points
