@@ -51,4 +51,5 @@ The [project wiki](https://github.com/danecreekphotography/node-deepstackai-trig
 - [Configuring the system](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration)
 - [Defining triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers)
 - [Integrating with BlueIris](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-BlueIris)
+- [Deploying to Synology or Unraid](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Deploying-to-Synology-and-Unraid)
 - [Troubleshooting](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting)

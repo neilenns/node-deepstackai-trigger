@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Address a warning during config file validation ([issue 123](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/123))
+
 ## Version 1.5.0
 
 - Configuration files can now be mounted using Docker volumes instead of secrets. While less
