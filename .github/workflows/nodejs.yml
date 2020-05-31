@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: npm ci
+      - run: npm ci --no-optional
       - run: npm run lint
       - run: npm audit
       - run: npm test
