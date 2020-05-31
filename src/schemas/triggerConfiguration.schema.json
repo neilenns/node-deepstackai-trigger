@@ -91,7 +91,6 @@
             "type": "array",
             "minItems": 1,
             "items": {
-              "type": "object",
               "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/maskConfiguration.schema.json"
             }
           },
