@@ -4,7 +4,6 @@
 # because git isn't installed
 FROM node:alpine
 
-USER root
 RUN apk --no-cache update && apk --no-cache upgrade && apk --no-cache add tzdata && apk --no-cache add git
 
 ARG NPM_GLOBAL=/usr/local/share/npm-global

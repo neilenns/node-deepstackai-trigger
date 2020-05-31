@@ -2,6 +2,7 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+import * as fs from "fs";
 import { promises as fsPromise } from "fs";
 import * as JSONC from "jsonc-parser";
 import TelegramBot from "node-telegram-bot-api";
@@ -22,10 +23,32 @@ const cooldowns = new Map<Trigger, Date>();
  * Takes a path to a configuration file and loads all of the triggers from it.
  * @param configFilePath The path to the configuration file
  */
-export async function loadConfiguration(configFilePath: string): Promise<void> {
-  const rawConfig = await readRawConfigFile(configFilePath);
+export async function loadConfiguration(configFilePaths: string[]): Promise<void> {
+  let rawConfig: string;
+  let loadedConfigFilePath: string;
 
-  if (!rawConfig) {
+  // Look through the list of possible loadable config files and try loading
+  // them in turn until a valid one is found.
+  const foundLoadableFile = configFilePaths.some(configFilePath => {
+    rawConfig = readRawConfigFile(configFilePath);
+    loadedConfigFilePath = configFilePath;
+
+    if (!rawConfig) {
+      return false;
+    }
+
+    return true;
+  });
+
+  // At this point there were no loadable files so bail.
+  if (!foundLoadableFile) {
+    log.warn(
+      "Telegram Manager",
+      "Unable to find an Telegram configuration file. If Telegram was disabled in the Docker configuration " +
+        "then this warning can be safely ignored. Otherwise it means something is wrong with how the " +
+        "container is configured. Verify the telegram secret points to a file called telegram.json or " +
+        "that the /config mount point contains a file called telegram.json.",
+    );
     return;
   }
 
@@ -39,7 +62,7 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
     throw new Error("[Telegram Manager] Invalid configuration file.");
   }
 
-  log.info("Telegram manager", `Loaded configuration from ${configFilePath}`);
+  log.info("Telegram manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
   telegramBot = new TelegramBot(telegramConfigJson.botToken, {
     filepath: false,
@@ -128,7 +151,7 @@ function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
  * @param configFilePath The path to the configuration file
  * @returns The unvalidated raw JSON
  */
-async function readRawConfigFile(configFilePath: string): Promise<string> {
+function readRawConfigFile(configFilePath: string): string {
   if (!configFilePath) {
     log.info(
       "Telegram Manager",
@@ -137,13 +160,13 @@ async function readRawConfigFile(configFilePath: string): Promise<string> {
     return null;
   }
 
-  const rawConfig = await fsPromise.readFile(configFilePath, "utf-8").catch(e => {
-    log.warn(
-      "Telegram Manager",
-      `Unable to read the Telegram configuration file: ${e.message}. If Telegram was disabled in the Docker configuration then this warning can be safely ignored. Otherwise it means something is wrong in the secrets file mapping in the Docker configuration.`,
-    );
+  let rawConfig: string;
+  try {
+    rawConfig = fs.readFileSync(configFilePath, "utf-8");
+  } catch (e) {
+    log.warn("Telegram Manager", `Unable to read the Telegram configuration file: ${e.message}.`);
     return null;
-  });
+  }
 
   return rawConfig;
 }
