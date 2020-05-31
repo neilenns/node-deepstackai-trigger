@@ -25,7 +25,8 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+          ${{ runner.OS }}-node-
+          ${{ runner.OS }}-
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -37,3 +38,8 @@ jobs:
       - run: npm audit
       - run: npm test
       - run: npm run webpack
+
+      - name: Print the final result
+        shell: bash
+        run: |
+          echo Hello world
