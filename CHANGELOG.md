@@ -2,7 +2,10 @@
 
 ## Unreleased
 
-- Address [issue 116](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/116)
+- Configuration files can now be mounted using Docker volumes instead of secrets. While less
+  secure for MQTT configuration it does enable this image to load on systems that don't support
+  setting Docker secrets, such as a Synology. Addresses [issue 122](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/122).
+- Address [issue 116](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/116).
 
 ## Version 1.4.0
 
