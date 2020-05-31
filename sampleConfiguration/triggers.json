@@ -17,7 +17,7 @@
           "topic": "aimotion/triggers/cat"
         },
         "telegram": {
-          "chatIds": [1, 2, 3],
+          "chatIds": [1],
           "cooldownTime": 60
         }
       },
@@ -39,7 +39,7 @@
           "topic": "aimotion/triggers/dog"
         },
         "telegram": {
-          "chatIds": [1, 2, 3],
+          "chatIds": [1],
           "cooldownTime": 60
         }
       },

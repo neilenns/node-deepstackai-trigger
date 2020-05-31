@@ -1,5 +1,5 @@
 import MQTT from "async-mqtt";
-import { promises as fsPromise } from "fs";
+import * as fs from "fs";
 import * as JSONC from "jsonc-parser";
 import path from "path";
 
@@ -22,10 +22,32 @@ let mqttClient: MQTT.AsyncClient;
  * Takes a path to a configuration file and loads all of the triggers from it.
  * @param configFilePath The path to the configuration file
  */
-export async function loadConfiguration(configFilePath: string): Promise<void> {
-  const rawConfig = await readRawConfigFile(configFilePath);
+export async function loadConfiguration(configFilePaths: string[]): Promise<void> {
+  let rawConfig: string;
+  let loadedConfigFilePath: string;
 
-  if (!rawConfig) {
+  // Look through the list of possible loadable config files and try loading
+  // them in turn until a valid one is found.
+  const foundLoadableFile = configFilePaths.some(configFilePath => {
+    rawConfig = readRawConfigFile(configFilePath);
+    loadedConfigFilePath = configFilePath;
+
+    if (!rawConfig) {
+      return false;
+    }
+
+    return true;
+  });
+
+  // At this point there were no loadable files so bail.
+  if (!foundLoadableFile) {
+    log.warn(
+      "MQTT Manager",
+      "Unable to find an MQTT configuration file. If MQTT was disabled in the Docker configuration " +
+        "then this warning can be safely ignored. Otherwise it means something is wrong with how the " +
+        "container is configured. Verify the mqtt secret points to a file called mqtt.json or " +
+        "that the /config mount point contains a file called mqtt.json.",
+    );
     return;
   }
 
@@ -39,7 +61,7 @@ export async function loadConfiguration(configFilePath: string): Promise<void> {
     throw new Error("[MQTT Manager] Invalid configuration file.");
   }
 
-  log.info("MQTT manager", `Loaded configuration from ${configFilePath}`);
+  log.info("MQTT manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
   mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
     username: mqttConfigJson.username,
@@ -91,23 +113,12 @@ export async function processTrigger(
  * @param configFilePath The path to the configuration file
  * @returns The unvalidated raw JSON
  */
-async function readRawConfigFile(configFilePath: string): Promise<string> {
-  if (!configFilePath) {
-    log.info(
-      "MQTT Manager",
-      `No configuration file was specified so MQTT events won't be sent. To enable MQTT events make sure the mqtt secret in the docker-compose.yaml points to a configuration file.`,
-    );
-    return null;
-  }
-
+function readRawConfigFile(configFilePath: string): string {
   let rawConfig: string;
   try {
-    rawConfig = await fsPromise.readFile(configFilePath, "utf-8");
+    rawConfig = fs.readFileSync(configFilePath, "utf-8");
   } catch (e) {
-    log.warn(
-      "MQTT Manager",
-      `Unable to read the MQTT configuration file: ${e.message}. If MQTT was disabled in the Docker configuration then this warning can be safely ignored. Otherwise it means something is wrong in the secrets file mapping in the Docker configuration.`,
-    );
+    log.warn("MQTT Manager", `Unable to read the configuration file: ${e.message}.`);
     return null;
   }
 
