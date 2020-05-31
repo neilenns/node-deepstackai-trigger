@@ -15,7 +15,7 @@ then call a web URL, e.g. triggering a [BlueIris camera](https://github.com/dane
 1. Install [Docker](http://www.docker.com/)
 2. Copy the `docker-compose.yml` and `triggers.json` files from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/master/sampleConfiguration) directory locally.
 3. Edit the `docker-compose.yml` file to modify the mount point for source images and set the timezone.
-4. Edit `triggers.json` to [define the triggers](Defining-triggers.md) you want to use.
+4. Edit `triggers.json` to [define the triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers) you want to use.
 5. Run `docker-compose up` to start the system running.
 
 Setting the timezone via the `TZ` environment variable in `docker-compose.yml` is important for
