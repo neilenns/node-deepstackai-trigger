@@ -8,7 +8,7 @@
   secure for MQTT configuration it does enable this image to load on systems that don't support
   setting Docker secrets, such as a Synology. Addresses [issue 122](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/122).
 - Address [issue 116](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/116).
-
+- Address [issue 130](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/130).
 ## Version 1.4.0
 
 - Add support for mask regions to triggers. See the [defining triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-masks)
