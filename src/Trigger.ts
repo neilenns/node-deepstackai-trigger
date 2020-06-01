@@ -210,17 +210,17 @@ export default class Trigger {
    * @returns True if the trigger is activated by the label
    */
   public isRegisteredForObject(fileName: string, label: string): boolean {
-    const isRegistered = this.watchObjects.includes(label);
+    const isRegistered = this.watchObjects?.includes(label);
     if (!isRegistered) {
       log.info(
         `Trigger ${this.name}`,
-        `${fileName}: Detected object ${label} is not in the watch objects list [${this.watchObjects.join(", ")}]`,
+        `${fileName}: Detected object ${label} is not in the watch objects list [${this.watchObjects?.join(", ")}]`,
       );
     } else {
       log.info(`Trigger ${this.name}`, `${fileName}: Matched triggering object ${label}`);
     }
 
-    return isRegistered;
+    return isRegistered ?? false;
   }
 
   /**
