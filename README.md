@@ -53,3 +53,13 @@ The [project wiki](https://github.com/danecreekphotography/node-deepstackai-trig
 - [Integrating with BlueIris](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-BlueIris)
 - [Deploying to Synology or Unraid](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Deploying-to-Synology-and-Unraid)
 - [Troubleshooting](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting)
+
+## Supported Docker image tags
+
+The following tags are available in the Docker repository:
+
+| Tag name            | Description                                                                                                                       |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `latest`            | The latest released build. This lags slightly behind `dev`.                                                                       |
+| `dev`               | The latest code as it is checked into the project's master branch.                                                                |
+| `version-<version>` | The specific [released version](https://github.com/danecreekphotography/node-deepstackai-trigger/releases), e.g. `version-1.5.0`. |
