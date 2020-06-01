@@ -99,6 +99,7 @@
             "type": "array",
             "items": {
               "type": "string",
+              "transform": ["toLowerCase"],
               "enum": [
                 "person",
                 "bicycle",

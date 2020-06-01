@@ -210,7 +210,10 @@ export default class Trigger {
    * @returns True if the trigger is activated by the label
    */
   public isRegisteredForObject(fileName: string, label: string): boolean {
-    const isRegistered = this.watchObjects?.includes(label);
+    const isRegistered = this.watchObjects?.some(watchLabel => {
+      return watchLabel.toLowerCase() === label?.toLowerCase();
+    });
+
     if (!isRegistered) {
       log.info(
         `Trigger ${this.name}`,

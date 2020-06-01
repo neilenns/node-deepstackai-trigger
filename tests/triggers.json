@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/triggerConfiguration.schema.json",
+  "triggers": [
+    {
+      "name": "Dog detector",
+      "watchPattern": "/aiinput/Dog*.jpg",
+      "enabled": true,
+      "threshold": {
+        "minimum": 50,
+        "maximum": 100
+      },
+      "handlers": {
+        "webRequest": {
+          "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog"]
+        },
+        "mqtt": {
+          "topic": "aimotion/triggers/dog"
+        },
+        "telegram": {
+          "chatIds": [1],
+          "cooldownTime": 60
+        }
+      },
+      "watchObjects": ["dog"]
+    }
+  ]
+}

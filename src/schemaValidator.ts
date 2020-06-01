@@ -10,6 +10,7 @@ import telegramHandlerConfiguration from "./schemas/telegramHandlerConfiguration
 import triggerSchema from "./schemas/triggerConfiguration.schema.json";
 import webRequestHandlerConfig from "./schemas/webRequestHandlerConfig.schema.json";
 import maskConfiguration from "./schemas/maskConfiguration.schema.json";
+import ajvkeywords from "ajv-keywords";
 
 /**
  * Validates an object against a schema file
@@ -22,6 +23,8 @@ export default async function validateJsonAgainstSchema(
   jsonObject: unknown,
 ): Promise<boolean> {
   const validator = new Ajv();
+
+  ajvkeywords(validator, "transform");
 
   // Register all the schemas that get used with this app. It doesn't matter
   // if they are for different schema files/uses, ajv only loads them when
