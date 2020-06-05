@@ -40,9 +40,9 @@ async function main() {
     }
 
     // Load the trigger details
-    await TriggerManager.loadTriggers("/run/secrets/triggers");
-    await MqttManager.loadConfiguration("/run/secrets/mqtt");
-    await TelegramManager.loadConfiguration("/run/secrets/telegram");
+    await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
+    await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
+    await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
 
     // Start watching
     TriggerManager.startWatching();

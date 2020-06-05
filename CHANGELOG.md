@@ -2,7 +2,17 @@
 
 ## Unreleased
 
-- Address [issue 116](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/116)
+- Address a warning during config file validation ([issue 123](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/123)).
+- Document the available Docker image tags ([issue 128](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/128)).
+- Addresses code cleanup [issue 136](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/136).
+
+## Version 1.5.0
+
+- Configuration files can now be mounted using Docker volumes instead of secrets. While less
+  secure for MQTT configuration it does enable this image to load on systems that don't support
+  setting Docker secrets, such as a Synology. Addresses [issue 122](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/122).
+- Address [issue 116](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/116).
+- Address [issue 130](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/130).
 
 ## Version 1.4.0
 

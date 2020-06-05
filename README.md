@@ -15,7 +15,7 @@ then call a web URL, e.g. triggering a [BlueIris camera](https://github.com/dane
 1. Install [Docker](http://www.docker.com/)
 2. Copy the `docker-compose.yml` and `triggers.json` files from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/master/sampleConfiguration) directory locally.
 3. Edit the `docker-compose.yml` file to modify the mount point for source images and set the timezone.
-4. Edit `triggers.json` to [define the triggers](Defining-triggers.md) you want to use.
+4. Edit `triggers.json` to [define the triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers) you want to use.
 5. Run `docker-compose up` to start the system running.
 
 Setting the timezone via the `TZ` environment variable in `docker-compose.yml` is important for
@@ -51,4 +51,15 @@ The [project wiki](https://github.com/danecreekphotography/node-deepstackai-trig
 - [Configuring the system](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration)
 - [Defining triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers)
 - [Integrating with BlueIris](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-BlueIris)
+- [Deploying to Synology or Unraid](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Deploying-to-Synology-and-Unraid)
 - [Troubleshooting](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting)
+
+## Supported Docker image tags
+
+The following tags are available in the Docker repository:
+
+| Tag name            | Description                                                                                                                       |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `latest`            | The latest released build. This lags slightly behind `dev`.                                                                       |
+| `dev`               | The latest code as it is checked into the project's master branch.                                                                |
+| `version-<version>` | The specific [released version](https://github.com/danecreekphotography/node-deepstackai-trigger/releases), e.g. `version-1.5.0`. |
