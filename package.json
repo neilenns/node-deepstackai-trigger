@@ -1,6 +1,6 @@
 {
   "name": "node-deepstackai-trigger",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Detects motion using DeepStack AI and calls registered triggers based on trigger rules.",
   "main": "dist/src/main.js",
   "files": [
@@ -32,6 +32,7 @@
   "homepage": "https://github.com/danecreekphotography/node-deepstackai-trigger#readme",
   "dependencies": {
     "ajv": "^6.12.2",
+    "ajv-keywords": "^3.4.1",
     "async-mqtt": "^2.6.0",
     "bufferutil": "^4.0.1",
     "chalk": "^3.0.0",
@@ -47,6 +48,7 @@
     "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
+    "@types/ajv-keywords": "^3.4.0",
     "@types/jest": "^25.2.3",
     "@types/node": "^13.1.2",
     "@types/node-telegram-bot-api": "^0.40.3",
