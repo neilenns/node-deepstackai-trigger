@@ -1,4 +1,4 @@
-import MQTT from "async-mqtt";
+import MQTT, { IPublishPacket } from "async-mqtt";
 import * as fs from "fs";
 import * as JSONC from "jsonc-parser";
 import path from "path";
@@ -17,6 +17,7 @@ import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
 
 let isEnabled = false;
 let mqttClient: MQTT.AsyncClient;
+const timers = new Map<string, NodeJS.Timeout>();
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
@@ -94,6 +95,22 @@ export async function processTrigger(
 
   log.info("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
 
+  // If an off delay is configured set up a timer to send the off message in the requested number of seconds
+  if (trigger?.mqttConfig?.offDelay) {
+    const existingTimer = timers.get(trigger.mqttConfig.topic);
+
+    // Cancel any timer that may still be running for the same topic
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+    }
+
+    // Set the new timer
+    timers.set(
+      trigger.mqttConfig.topic,
+      setTimeout(publishOffEvent, trigger.mqttConfig.offDelay * 1000, trigger.mqttConfig.topic),
+    );
+  }
+
   // Even though this only calls one topic the way this gets used elsewhere
   // the expectation is it returns an array.
   return [
@@ -107,6 +124,10 @@ export async function processTrigger(
       }),
     ),
   ];
+}
+
+async function publishOffEvent(topic: string): Promise<IPublishPacket> {
+  return await mqttClient.publish(topic, JSON.stringify({ state: "off" }));
 }
 
 /**

@@ -36,7 +36,8 @@
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog"]
         },
         "mqtt": {
-          "topic": "aimotion/triggers/dog"
+          "topic": "aimotion/triggers/dog",
+          "offDelay": 5
         },
         "telegram": {
           "chatIds": [1],
