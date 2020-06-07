@@ -2,9 +2,10 @@
 
 ## Unreleased
 
-- Add a `"state": "on"` property to the MQTT messages sent on motion detection. This
+- Add a `"state"` property to the MQTT messages sent on motion detection. This
   makes it easier to build binary motion sensors based on the MQTT messages in Home Assistant
-  by using `value_template: 'value_json.state'` and `off_delay`. Resolves [issue 139](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/139).
+  by using `value_template: 'value_json.state'`. The delay before sending an `off` state is
+  configurable with the new `offDelay` setting on `mqtt` triggers. Resolves [issue 139](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/139) and [issue 141](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/141).
 
 ## Version 1.6.0
 

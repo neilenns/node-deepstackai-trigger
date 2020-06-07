@@ -5,9 +5,10 @@
 import MqttConfig from "../../src/handlers/mqttManager/MqttConfig";
 
 test("Verify MQTT handler configuration", () => {
-  // Empty constructor should default to enabled true
+  // Empty constructor should default to enabled true and offDelay 30
   let config = new MqttConfig();
   expect(config.enabled).toBe(true);
+  expect(config.offDelay).toBe(30);
 
   // Undefined enabled should be true
   config = new MqttConfig({ enabled: undefined });
@@ -20,4 +21,16 @@ test("Verify MQTT handler configuration", () => {
   // Explicitly set enabled false should be false
   config = new MqttConfig({ enabled: false });
   expect(config.enabled).toBe(false);
+
+  // Undefined offDelay should default to 30
+  config = new MqttConfig({ offDelay: undefined });
+  expect(config.offDelay).toBe(30);
+
+  // 0 offDelay should be 0
+  config = new MqttConfig({ offDelay: 0 });
+  expect(config.offDelay).toBe(0);
+
+  // 60 offDelay should be 60
+  config = new MqttConfig({ offDelay: 60 });
+  expect(config.offDelay).toBe(60);
 });

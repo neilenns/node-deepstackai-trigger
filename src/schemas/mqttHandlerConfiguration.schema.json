@@ -12,6 +12,12 @@
       "minLength": 1,
       "examples": ["aimotion/trigger/dog"]
     },
+    "offDelay": {
+      "description": "Number of seconds of no motion to wait before sending an MQTT state off message. Set to 0 to disable sending off messages. Default is 30 seconds.",
+      "type": "number",
+      "default": 30,
+      "examples": ["0", "300"]
+    },
     "enabled": {
       "description": "Enables the MQTT handler on this trigger. Default is true.",
       "type": "boolean",
