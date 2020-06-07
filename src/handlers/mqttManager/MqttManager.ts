@@ -103,6 +103,7 @@ export async function processTrigger(
         fileName,
         basename: path.basename(fileName),
         predictions,
+        state: "on",
       }),
     ),
   ];
