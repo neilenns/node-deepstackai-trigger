@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Logging level is now controlled by a `VERBOSE` environment variable. When set to `true`
+  additional logging is shown in the console. When `false` or omitted only startup and
+  successful detection messages are shown. Resolves [issue 143](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
 - The MQTT overall configuration now supports specifing a topic for status messages.
   Right now the only status message sent is an LWT message for when the system goes
   offline. Resolves [issue 145](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
