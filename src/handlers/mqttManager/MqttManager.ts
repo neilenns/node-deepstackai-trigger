@@ -9,6 +9,7 @@ import validateJsonAgainstSchema from "../../schemaValidator";
 import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
+import * as Mustache from "mustache";
 
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
@@ -123,8 +124,19 @@ export async function processTrigger(
     );
   }
 
+  // Populate the payload wih the mustache template
+  const view = {
+    fileName,
+    baseName: path.basename(fileName),
+    predictions: JSON.stringify(predictions),
+    state: "on",
+    name: trigger.name,
+  };
+
   const payload =
-    trigger.mqttConfig.payload ??
+    // The replace nonsense is because of https://github.com/janl/mustache.js/issues/697 and
+    // allows normal {{}} style replacements instead of explaining to people why they have to do {{{}}}
+    Mustache.render(trigger.mqttConfig.payload.replace(/\{\{([^}]*)\}\}/g, "{{{$1}}}"), view) ??
     JSON.stringify({
       fileName,
       basename: path.basename(fileName),
