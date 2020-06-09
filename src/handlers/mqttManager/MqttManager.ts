@@ -70,6 +70,10 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     statusTopic = mqttConfigJson.statusTopic;
   }
 
+  if (mqttConfigJson.statusTopic) {
+    statusTopic = mqttConfigJson.statusTopic;
+  }
+
   mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
     username: mqttConfigJson.username,
     password: mqttConfigJson.password,
