@@ -4,5 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 export default interface IMqttConfigJson {
   topic: string;
-  offDelay: number;
+  offDelay?: number;
+  payload?: string;
 }

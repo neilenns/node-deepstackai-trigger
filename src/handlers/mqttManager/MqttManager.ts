@@ -123,19 +123,18 @@ export async function processTrigger(
     );
   }
 
+  const payload =
+    trigger.mqttConfig.payload ??
+    JSON.stringify({
+      fileName,
+      basename: path.basename(fileName),
+      predictions,
+      state: "on",
+    });
+
   // Even though this only calls one topic the way this gets used elsewhere
   // the expectation is it returns an array.
-  return [
-    await mqttClient.publish(
-      trigger.mqttConfig.topic,
-      JSON.stringify({
-        fileName,
-        basename: path.basename(fileName),
-        predictions,
-        state: "on",
-      }),
-    ),
-  ];
+  return [await mqttClient.publish(trigger.mqttConfig.topic, payload)];
 }
 
 async function publishOffEvent(topic: string): Promise<IPublishPacket> {
