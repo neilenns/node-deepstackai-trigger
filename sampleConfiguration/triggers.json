@@ -36,9 +36,8 @@
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog"]
         },
         "mqtt": {
-          "topic": "BlueIris/admin",
-          "payload": "camera={{name}}&trigger",
-          "offDelay": 0
+          "topic": "aimotion/triggers/dog",
+          "offDelay": 5
         },
         "telegram": {
           "chatIds": [1],
