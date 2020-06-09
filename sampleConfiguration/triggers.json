@@ -37,8 +37,8 @@
         },
         "mqtt": {
           "topic": "aimotion/triggers/dog",
-          "payload": "hi",
-          "offDelay": 0
+          "payload": "{\"predictions\": {{predictions}}, \"camera\": \"{{name}}\", \"baseName\": \"{{baseName}}\", \"fileName\": \"{{fileName}}\", \"state\": \"{{state}}\"}",
+          "offDelay": 6
         },
         "telegram": {
           "chatIds": [1],
