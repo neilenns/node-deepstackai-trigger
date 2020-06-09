@@ -7,5 +7,5 @@ export default interface IMqttManagerConfigJson {
   username: string;
   password: string;
   rejectUnauthorized: boolean;
-  statusTopic: string;
+  statusTopic?: string;
 }

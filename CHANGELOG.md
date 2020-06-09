@@ -6,6 +6,9 @@
   mustache templates in the payload. This makes it possible to send a precicely formatted
   message to BlueIris that will trigger recording for a specific camera instead of having
   to use webRequest handlers. Resolves [issue 151](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/151).
+- The MQTT overall configuration now supports specifing a topic for status messages.
+  Right now the only status message sent is a LWT message for when the system goes
+  offline. Resolves [issue 145](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
 
 ## Version 1.7.0
 
