@@ -3,10 +3,11 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import Mustache from "mustache";
-import Trigger from "./Trigger";
-import IDeepStackPrediction from "./types/IDeepStackPrediction";
-import path from "path";
+import Mustache from 'mustache';
+import path from 'path';
+
+import Trigger from './Trigger';
+import IDeepStackPrediction from './types/IDeepStackPrediction';
 
 export function format(
   template: string,
