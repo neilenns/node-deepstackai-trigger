@@ -1,20 +1,19 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Neil Enns. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import MQTT, { IPublishPacket } from "async-mqtt";
 import * as fs from "fs";
 import * as JSONC from "jsonc-parser";
 import path from "path";
-
+import * as mustacheFormatter from "../../MustacheFormatter";
 import * as log from "../../Log";
 import mqttManagerConfigurationSchema from "../../schemas/mqttManagerConfiguration.schema.json";
 import validateJsonAgainstSchema from "../../schemaValidator";
 import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
-import * as Mustache from "mustache";
-
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Neil Enns. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
 
 let isEnabled = false;
 let statusTopic = "node-deepstackai-trigger/status";
@@ -124,25 +123,14 @@ export async function processTrigger(
     );
   }
 
-  // Populate the payload wih the mustache template
-  const view = {
-    fileName,
-    baseName: path.basename(fileName),
-    predictions: JSON.stringify(predictions),
-    state: "on",
-    name: trigger.name,
-  };
-
-  const payload =
-    // The replace nonsense is because of https://github.com/janl/mustache.js/issues/697 and
-    // allows normal {{}} style replacements instead of explaining to people why they have to do {{{}}}
-    Mustache.render(trigger.mqttConfig.payload.replace(/\{\{([^}]*)\}\}/g, "{{{$1}}}"), view) ??
-    JSON.stringify({
-      fileName,
-      basename: path.basename(fileName),
-      predictions,
-      state: "on",
-    });
+  const payload = trigger.mqttConfig.payload
+    ? mustacheFormatter.format(trigger.mqttConfig.payload, fileName, trigger, predictions)
+    : JSON.stringify({
+        fileName,
+        basename: path.basename(fileName),
+        predictions,
+        state: "on",
+      });
 
   // Even though this only calls one topic the way this gets used elsewhere
   // the expectation is it returns an array.
