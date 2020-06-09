@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Logging level is now controlled by a `VERBOSE` environment variable. When set to `true`
+  additional logging is shown in the console. When `false` or omitted only startup and
+  successful detection messages are shown. Resolves [issue 143](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
 - The MQTT overall configuration now supports specifing a topic for status messages.
   Right now the only status message sent is an LWT message for when the system goes
   offline. Resolves [issue 145](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
@@ -12,10 +15,6 @@
   makes it easier to build binary motion sensors based on the MQTT messages in Home Assistant
   by using `value_template: 'value_json.state'`. The delay before sending an `off` state is
   configurable with the new `offDelay` setting on `mqtt` triggers. Resolves [issue 139](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/139) and [issue 141](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/141).
-
-- Add a `"state": "on"` property to the MQTT messages sent on motion detection. This
-  makes it easier to build binary motion sensors based on the MQTT messages in Home Assistant
-  by using `value_template: 'value_json.state'` and `off_delay`. Resolves [issue 139](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/139).
 
 ## Version 1.6.0
 

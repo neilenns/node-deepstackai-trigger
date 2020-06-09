@@ -17,6 +17,10 @@ services:
       # Docker. Don't change this unless there is a need to talk to an
       # external DeepStack server somewhere and you know what you are doing.
       - DEEPSTACK_URI=http://deepstack-ai:5000/
+      # Comment this line out to disable verbose logging. Once the system is
+      # running well the extra logging information really isn't necessary
+      # and is nice to turn off.
+      - VERBOSE=true
 
     secrets:
       - triggers
