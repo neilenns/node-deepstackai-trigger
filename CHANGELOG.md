@@ -1,5 +1,12 @@
 # Change Log
 
+## Unreleased
+
+- Add a `payload` property to MQTT handler message configuration, along with support for
+  mustache templates in the payload. This makes it possible to send a precicely formatted
+  message to BlueIris that will trigger recording for a specific camera instead of having
+  to use webRequest handlers. Resolves [issue 151](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/151).
+
 ## Version 1.7.0
 
 - Add a `state` property to the MQTT messages sent on motion detection. This
