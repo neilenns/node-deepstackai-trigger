@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- The MQTT overall configuration now supports specifing a topic for status messages.
+  Right now the only status message sent is an LWT message for when the system goes
+  offline. Resolves [issue 145](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
+
 ## Version 1.7.0
 
 - Add a `state` property to the MQTT messages sent on motion detection. This
