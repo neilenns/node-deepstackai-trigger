@@ -10,8 +10,6 @@
 import chalk from "chalk";
 import moment from "moment";
 
-const isVerbose = process.env.VERBOSE ?? false;
-
 /**
  * Formats a message for output to the logs.
  * @param source The source of the message
@@ -27,19 +25,6 @@ function formatMessage(source: string, message: string) {
  * @param message The message
  */
 export function info(source: string, message: string): void {
-  console.log(formatMessage(source, message));
-}
-
-/**
- * Logs a verbose message to the console. Logs nothing if VERBOSE isn't set.
- * @param source The source of the message
- * @param message The message
- */
-export function verbose(source: string, message: string): void {
-  if (!isVerbose) {
-    return;
-  }
-
   console.log(formatMessage(source, message));
 }
 

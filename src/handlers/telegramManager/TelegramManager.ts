@@ -44,7 +44,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
   if (!foundLoadableFile) {
     log.warn(
       "Telegram Manager",
-      "Unable to find a Telegram configuration file. If Telegram was disabled in the Docker configuration " +
+      "Unable to find an Telegram configuration file. If Telegram was disabled in the Docker configuration " +
         "then this warning can be safely ignored. Otherwise it means something is wrong with how the " +
         "container is configured. Verify the telegram secret points to a file called telegram.json or " +
         "that the /config mount point contains a file called telegram.json.",
@@ -62,7 +62,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     throw new Error("[Telegram Manager] Invalid configuration file.");
   }
 
-  log.verbose("Telegram manager", `Loaded configuration from ${loadedConfigFilePath}`);
+  log.info("Telegram manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
   telegramBot = new TelegramBot(telegramConfigJson.botToken, {
     filepath: false,
@@ -104,7 +104,7 @@ async function sendTelegramMessage(
   fileName: string,
   chatId: number,
 ): Promise<TelegramBot.Message> {
-  log.verbose("Telegram manager", `Sending message to ${chatId}`);
+  log.info("Telegram manager", `Sending message to ${chatId}`);
 
   const message = telegramBot
     .sendPhoto(chatId, await fsPromise.readFile(fileName), {
@@ -137,7 +137,7 @@ function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
   const secondsSinceLastTrigger = (trigger.receivedDate.getTime() - lastTriggerTime.getTime()) / 1000;
 
   if (secondsSinceLastTrigger < trigger.telegramConfig.cooldownTime) {
-    log.verbose(
+    log.info(
       `Telegram manager`,
       `${fileName}: Skipping sending message as the cooldown period of ${trigger.telegramConfig.cooldownTime} seconds hasn't expired.`,
     );
@@ -153,7 +153,7 @@ function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
  */
 function readRawConfigFile(configFilePath: string): string {
   if (!configFilePath) {
-    log.verbose(
+    log.info(
       "Telegram Manager",
       `No configuration file was specified so Telegram events won't be sent. To enable Telegram events make sure the telegram secret in the docker-compose.yaml points to a configuration file.`,
     );
