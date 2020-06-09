@@ -64,7 +64,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     throw new Error("[MQTT Manager] Invalid configuration file.");
   }
 
-  log.info("MQTT manager", `Loaded configuration from ${loadedConfigFilePath}`);
+  log.verbose("MQTT manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
   if (mqttConfigJson.statusTopic) {
     statusTopic = mqttConfigJson.statusTopic;
@@ -105,7 +105,7 @@ export async function processTrigger(
     return [];
   }
 
-  log.info("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
+  log.verbose("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
 
   // If an off delay is configured set up a timer to send the off message in the requested number of seconds
   if (trigger?.mqttConfig?.offDelay) {
