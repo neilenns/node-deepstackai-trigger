@@ -99,10 +99,10 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     throw new Error("[Trigger Manager] Invalid configuration file.");
   }
 
-  log.verbose("Trigger manager", `Loaded configuration from ${loadedConfigFilePath}`);
+  log.info("Trigger manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
   _triggers = triggerConfigJson.triggers.map(triggerJson => {
-    log.verbose("Trigger manager", `Loaded configuration for ${triggerJson.name}`);
+    log.info("Trigger manager", `Loaded configuration for ${triggerJson.name}`);
     const configuredTrigger = new Trigger({
       cooldownTime: triggerJson.cooldownTime,
       enabled: triggerJson.enabled ?? true, // If it isn't specified then enable the camera
