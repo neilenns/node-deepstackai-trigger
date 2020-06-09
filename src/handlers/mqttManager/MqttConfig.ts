@@ -6,6 +6,7 @@ export default class MqttConfig {
   public topic: string;
   public enabled: boolean;
   public offDelay: number;
+  public statusTopic?: string;
 
   constructor(init?: Partial<MqttConfig>) {
     Object.assign(this, init);

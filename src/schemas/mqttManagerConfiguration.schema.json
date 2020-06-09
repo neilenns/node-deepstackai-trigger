@@ -26,6 +26,12 @@
       "type": "boolean",
       "default": true,
       "examples": ["false"]
+    },
+    "statusTopic": {
+      "description": "Topic status messages are published to.",
+      "type": "string",
+      "default": "node-deepstackai-trigger/status",
+      "examples": ["aimotion/status"]
     }
   }
 }

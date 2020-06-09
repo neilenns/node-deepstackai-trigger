@@ -16,6 +16,8 @@ import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
  *--------------------------------------------------------------------------------------------*/
 
 let isEnabled = false;
+let statusTopic = "node-deepstackai-trigger/status";
+
 let mqttClient: MQTT.AsyncClient;
 const timers = new Map<string, NodeJS.Timeout>();
 
@@ -64,11 +66,21 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
 
   log.info("MQTT manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
+  if (mqttConfigJson.statusTopic) {
+    statusTopic = mqttConfigJson.statusTopic;
+  }
+
   mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
     username: mqttConfigJson.username,
     password: mqttConfigJson.password,
     clientId: "node-deepstackai-trigger",
     rejectUnauthorized: mqttConfigJson.rejectUnauthorized ?? true,
+    will: {
+      topic: statusTopic,
+      payload: "offline",
+      qos: 2,
+      retain: false,
+    },
   }).catch(e => {
     throw new Error(`[MQTT Manager] Unable to connect: ${e.message}`);
   });
