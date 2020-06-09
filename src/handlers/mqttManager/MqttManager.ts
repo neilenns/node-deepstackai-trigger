@@ -3,17 +3,18 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import MQTT, { IPublishPacket } from "async-mqtt";
-import * as fs from "fs";
-import * as JSONC from "jsonc-parser";
-import path from "path";
-import * as mustacheFormatter from "../../MustacheFormatter";
-import * as log from "../../Log";
-import mqttManagerConfigurationSchema from "../../schemas/mqttManagerConfiguration.schema.json";
-import validateJsonAgainstSchema from "../../schemaValidator";
-import Trigger from "../../Trigger";
-import IDeepStackPrediction from "../../types/IDeepStackPrediction";
-import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
+import MQTT, { IPublishPacket } from 'async-mqtt';
+import * as fs from 'fs';
+import * as JSONC from 'jsonc-parser';
+import path from 'path';
+
+import * as log from '../../Log';
+import * as mustacheFormatter from '../../MustacheFormatter';
+import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
+import validateJsonAgainstSchema from '../../schemaValidator';
+import Trigger from '../../Trigger';
+import IDeepStackPrediction from '../../types/IDeepStackPrediction';
+import IMqttManagerConfigJson from './IMqttManagerConfigJson';
 
 let isEnabled = false;
 let statusTopic = "node-deepstackai-trigger/status";
