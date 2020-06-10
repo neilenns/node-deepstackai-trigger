@@ -3,7 +3,7 @@
 ## Unreleased
 
 - Mustache templates are now supported in the webRequest handler URIs. One way to use this is
-  to send memo data to BlueIris with the details of predictions that caused the trigger to fire,
+  to send additional data to BlueIris with the details of predictions that caused the trigger to fire,
   for example `"http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}`.
   See [the wiki](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers) for
   details on available mustache variables. Resolves [issue 148](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/148).
