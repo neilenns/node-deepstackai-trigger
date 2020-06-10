@@ -18,6 +18,11 @@
       "default": 30,
       "examples": ["0", "300"]
     },
+    "payload": {
+      "description": "The payload to send with the MQTT message. Optional. If omitted a payload containing the prediction information and image file path will be sent.",
+      "type": "string",
+      "examples": ["{\"camera\": \"FrontDoor\", \"state\": \"on\"}"]
+    },
     "enabled": {
       "description": "Enables the MQTT handler on this trigger. Default is true.",
       "type": "boolean",

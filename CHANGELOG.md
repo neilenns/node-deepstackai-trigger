@@ -5,8 +5,12 @@
 - Logging level is now controlled by a `VERBOSE` environment variable. When set to `true`
   additional logging is shown in the console. When `false` or omitted only startup and
   successful detection messages are shown. Resolves [issue 143](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
+- Add a `payload` property to MQTT handler message configuration, along with support for
+  mustache templates in the payload. This makes it possible to send a precicely formatted
+  message to BlueIris that will trigger recording for a specific camera instead of having
+  to use webRequest handlers. Resolves [issue 151](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/151).
 - The MQTT overall configuration now supports specifing a topic for status messages.
-  Right now the only status message sent is an LWT message for when the system goes
+  Right now the only status message sent is a LWT message for when the system goes
   offline. Resolves [issue 145](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
 
 ## Version 1.7.0
