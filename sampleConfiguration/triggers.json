@@ -33,10 +33,11 @@
       },
       "handlers": {
         "webRequest": {
-          "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog"]
+          "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}"]
         },
         "mqtt": {
           "topic": "aimotion/triggers/dog",
+          "payload": "{{formattedPredictions}}",
           "offDelay": 5
         },
         "telegram": {
