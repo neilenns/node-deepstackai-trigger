@@ -29,5 +29,5 @@ export function format(
     return text;
   };
 
-  return Mustache.render(trigger.mqttConfig.payload, view);
+  return Mustache.render(template, view);
 }
