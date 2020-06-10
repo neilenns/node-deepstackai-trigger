@@ -3,18 +3,18 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import MQTT, { IPublishPacket } from 'async-mqtt';
-import * as fs from 'fs';
-import * as JSONC from 'jsonc-parser';
-import path from 'path';
+import MQTT, { IPublishPacket } from "async-mqtt";
+import * as fs from "fs";
+import * as JSONC from "jsonc-parser";
+import path from "path";
 
-import * as log from '../../Log';
-import * as mustacheFormatter from '../../MustacheFormatter';
-import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import Trigger from '../../Trigger';
-import IDeepStackPrediction from '../../types/IDeepStackPrediction';
-import IMqttManagerConfigJson from './IMqttManagerConfigJson';
+import * as log from "../../Log";
+import * as mustacheFormatter from "../../MustacheFormatter";
+import mqttManagerConfigurationSchema from "../../schemas/mqttManagerConfiguration.schema.json";
+import validateJsonAgainstSchema from "../../schemaValidator";
+import Trigger from "../../Trigger";
+import IDeepStackPrediction from "../../types/IDeepStackPrediction";
+import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
 
 let isEnabled = false;
 let statusTopic = "node-deepstackai-trigger/status";
@@ -106,11 +106,11 @@ export async function processTrigger(
     return [];
   }
 
-  log.info("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
+  log.info("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.messages[0].topic}`);
 
   // If an off delay is configured set up a timer to send the off message in the requested number of seconds
   if (trigger?.mqttConfig?.offDelay) {
-    const existingTimer = timers.get(trigger.mqttConfig.topic);
+    const existingTimer = timers.get(trigger.mqttConfig.messages[0].topic);
 
     // Cancel any timer that may still be running for the same topic
     if (existingTimer) {
@@ -119,13 +119,13 @@ export async function processTrigger(
 
     // Set the new timer
     timers.set(
-      trigger.mqttConfig.topic,
-      setTimeout(publishOffEvent, trigger.mqttConfig.offDelay * 1000, trigger.mqttConfig.topic),
+      trigger.mqttConfig.messages[0].topic,
+      setTimeout(publishOffEvent, trigger.mqttConfig.offDelay * 1000, trigger.mqttConfig.messages[0].topic),
     );
   }
 
-  const payload = trigger.mqttConfig.payload
-    ? mustacheFormatter.format(trigger.mqttConfig.payload, fileName, trigger, predictions)
+  const payload = trigger.mqttConfig.messages[0].payload
+    ? mustacheFormatter.format(trigger.mqttConfig.messages[0].payload, fileName, trigger, predictions)
     : JSON.stringify({
         fileName,
         basename: path.basename(fileName),
@@ -135,7 +135,7 @@ export async function processTrigger(
 
   // Even though this only calls one topic the way this gets used elsewhere
   // the expectation is it returns an array.
-  return [await mqttClient.publish(trigger.mqttConfig.topic, payload)];
+  return [await mqttClient.publish(trigger.mqttConfig.messages[0].topic, payload)];
 }
 
 async function publishOffEvent(topic: string): Promise<IPublishPacket> {

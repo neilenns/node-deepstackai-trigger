@@ -5,7 +5,7 @@
 import * as JSONC from "jsonc-parser";
 import * as log from "./Log";
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
-import MqttConfig from "./handlers/mqttManager/MqttConfig";
+import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import Trigger from "./Trigger";
 import triggerSchema from "./schemas/triggerConfiguration.schema.json";
@@ -125,7 +125,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
       configuredTrigger.webRequestHandlerConfig = new WebRequestConfig(triggerJson.handlers.webRequest);
     }
     if (triggerJson.handlers.mqtt) {
-      configuredTrigger.mqttConfig = new MqttConfig(triggerJson.handlers.mqtt);
+      configuredTrigger.mqttConfig = new MqttHandlerConfig(triggerJson.handlers.mqtt);
     }
     if (triggerJson.handlers.telegram) {
       configuredTrigger.telegramConfig = new TelegramConfig(triggerJson.handlers.telegram);

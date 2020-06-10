@@ -14,7 +14,7 @@
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Cat"]
         },
         "mqtt": {
-          "topic": "aimotion/triggers/cat"
+          "messages": [{ "topic": "aimotion/triggers/cat" }]
         },
         "telegram": {
           "chatIds": [1],
@@ -36,7 +36,7 @@
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}"]
         },
         "mqtt": {
-          "topic": "aimotion/triggers/dog"
+          "messages": [{ "topic": "aimotion/triggers/dog" }]
         },
         "telegram": {
           "chatIds": [1],

@@ -4,30 +4,41 @@
   "type": "object",
   "title": "The configuration for an MQTT trigger handler",
   "description": "Defines the MQTT information sent with trigger notifications.",
-  "required": ["topic"],
+  "required": ["messages"],
   "properties": {
-    "topic": {
-      "description": "The topic to send when this handler is triggered.",
-      "type": "string",
-      "minLength": 1,
-      "examples": ["aimotion/trigger/dog"]
-    },
-    "offDelay": {
-      "description": "Number of seconds of no motion to wait before sending an MQTT state off message. Set to 0 to disable sending off messages. Default is 30 seconds.",
-      "type": "number",
-      "default": 30,
-      "examples": ["0", "300"]
-    },
-    "payload": {
-      "description": "The payload to send with the MQTT message. Optional. If omitted a payload containing the prediction information and image file path will be sent.",
-      "type": "string",
-      "examples": ["{\"camera\": \"FrontDoor\", \"state\": \"on\"}"]
-    },
-    "enabled": {
-      "description": "Enables the MQTT handler on this trigger. Default is true.",
-      "type": "boolean",
-      "default": "true",
-      "examples": ["false"]
+    "messages": {
+      "description": "A list of MQTT messages to send when the trigger is activated.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["topic"],
+        "properties": {
+          "topic": {
+            "description": "The topic to send when this handler is triggered.",
+            "type": "string",
+            "minLength": 1,
+            "examples": ["aimotion/trigger/dog"]
+          },
+          "offDelay": {
+            "description": "Number of seconds of no motion to wait before sending an MQTT state off message. Set to 0 to disable sending off messages. Default is 30 seconds.",
+            "type": "number",
+            "default": 30,
+            "examples": ["0", "300"]
+          },
+          "payload": {
+            "description": "The payload to send with the MQTT message. Optional. If omitted a payload containing the prediction information and image file path will be sent.",
+            "type": "string",
+            "examples": ["{\"camera\": \"FrontDoor\", \"state\": \"on\"}"]
+          }
+        }
+      },
+      "enabled": {
+        "description": "Enables the MQTT handler on this trigger. Default is true.",
+        "type": "boolean",
+        "default": "true",
+        "examples": ["false"]
+      }
     }
   }
 }
