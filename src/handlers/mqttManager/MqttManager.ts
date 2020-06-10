@@ -103,12 +103,12 @@ export async function processTrigger(
 
   // It's possible to not set up an mqtt handler on a trigger or to disable it, so don't
   // process if that's the case.
-  if (!trigger?.mqttConfig?.enabled) {
+  if (!trigger?.mqttHandlerConfig?.enabled) {
     return [];
   }
 
   return Promise.all(
-    trigger.mqttConfig?.messages.map(message => {
+    trigger.mqttHandlerConfig?.messages.map(message => {
       return publishMessage(fileName, trigger, message, predictions);
     }),
   );

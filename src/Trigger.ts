@@ -38,7 +38,7 @@ export default class Trigger {
 
   // Handler configurations
   public webRequestHandlerConfig: WebRequestConfig;
-  public mqttConfig: MqttHandlerConfig;
+  public mqttHandlerConfig: MqttHandlerConfig;
   public telegramConfig: TelegramConfig;
 
   constructor(init?: Partial<Trigger>) {

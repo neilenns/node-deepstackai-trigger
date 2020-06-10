@@ -125,7 +125,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
       configuredTrigger.webRequestHandlerConfig = new WebRequestConfig(triggerJson.handlers.webRequest);
     }
     if (triggerJson.handlers.mqtt) {
-      configuredTrigger.mqttConfig = new MqttHandlerConfig(triggerJson.handlers.mqtt);
+      configuredTrigger.mqttHandlerConfig = new MqttHandlerConfig(triggerJson.handlers.mqtt);
     }
     if (triggerJson.handlers.telegram) {
       configuredTrigger.telegramConfig = new TelegramConfig(triggerJson.handlers.telegram);
