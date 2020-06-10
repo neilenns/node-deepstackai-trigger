@@ -9,21 +9,6 @@ import path from 'path';
 import Trigger from './Trigger';
 import IDeepStackPrediction from './types/IDeepStackPrediction';
 
-function formatPredictions(predictions: IDeepStackPrediction[]): string {
-  return predictions
-    .map(prediction => {
-      return `${prediction.label} (${(prediction.confidence * 100).toFixed(0)}%)`;
-    })
-    .join(", ");
-}
-
-/**
- * Replaces mustache templates in a string with values
- * @param template The template string to format
- * @param fileName The filename of the image being analyzed
- * @param trigger The trigger that was fired
- * @param predictions The predictions returned by the AI system
- */
 export function format(
   template: string,
   fileName: string,
@@ -35,7 +20,6 @@ export function format(
     fileName,
     baseName: path.basename(fileName),
     predictions: JSON.stringify(predictions),
-    formattedPredictions: formatPredictions(predictions),
     state: "on",
     name: trigger.name,
   };
@@ -45,5 +29,5 @@ export function format(
     return text;
   };
 
-  return Mustache.render(template, view);
+  return Mustache.render(trigger.mqttConfig.payload, view);
 }
