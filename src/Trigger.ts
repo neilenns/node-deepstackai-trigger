@@ -10,7 +10,7 @@ import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
 import analyzeImage from "./DeepStack";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
-import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
+import MqttHandleConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import { Stats } from "fs";
@@ -38,7 +38,7 @@ export default class Trigger {
 
   // Handler configurations
   public webRequestHandlerConfig: WebRequestConfig;
-  public mqttConfig: MqttHandlerConfig;
+  public mqttConfig: MqttHandleConfig;
   public telegramConfig: TelegramConfig;
 
   constructor(init?: Partial<Trigger>) {

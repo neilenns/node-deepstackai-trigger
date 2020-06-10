@@ -5,6 +5,7 @@
 import IMqttMessageConfigJson from "./IMqttMessageConfigJson";
 
 export default interface IMqttHandlerConfigJson {
+  topic?: string;
   messages: IMqttMessageConfigJson[];
   enabled?: boolean;
 }

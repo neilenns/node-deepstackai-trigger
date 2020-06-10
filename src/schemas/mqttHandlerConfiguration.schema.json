@@ -4,8 +4,14 @@
   "type": "object",
   "title": "The configuration for an MQTT trigger handler",
   "description": "Defines the MQTT information sent with trigger notifications.",
-  "required": ["messages"],
+  "anyOf": [{ "required": ["topic"] }, { "required": ["messages"] }],
   "properties": {
+    "topic": {
+      "description": "The topic to send when this handler is triggered.",
+      "type": "string",
+      "minLength": 1,
+      "examples": ["aimotion/trigger/dog"]
+    },
     "messages": {
       "description": "A list of MQTT messages to send when the trigger is activated.",
       "type": "array",

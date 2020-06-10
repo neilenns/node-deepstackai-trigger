@@ -36,11 +36,7 @@
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}"]
         },
         "mqtt": {
-          "messages": [
-            { "topic": "aimotion/triggers/dog", "offDelay": 5 },
-            { "topic": "aimotion/triggers/dog2" },
-            { "topic": "aimotion/triggers/dog3" }
-          ]
+          "messages": [{ "topic": "aimotion/triggers/dog" }]
         },
         "telegram": {
           "chatIds": [1],
