@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Telegram trigger handlers now support an optional `caption` property to specify the text sent
+  as the caption for the photo that fired the trigger. This supports mustache templates so the
+  caption can be something like `{{name}}: {{formattedPredictions}}`. Resolves [issue 154](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/154).
 - MQTT trigger handlers now support an array of messages to send instead of a single message, allowing
   for different format messages to different services. For example one message could be formatted
   in a way that works for Home Assistant use and another could be formatted to trigger BlueIris recording.
