@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 export default class TelegramConfig {
   public chatIds: number[];
+  public caption?: string;
   public enabled: boolean;
   public cooldownTime: number;
 

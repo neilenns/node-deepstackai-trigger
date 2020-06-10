@@ -8,6 +8,7 @@ import * as JSONC from "jsonc-parser";
 import TelegramBot from "node-telegram-bot-api";
 
 import * as log from "../../Log";
+import * as mustacheFormatter from "../../MustacheFormatter";
 import telegramManagerConfigurationSchema from "../../schemas/telegramManagerConfiguration.schema.json";
 import validateJsonAgainstSchema from "../../schemaValidator";
 import Trigger from "../../Trigger";
@@ -95,8 +96,12 @@ export async function processTrigger(
   // Save the trigger's last fire time
   cooldowns.set(trigger, new Date());
 
+  const caption = trigger.telegramConfig.caption
+    ? mustacheFormatter.format(trigger.telegramConfig.caption, fileName, trigger, predictions)
+    : trigger.name;
+
   // Send all the messages
-  return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(trigger.name, fileName, chatId)));
+  return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, fileName, chatId)));
 }
 
 async function sendTelegramMessage(
