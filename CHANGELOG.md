@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The system no longer exits when configuration errors prevent startup. This leaves the container in
+  a running state so it is possible to open a terminal window to the container to inspect
+  things like volume mount points for missing configuration files. Resolves [issue 164](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/154).
 - Telegram trigger handlers now support an optional `caption` property to specify the text sent
   as the caption for the photo that fired the trigger. This supports mustache templates so the
   caption can be something like `{{name}}: {{formattedPredictions}}`. Resolves [issue 154](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/154).
