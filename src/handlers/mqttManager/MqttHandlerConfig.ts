@@ -4,13 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 import MqttMessageConfig from "./MqttMessageConfig";
 
-export default class MqttHandleConfig {
+export default class MqttHandlerConfig {
   public topic?: string;
   public messages: MqttMessageConfig[];
   public enabled: boolean;
   public statusTopic?: string;
 
-  constructor(init?: Partial<MqttHandleConfig>) {
+  constructor(init?: Partial<MqttHandlerConfig>) {
     Object.assign(this, init);
 
     // Clear out anything that might have been set by Object.assign().
