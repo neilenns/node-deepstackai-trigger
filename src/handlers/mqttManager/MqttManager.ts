@@ -15,6 +15,7 @@ import validateJsonAgainstSchema from "../../schemaValidator";
 import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
+import MqttMessageConfig from "./MqttMessageConfig";
 
 let isEnabled = false;
 let statusTopic = "node-deepstackai-trigger/status";
@@ -106,11 +107,24 @@ export async function processTrigger(
     return [];
   }
 
-  log.info("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.messages[0].topic}`);
+  return Promise.all(
+    trigger.mqttConfig?.messages.map(message => {
+      return publishMessage(fileName, trigger, message, predictions);
+    }),
+  );
+}
+
+async function publishMessage(
+  fileName: string,
+  trigger: Trigger,
+  messageConfig: MqttMessageConfig,
+  predictions: IDeepStackPrediction[],
+): Promise<MQTT.IPublishPacket> {
+  log.info("MQTT Manager", `${fileName}: Publishing event to ${messageConfig.topic}`);
 
   // If an off delay is configured set up a timer to send the off message in the requested number of seconds
-  if (trigger?.mqttConfig?.offDelay) {
-    const existingTimer = timers.get(trigger.mqttConfig.messages[0].topic);
+  if (messageConfig.offDelay) {
+    const existingTimer = timers.get(messageConfig.topic);
 
     // Cancel any timer that may still be running for the same topic
     if (existingTimer) {
@@ -118,14 +132,11 @@ export async function processTrigger(
     }
 
     // Set the new timer
-    timers.set(
-      trigger.mqttConfig.messages[0].topic,
-      setTimeout(publishOffEvent, trigger.mqttConfig.offDelay * 1000, trigger.mqttConfig.messages[0].topic),
-    );
+    timers.set(messageConfig.topic, setTimeout(publishOffEvent, messageConfig.offDelay * 1000, messageConfig.topic));
   }
 
-  const payload = trigger.mqttConfig.messages[0].payload
-    ? mustacheFormatter.format(trigger.mqttConfig.messages[0].payload, fileName, trigger, predictions)
+  const payload = messageConfig.payload
+    ? mustacheFormatter.format(messageConfig.payload, fileName, trigger, predictions)
     : JSON.stringify({
         fileName,
         basename: path.basename(fileName),
@@ -133,9 +144,7 @@ export async function processTrigger(
         state: "on",
       });
 
-  // Even though this only calls one topic the way this gets used elsewhere
-  // the expectation is it returns an array.
-  return [await mqttClient.publish(trigger.mqttConfig.messages[0].topic, payload)];
+  return await mqttClient.publish(messageConfig.topic, payload);
 }
 
 async function publishOffEvent(topic: string): Promise<IPublishPacket> {

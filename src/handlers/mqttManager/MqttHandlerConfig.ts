@@ -7,7 +7,6 @@ import MqttMessageConfig from "./MqttMessageConfig";
 export default class MqttHandlerConfig {
   public messages: MqttMessageConfig[];
   public enabled: boolean;
-  public offDelay: number;
   public statusTopic?: string;
 
   constructor(init?: Partial<MqttHandlerConfig>) {

@@ -27,7 +27,7 @@ export async function processTrigger(
   return Promise.all(
     trigger.webRequestHandlerConfig.triggerUris?.map(uri => {
       const formattedUri = encodeURI(mustacheFormatter.format(uri, fileName, trigger, predictions));
-      callTriggerUri(fileName, trigger, formattedUri);
+      return callTriggerUri(fileName, trigger, formattedUri);
     }),
   );
 }

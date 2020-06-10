@@ -2,7 +2,7 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import IMqttConfigJson from "../handlers/mqttManager/IMqttConfigJson";
+import IMqttHandlerConfigJson from "../handlers/mqttManager/IMqttHandlerConfigJson";
 import ITelegramConfigJson from "../handlers/telegramManager/ITelegramConfigJson";
 import IWebRequestHandlerJson from "../handlers/webRequest/IWebRequestHandlerJson";
 import Rect from "../Rect";
@@ -21,7 +21,7 @@ export default interface ITriggerJson {
   // Handler settings
   handlers: {
     webRequest: IWebRequestHandlerJson;
-    mqtt: IMqttConfigJson;
+    mqtt: IMqttHandlerConfigJson;
     telegram: ITelegramConfigJson;
   };
 
