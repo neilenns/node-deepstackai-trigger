@@ -6,8 +6,7 @@
   for different format messages to different services. For example one message could be formatted
   in a way that works for Home Assistant use and another could be formatted to trigger BlueIris recording.
   **This is a breaking change to the trigger.conf file format**. If you have existing MQTT triggers
-  configured they will need to be updated with this release by wrapping your existing
-  trigger in `[]` to turn it into an array. See [the wiki](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers)
+  configured they will need to be updated with this release. See [the wiki](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers)
   for an example of the new format. Resolves [issue 153](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/153).
 - A `payload` property is now supported on MQTT handler message configuration, along with support for
   mustache templates in the payload. This makes it possible to send a precicely formatted
