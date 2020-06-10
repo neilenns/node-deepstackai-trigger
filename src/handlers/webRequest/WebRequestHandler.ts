@@ -7,6 +7,7 @@ import request from "request-promise-native";
 import * as log from "../../Log";
 import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
+import * as mustacheFormatter from "../../MustacheFormatter";
 
 /**
  * Handles calling a list of web URLs.
@@ -23,7 +24,12 @@ export async function processTrigger(
     return [];
   }
 
-  return Promise.all(trigger.webRequestHandlerConfig.triggerUris?.map(uri => callTriggerUri(fileName, trigger, uri)));
+  return Promise.all(
+    trigger.webRequestHandlerConfig.triggerUris?.map(uri => {
+      const formattedUri = encodeURI(mustacheFormatter.format(uri, fileName, trigger, predictions));
+      callTriggerUri(fileName, trigger, formattedUri);
+    }),
+  );
 }
 
 /**
