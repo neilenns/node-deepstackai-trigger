@@ -107,6 +107,12 @@ export async function processTrigger(
     return [];
   }
 
+  // If for some reason we wound up with no messages configured do nothing.
+  // This should never happen due to schema validation but better safe than crashy.
+  if (!trigger?.mqttHandlerConfig?.messages) {
+    return [];
+  }
+
   return Promise.all(
     trigger.mqttHandlerConfig?.messages.map(message => {
       return publishMessage(fileName, trigger, message, predictions);
