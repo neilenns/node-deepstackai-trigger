@@ -3,17 +3,18 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import MQTT, { IPublishPacket } from "async-mqtt";
-import * as fs from "fs";
-import * as JSONC from "jsonc-parser";
-import path from "path";
-import * as mustacheFormatter from "../../MustacheFormatter";
-import * as log from "../../Log";
-import mqttManagerConfigurationSchema from "../../schemas/mqttManagerConfiguration.schema.json";
-import validateJsonAgainstSchema from "../../schemaValidator";
-import Trigger from "../../Trigger";
-import IDeepStackPrediction from "../../types/IDeepStackPrediction";
-import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
+import MQTT, { IPublishPacket } from 'async-mqtt';
+import * as fs from 'fs';
+import * as JSONC from 'jsonc-parser';
+import path from 'path';
+
+import * as log from '../../Log';
+import * as mustacheFormatter from '../../MustacheFormatter';
+import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
+import validateJsonAgainstSchema from '../../schemaValidator';
+import Trigger from '../../Trigger';
+import IDeepStackPrediction from '../../types/IDeepStackPrediction';
+import IMqttManagerConfigJson from './IMqttManagerConfigJson';
 
 let isEnabled = false;
 let statusTopic = "node-deepstackai-trigger/status";
@@ -64,7 +65,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     throw new Error("[MQTT Manager] Invalid configuration file.");
   }
 
-  log.verbose("MQTT manager", `Loaded configuration from ${loadedConfigFilePath}`);
+  log.info("MQTT manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
   if (mqttConfigJson.statusTopic) {
     statusTopic = mqttConfigJson.statusTopic;
@@ -105,7 +106,7 @@ export async function processTrigger(
     return [];
   }
 
-  log.verbose("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
+  log.info("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
 
   // If an off delay is configured set up a timer to send the off message in the requested number of seconds
   if (trigger?.mqttConfig?.offDelay) {
