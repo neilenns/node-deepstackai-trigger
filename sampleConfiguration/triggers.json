@@ -39,6 +39,7 @@
           "messages": [{ "topic": "aimotion/triggers/dog" }]
         },
         "telegram": {
+          "caption": "{{name}}: {{formattedPredictions}}",
           "chatIds": [1],
           "cooldownTime": 60
         }
