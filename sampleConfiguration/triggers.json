@@ -14,7 +14,7 @@
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Cat"]
         },
         "mqtt": {
-          "messages": [{ "topic": "aimotion/triggers/cat" }]
+          "topic": "aimotion/triggers/cat"
         },
         "telegram": {
           "chatIds": [1],
