@@ -46,12 +46,12 @@ async function main() {
 
     // Start watching
     TriggerManager.startWatching();
-
-    wait();
   } catch (e) {
     log.error("Main", e.message);
-    process.exit(1);
+    // process.exit(1);
   }
+
+  wait();
 }
 
 function wait() {
