@@ -3,18 +3,19 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import MQTT, { IPublishPacket } from 'async-mqtt';
-import * as fs from 'fs';
-import * as JSONC from 'jsonc-parser';
-import path from 'path';
+import MQTT, { IPublishPacket } from "async-mqtt";
+import * as fs from "fs";
+import * as JSONC from "jsonc-parser";
+import path from "path";
 
-import * as log from '../../Log';
-import * as mustacheFormatter from '../../MustacheFormatter';
-import mqttManagerConfigurationSchema from '../../schemas/mqttManagerConfiguration.schema.json';
-import validateJsonAgainstSchema from '../../schemaValidator';
-import Trigger from '../../Trigger';
-import IDeepStackPrediction from '../../types/IDeepStackPrediction';
-import IMqttManagerConfigJson from './IMqttManagerConfigJson';
+import * as log from "../../Log";
+import * as mustacheFormatter from "../../MustacheFormatter";
+import mqttManagerConfigurationSchema from "../../schemas/mqttManagerConfiguration.schema.json";
+import validateJsonAgainstSchema from "../../schemaValidator";
+import Trigger from "../../Trigger";
+import IDeepStackPrediction from "../../types/IDeepStackPrediction";
+import IMqttManagerConfigJson from "./IMqttManagerConfigJson";
+import MqttMessageConfig from "./MqttMessageConfig";
 
 let isEnabled = false;
 let statusTopic = "node-deepstackai-trigger/status";
@@ -102,15 +103,34 @@ export async function processTrigger(
 
   // It's possible to not set up an mqtt handler on a trigger or to disable it, so don't
   // process if that's the case.
-  if (!trigger?.mqttConfig?.enabled) {
+  if (!trigger?.mqttHandlerConfig?.enabled) {
     return [];
   }
 
-  log.info("MQTT Manager", `${fileName}: Publishing event to ${trigger.mqttConfig.topic}`);
+  // If for some reason we wound up with no messages configured do nothing.
+  // This should never happen due to schema validation but better safe than crashy.
+  if (!trigger?.mqttHandlerConfig?.messages) {
+    return [];
+  }
+
+  return Promise.all(
+    trigger.mqttHandlerConfig?.messages.map(message => {
+      return publishMessage(fileName, trigger, message, predictions);
+    }),
+  );
+}
+
+async function publishMessage(
+  fileName: string,
+  trigger: Trigger,
+  messageConfig: MqttMessageConfig,
+  predictions: IDeepStackPrediction[],
+): Promise<MQTT.IPublishPacket> {
+  log.info("MQTT Manager", `${fileName}: Publishing event to ${messageConfig.topic}`);
 
   // If an off delay is configured set up a timer to send the off message in the requested number of seconds
-  if (trigger?.mqttConfig?.offDelay) {
-    const existingTimer = timers.get(trigger.mqttConfig.topic);
+  if (messageConfig.offDelay) {
+    const existingTimer = timers.get(messageConfig.topic);
 
     // Cancel any timer that may still be running for the same topic
     if (existingTimer) {
@@ -118,14 +138,11 @@ export async function processTrigger(
     }
 
     // Set the new timer
-    timers.set(
-      trigger.mqttConfig.topic,
-      setTimeout(publishOffEvent, trigger.mqttConfig.offDelay * 1000, trigger.mqttConfig.topic),
-    );
+    timers.set(messageConfig.topic, setTimeout(publishOffEvent, messageConfig.offDelay * 1000, messageConfig.topic));
   }
 
-  const payload = trigger.mqttConfig.payload
-    ? mustacheFormatter.format(trigger.mqttConfig.payload, fileName, trigger, predictions)
+  const payload = messageConfig.payload
+    ? mustacheFormatter.format(messageConfig.payload, fileName, trigger, predictions)
     : JSON.stringify({
         fileName,
         basename: path.basename(fileName),
@@ -133,9 +150,7 @@ export async function processTrigger(
         state: "on",
       });
 
-  // Even though this only calls one topic the way this gets used elsewhere
-  // the expectation is it returns an array.
-  return [await mqttClient.publish(trigger.mqttConfig.topic, payload)];
+  return await mqttClient.publish(messageConfig.topic, payload);
 }
 
 async function publishOffEvent(topic: string): Promise<IPublishPacket> {
