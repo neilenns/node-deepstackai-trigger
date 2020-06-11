@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 1.9.0
 
 - MQTT status messages with statistics are now sent on every received file. The total
   number of files received and the number of triggers actually fired are included in
