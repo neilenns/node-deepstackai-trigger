@@ -120,7 +120,7 @@
 
 ## Version 1.0.1
 
-- MQTT messages now inclue a fileName and baseFileName property.
+- MQTT messages now includes a fileName and baseFileName property.
   Technically this is a breaking change since it moves the predictions
   to a predictions property too.
 
