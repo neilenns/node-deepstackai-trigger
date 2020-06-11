@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Fix typos in CHANGELOG.md. Resolves [issue 168](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/168).
+
 ## Version 1.8.0
 
 - The system no longer exits when configuration errors prevent startup. This leaves the container in
@@ -15,7 +19,7 @@
   method still works and is recommended for most use cases. See [the wiki](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers)
   for an example of the new format. Resolves [issue 153](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/153).
 - A `payload` property is now supported on MQTT handler message configuration, along with support for
-  mustache templates in the payload. This makes it possible to send a precicely formatted
+  mustache templates in the payload. This makes it possible to send a precisely formatted
   message to BlueIris that will trigger recording for a specific camera instead of having
   to use webRequest handlers. Resolves [issue 151](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/151).
 - Mustache templates are now supported in the webRequest handler URIs. One way to use this is
@@ -23,7 +27,7 @@
   for example `"http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}`.
   See [the wiki](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers) for
   details on available mustache variables. Resolves [issue 148](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/148).
-- The MQTT overall configuration now supports specifing a topic for status messages.
+- The MQTT overall configuration now supports specifying a topic for status messages.
   Right now the only status message sent is a LWT message for when the system goes
   offline. Resolves [issue 145](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/145).
 - Logging level is now controlled by a `VERBOSE` environment variable. When set to `true`
