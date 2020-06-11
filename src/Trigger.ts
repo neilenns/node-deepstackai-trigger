@@ -6,6 +6,7 @@ import * as chokidar from "chokidar";
 import * as JSONC from "jsonc-parser";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import * as triggerManager from "./TriggerManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
 import analyzeImage from "./DeepStack";
@@ -80,6 +81,7 @@ export default class Trigger {
    * @param stats The stats for the file
    */
   public async processImage(fileName: string, stats: Stats): Promise<void> {
+    triggerManager.incrementAnalyzedFilesCount();
     // Don't process old files
     if (!this.passesDateTest(fileName, stats)) return;
 
@@ -91,12 +93,18 @@ export default class Trigger {
 
     // Check to see if any predictions cause this to activate
     const triggeredPredictions = this.getTriggeredPredictions(fileName, predictions);
-    if (!triggeredPredictions) return;
+    if (!triggeredPredictions) {
+      MqttManager.publishStatisticsMessage(triggerManager.triggeredCount, triggerManager.analyzedFilesCount);
+      return;
+    }
+
+    triggerManager.incrementTriggeredCount();
 
     // Call all the handlers for the trigger
     await Promise.all([
       ...(await WebRequestHandler.processTrigger(fileName, this, triggeredPredictions)),
       ...(await MqttManager.processTrigger(fileName, this, triggeredPredictions)),
+      ...(await MqttManager.publishStatisticsMessage(triggerManager.triggeredCount, triggerManager.analyzedFilesCount)),
       ...(await TelegramManager.processTrigger(fileName, this, triggeredPredictions)),
     ]);
   }

@@ -115,12 +115,12 @@ export async function processTrigger(
 
   return Promise.all(
     trigger.mqttHandlerConfig?.messages.map(message => {
-      return publishMessage(fileName, trigger, message, predictions);
+      return publishDetectionMessage(fileName, trigger, message, predictions);
     }),
   );
 }
 
-async function publishMessage(
+async function publishDetectionMessage(
   fileName: string,
   trigger: Trigger,
   messageConfig: MqttMessageConfig,
@@ -141,7 +141,8 @@ async function publishMessage(
     timers.set(messageConfig.topic, setTimeout(publishOffEvent, messageConfig.offDelay * 1000, messageConfig.topic));
   }
 
-  const payload = messageConfig.payload
+  // Build the detection payload
+  const detectionPayload = messageConfig.payload
     ? mustacheFormatter.format(messageConfig.payload, fileName, trigger, predictions)
     : JSON.stringify({
         fileName,
@@ -150,7 +151,32 @@ async function publishMessage(
         state: "on",
       });
 
-  return await mqttClient.publish(messageConfig.topic, payload);
+  return await mqttClient.publish(messageConfig.topic, detectionPayload);
+}
+
+/**
+ * Publishes statistics to MQTT
+ * @param triggerCount Trigger count
+ * @param analyzedFilesCount False positive count
+ */
+export async function publishStatisticsMessage(
+  triggerCount: number,
+  analyzedFilesCount: number,
+): Promise<MQTT.IPublishPacket[]> {
+  // Don't send anything if MQTT isn't enabled
+  if (!mqttClient) {
+    return [];
+  }
+
+  return [
+    await mqttClient.publish(
+      statusTopic,
+      JSON.stringify({
+        triggerCount,
+        analyzedFilesCount,
+      }),
+    ),
+  ];
 }
 
 async function publishOffEvent(topic: string): Promise<IPublishPacket> {
