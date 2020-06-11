@@ -46,9 +46,15 @@ async function main() {
 
     // Start watching
     TriggerManager.startWatching();
+    log.error("Main", "****************************************");
+    log.error("Main", "Up and running!");
   } catch (e) {
     log.error("Main", e.message);
-    // process.exit(1);
+    log.error("Main", "****************************************");
+    log.error(
+      "Main",
+      "Startup cancelled due to errors. For troubleshooting assistance see https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting.",
+    );
   }
 
   wait();
