@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 1.8.0
 
 - The system no longer exits when configuration errors prevent startup. This leaves the container in
   a running state so it is possible to open a terminal window to the container to inspect
