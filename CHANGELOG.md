@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix typos in the source code. Resolves [issue 170](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/170).
 - Add a clear message after initialization indicating whether startup was successful.
   If it wasn't there's now a link to a troubleshooting wiki page for assistance. Resolves
   [issue 167](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/167).

@@ -19,7 +19,7 @@ let _triggers: Trigger[];
 /**
  * Loads a trigger configuration file
  * @param configFilePath The path to the configuration file
- * @returns The unvalidated raw JSON
+ * @returns The raw JSON without any validation
  */
 function readRawConfigFile(configFilePath: string): string {
   let rawConfig: string;
@@ -50,7 +50,7 @@ function parseConfigFile(rawConfig: string): ITriggerConfigJson {
   const triggerConfig = JSONC.parse(rawConfig, parseErrors) as ITriggerConfigJson;
 
   // This extra level of validation really shouldn't be necessary since the
-  // file passed schema validation. Still, better safe than crashy.
+  // file passed schema validation. Still, better safe than crashing.
   if (parseErrors && parseErrors.length > 0) {
     throw new Error(
       `[Trigger Manager] Unable to load configuration file: ${parseErrors

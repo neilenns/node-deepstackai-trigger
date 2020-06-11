@@ -10,7 +10,7 @@ import * as log from "./Log";
 import IDeepStackResponse from "./types/IDeepStackResponse";
 
 export default async function analyzeImage(fileName: string): Promise<IDeepStackResponse> {
-  // This method of calling deepstack comes from https://nodejs.deepstack.cc/
+  // This method of calling DeepStack comes from https://nodejs.deepstack.cc/
   const imageStream = fs.createReadStream(fileName);
   const form = { image: imageStream };
 
