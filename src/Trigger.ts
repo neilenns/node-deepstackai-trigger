@@ -17,7 +17,7 @@ import { Stats } from "fs";
 import Rect from "./Rect";
 
 export default class Trigger {
-  private _initalizedTime: Date;
+  private _initializedTime: Date;
   private _lastTriggerTime: Date;
   private _processExisting: boolean;
   private _watcher: chokidar.FSWatcher;
@@ -43,7 +43,7 @@ export default class Trigger {
 
   constructor(init?: Partial<Trigger>) {
     Object.assign(this, init);
-    this._initalizedTime = new Date(Date.now());
+    this._initializedTime = new Date(Date.now());
 
     // This gets initialized to the epoch date so the first process of an image always passes the
     // cooldown timeout test.
@@ -130,7 +130,7 @@ export default class Trigger {
     // correctly even during development.
     this.receivedDate = new Date(stats.atimeMs);
 
-    if (this.receivedDate < this._initalizedTime && !this._processExisting) {
+    if (this.receivedDate < this._initializedTime && !this._processExisting) {
       log.info(`Trigger ${this.name}`, `${fileName}: Skipping as it was created before the service started.`);
       return false;
     }
@@ -144,7 +144,7 @@ export default class Trigger {
     // Only check cooldown on images that have timestamps after startup.
     // This eases testing since this code only gets to this point for images
     // that arrived prior to startup when _processExisting is true.
-    if (secondsSinceLastTrigger < this.cooldownTime && this.receivedDate > this._initalizedTime) {
+    if (secondsSinceLastTrigger < this.cooldownTime && this.receivedDate > this._initializedTime) {
       log.info(
         `Trigger ${this.name}`,
         `${fileName}: Skipping as it was received before the cooldown period of ${this.cooldownTime} seconds expired.`,
@@ -189,7 +189,7 @@ export default class Trigger {
       return false;
     }
 
-    // Loop throught the masks to see if any overlap the prediction
+    // Loop through the masks to see if any overlap the prediction
     const result = this.masks.some(mask => {
       const predictionRect = new Rect(prediction.x_min, prediction.y_min, prediction.x_max, prediction.y_max);
       const doesOverlap = mask.overlaps(predictionRect);

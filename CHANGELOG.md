@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix typos in the source code. Resolves [issue 170](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/170).
 - Fix typos in CHANGELOG.md. Resolves [issue 168](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/168).
 
 ## Version 1.8.0
