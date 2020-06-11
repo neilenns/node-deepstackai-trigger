@@ -14,6 +14,18 @@ import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import * as fs from "fs";
 import Rect from "./Rect";
 
+/**
+ * Provides a running total of the number of times an image caused triggers
+ * to fire. Use the incrementTriggeredCount() method to update the total.
+ */
+export let triggeredCount = 0;
+
+/**
+ * Provides a running total of the number of files analyzed.
+ * Use the incrementAnalyzedFiles() method to update the total.
+ */
+export let analyzedFilesCount = 0;
+
 let _triggers: Trigger[];
 
 /**
@@ -147,4 +159,18 @@ export function startWatching(): void {
  */
 export async function stopWatching(): Promise<void[]> {
   return Promise.all(_triggers.map(trigger => trigger.stopWatching()));
+}
+
+/**
+ * Adds one to the triggered count total.
+ */
+export function incrementTriggeredCount(): void {
+  triggeredCount += 1;
+}
+
+/**
+ * Adds one to the false positive count total.
+ */
+export function incrementAnalyzedFilesCount(): void {
+  analyzedFilesCount += 1;
 }
