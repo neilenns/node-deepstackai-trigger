@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Fix typos in CHANGELOG.md. Resolves [issue 168](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/168).
+
 ## Version 1.8.0
 
 - The system no longer exits when configuration errors prevent startup. This leaves the container in
