@@ -11,7 +11,7 @@ import path from "path";
 /**
  * Local location where all web images are stored.
  */
-const localStoragePath = "/node-deepstackai-trigger/www";
+export const localStoragePath = "/node-deepstackai-trigger/www";
 
 /**
  * Creates the data storage directory for the web images

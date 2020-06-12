@@ -36,7 +36,7 @@ services:
     depends_on:
       - deepstack-ai
     ports:
-      - 4242:80
+      - 4242:4242
 
   deepstack-ai:
     image: deepquestai/deepstack:latest
