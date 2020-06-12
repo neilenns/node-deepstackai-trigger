@@ -5,6 +5,8 @@ services:
       # Change ./path_to_local_ai_images_folder to point to the folder that
       # will have the images to analyze
       - ./path_to_local_ai_images_folder:/aiinput
+      # Leave this unchanged, required for temporary data file storage
+      - localtriggerstorage:/node-deepstackai-trigger
 
     environment:
       # Change this to match the timezone the images are produced in,
@@ -44,6 +46,7 @@ services:
 
 volumes:
   localstorage:
+  localtriggerstorage:
 
 secrets:
   triggers:

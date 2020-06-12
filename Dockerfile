@@ -10,11 +10,15 @@ COPY --chown=node:node . .
 RUN npm ci --no-optional
 RUN npm run webpack
 
-# This is the final produciton image
+# This is the final production image
 FROM node:alpine
 # Install tzdata so the timezone can be set correctly in the image via
 # the TZ environment variable.
 RUN apk --no-cache update && apk --no-cache upgrade && apk --no-cache add tzdata
+
+# Pre-create the temporary storage folder so it has the right user
+# permissions on it after volume mount
+RUN mkdir -p /node-deepstackai-trigger && chown -R node:node /node-deepstackai-trigger
 
 WORKDIR /home/node/app
 USER node

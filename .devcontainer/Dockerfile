@@ -16,7 +16,12 @@ RUN mkdir -p ${NPM_GLOBAL} \
 
 # Create the vscode workspace and .git folder and set the owner to
 # the node user so git commands work
-RUN mkdir -p /workspace/.git && chown -R node:node /workspace/.git
+# Create the local storage folder and set ownership of it so once a volume
+# is mounted there the permissions are correct
+RUN mkdir -p /workspace/.git \
+    && mkdir -p /node-deepstackai-trigger \
+    && chown -R node:node /workspace/.git \
+    && chown -R node:node /node-deepstackai-trigger
 
 ENV CHOKIDAR_USEPOLLING=true
 USER node

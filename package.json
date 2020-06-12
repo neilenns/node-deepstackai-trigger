@@ -51,6 +51,7 @@
   "devDependencies": {
     "@types/ajv-keywords": "^3.4.0",
     "@types/jest": "^25.2.3",
+    "@types/mkdirp": "^1.0.1",
     "@types/mustache": "^4.0.1",
     "@types/node": "^13.1.2",
     "@types/node-telegram-bot-api": "^0.40.3",
