@@ -21,7 +21,7 @@ export default async function analyzeImage(fileName: string): Promise<IDeepStack
     })
     .catch(e => {
       log.error("DeepStack", `Failed to call DeepStack at ${process.env.DEEPSTACK_URI}: ${e.error}`);
-      return undefined;
+      return [];
     });
 
   return JSONC.parse(rawResponse) as IDeepStackResponse;
