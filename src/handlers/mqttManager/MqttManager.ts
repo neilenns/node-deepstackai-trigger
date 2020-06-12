@@ -79,7 +79,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     rejectUnauthorized: mqttConfigJson.rejectUnauthorized ?? true,
     will: {
       topic: statusTopic,
-      payload: "offline",
+      payload: JSON.stringify({ state: "offline" }),
       qos: 2,
       retain: false,
     },
@@ -172,6 +172,9 @@ export async function publishStatisticsMessage(
     await mqttClient.publish(
       statusTopic,
       JSON.stringify({
+        // Ensures the status still reflects as up and running for people
+        // that have an MQTT binary sensor in Home Assistant
+        state: "online",
         triggerCount,
         analyzedFilesCount,
       }),
@@ -179,6 +182,22 @@ export async function publishStatisticsMessage(
   ];
 }
 
+/**
+ * Sends a simple message indicating the service is up and running
+ */
+export async function publishServerState(state: string, details?: string): Promise<IPublishPacket> {
+  // Don't do anything if the MQTT client wasn't configured
+  if (!mqttClient) {
+    return;
+  }
+
+  return mqttClient.publish(statusTopic, JSON.stringify({ state, details }));
+}
+
+/**
+ * Sends a message indicating the motion for a particular trigger has stopped
+ * @param topic The topic to publish the message on
+ */
 async function publishOffEvent(topic: string): Promise<IPublishPacket> {
   return await mqttClient.publish(topic, JSON.stringify({ state: "off" }));
 }
