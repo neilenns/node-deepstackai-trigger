@@ -39,16 +39,17 @@ async function main() {
       );
     }
 
-    // Load the trigger details
-    await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
+    // MQTT manager loads first so if it succeeds but other things fail
+    // we can report the failures via MQTT.
     await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
+    await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
 
     // Start watching
     TriggerManager.startWatching();
 
     // Notify it's up and running
-    await MqttManager.sendOnlineEvent();
+    await MqttManager.publishServerState("online");
 
     log.info("Main", "****************************************");
     log.info("Main", "Up and running!");
@@ -59,6 +60,8 @@ async function main() {
       "Main",
       "Startup cancelled due to errors. For troubleshooting assistance see https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting.",
     );
+    // Notify it's not up and running
+    await MqttManager.publishServerState("offline", e.message);
   }
 
   wait();

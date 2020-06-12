@@ -185,13 +185,13 @@ export async function publishStatisticsMessage(
 /**
  * Sends a simple message indicating the service is up and running
  */
-export async function sendOnlineEvent(): Promise<IPublishPacket> {
+export async function publishServerState(state: string, details?: string): Promise<IPublishPacket> {
   // Don't do anything if the MQTT client wasn't configured
   if (!mqttClient) {
     return;
   }
 
-  return mqttClient.publish(statusTopic, JSON.stringify({ state: "online" }));
+  return mqttClient.publish(statusTopic, JSON.stringify({ state, details }));
 }
 
 /**
