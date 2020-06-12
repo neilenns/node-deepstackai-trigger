@@ -46,8 +46,12 @@ async function main() {
 
     // Start watching
     TriggerManager.startWatching();
-    log.error("Main", "****************************************");
-    log.error("Main", "Up and running!");
+
+    // Notify it's up and running
+    await MqttManager.sendOnlineEvent();
+
+    log.info("Main", "****************************************");
+    log.info("Main", "Up and running!");
   } catch (e) {
     log.error("Main", e.message);
     log.error("Main", "****************************************");
