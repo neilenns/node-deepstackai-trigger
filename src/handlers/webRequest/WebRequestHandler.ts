@@ -26,7 +26,7 @@ export async function processTrigger(
 
   return Promise.all(
     trigger.webRequestHandlerConfig.triggerUris?.map(uri => {
-      const formattedUri = encodeURI(mustacheFormatter.format(uri, fileName, trigger, predictions));
+      const formattedUri = mustacheFormatter.format(uri, fileName, trigger, predictions, true);
       return callTriggerUri(fileName, trigger, formattedUri);
     }),
   );

@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import Mustache from 'mustache';
-import path from 'path';
+import Mustache from "mustache";
+import path from "path";
 
-import Trigger from './Trigger';
-import IDeepStackPrediction from './types/IDeepStackPrediction';
+import Trigger from "./Trigger";
+import IDeepStackPrediction from "./types/IDeepStackPrediction";
 
 function formatPredictions(predictions: IDeepStackPrediction[]): string {
   return predictions
@@ -17,6 +17,9 @@ function formatPredictions(predictions: IDeepStackPrediction[]): string {
     .join(", ");
 }
 
+function optionallyEncode(value: string, urlEncode: boolean): string {
+  return urlEncode ? encodeURIComponent(value) : value;
+}
 /**
  * Replaces mustache templates in a string with values
  * @param template The template string to format
@@ -29,13 +32,14 @@ export function format(
   fileName: string,
   trigger: Trigger,
   predictions: IDeepStackPrediction[],
+  urlEncode = false,
 ): string {
   // Populate the payload wih the mustache template
   const view = {
-    fileName,
-    baseName: path.basename(fileName),
-    predictions: JSON.stringify(predictions),
-    formattedPredictions: formatPredictions(predictions),
+    fileName: optionallyEncode(fileName, urlEncode),
+    baseName: optionallyEncode(path.basename(fileName), urlEncode),
+    predictions: optionallyEncode(JSON.stringify(predictions), urlEncode),
+    formattedPredictions: optionallyEncode(formatPredictions(predictions), urlEncode),
     state: "on",
     name: trigger.name,
   };
