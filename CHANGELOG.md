@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- MQTT detection messages now include a friendly formatted version of the predictions,
+  for example: `"formattedPredictions": "dog (98%)"`. Resolves [issue 181](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/181).
 - MQTT `online` and `offline` status messages are now sent when the service starts or fails
   to start. This, combined the LWT message, makes it easy to set up MQTT binary sensors in Home Assistant
   to track the status of the system and send notifications to people if the system goes down
