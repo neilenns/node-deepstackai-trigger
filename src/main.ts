@@ -10,7 +10,7 @@ import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as log from "./Log";
 import * as TriggerManager from "./TriggerManager";
-import * as WebStorageManager from "./WebStorageManager";
+import * as LocalStorageManager from "./LocalStorageManager";
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -39,7 +39,7 @@ async function main() {
     await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
 
     // Initialize the web storage
-    WebStorageManager.initializeStorage();
+    await LocalStorageManager.initializeStorage();
 
     if (!validateEnvironmentVariables()) {
       throw Error(
