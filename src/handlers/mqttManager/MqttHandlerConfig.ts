@@ -17,7 +17,7 @@ export default class MqttHandlerConfig {
     this.messages = [];
 
     // Create the messages. Done this way to get real objects
-    // with a constuctor that sets default values, instead of
+    // with a constructor that sets default values, instead of
     // raw property assignment done by Object.assign().
     init?.messages?.map(rawMessage => {
       this.messages.push(new MqttMessageConfig(rawMessage));
