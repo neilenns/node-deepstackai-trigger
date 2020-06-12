@@ -124,7 +124,7 @@ async function sendTelegramMessage(
 }
 
 /**
- * Checks to see if a trigger fired within the cooldownw window
+ * Checks to see if a trigger fired within the cooldown window
  * specified for the Telegram handler.
  * @param fileName The filename of the image that fired the trigger
  * @param trigger The trigger
@@ -154,7 +154,7 @@ function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
 /**
  * Loads a trigger configuration file
  * @param configFilePath The path to the configuration file
- * @returns The unvalidated raw JSON
+ * @returns The raw JSON without validation
  */
 function readRawConfigFile(configFilePath: string): string {
   if (!configFilePath) {
@@ -187,7 +187,7 @@ function parseConfigFile(rawConfig: string): ITelegramManagerConfigJson {
   const telegramConfigJson = JSONC.parse(rawConfig, parseErrors) as ITelegramManagerConfigJson;
 
   // This extra level of validation really shouldn't be necessary since the
-  // file passed schema validation. Still, better safe than crashy.
+  // file passed schema validation. Still, better safe than crashing.
   if (parseErrors && parseErrors.length > 0) {
     throw new Error(
       `[Telegram Manager] Unable to load configuration file: ${parseErrors
