@@ -10,6 +10,7 @@ import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as log from "./Log";
 import * as TriggerManager from "./TriggerManager";
+import * as WebStorageManager from "./WebStorageManager";
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -33,15 +34,19 @@ async function main() {
   log.info("Main", `Current time is ${new Date()}`);
 
   try {
+    // MQTT manager loads first so if it succeeds but other things fail
+    // we can report the failures via MQTT.
+    await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
+
+    // Initialize the web storage
+    WebStorageManager.initializeStorage();
+
     if (!validateEnvironmentVariables()) {
       throw Error(
         `At least one required environment variable is missing. Ensure all required environment variables are set then run again.`,
       );
     }
 
-    // MQTT manager loads first so if it succeeds but other things fail
-    // we can report the failures via MQTT.
-    await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
 
