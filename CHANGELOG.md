@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- webRequest URIs are no longer double-encoded. Instead only the text replaced with a
+  mustache template is encoded. **This is a breaking change**. If you previously
+  worked around the bug by removing encoding from the URIs in the trigger configuration
+  file you will need to put the encoding in again. Resolves [issue 176](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/176).
 - Failed calls to the Deepstack server no longer throw an unhandled promise rejection
   exception. Resolves [issue 175](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/175).
 
