@@ -5,13 +5,13 @@
 ### Breaking changes
 
 - MQTT `online` and `offline` status messages are now sent when the service starts or fails
-  to start. This, combined the LWT message, makes it easy to set up MQTT binary sensors in Home Assistant
+  to start. This, combined with the LWT message, makes it easy to set up MQTT binary sensors in Home Assistant
   to track the status of the system and send notifications to people if the system goes down
-  or isn' running. **This is a breaking change if you rely on the LWT message**.
+  or isn't running. **This is a breaking change if you rely on the LWT message**.
   The format of the offline message sent for the LWT changed to align with the online and processing status messages. [See the wiki for documentation on the status message format](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt). Resolves [issue182](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/182).
 - webRequest URIs are no longer double-encoded. Instead only the text replaced with a
   mustache template is encoded. **This is a breaking change if you had previously modified your webRequest URIs to work
-  around issue 176.**. If you previously worked around the bug by removing encoding from the URIs in the trigger configuration
+  around issue 176**. If you previously worked around the bug by removing encoding from the URIs in the trigger configuration
   file you will need to put the encoding in again. Resolves [issue 176](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/176).
 
 ### Other changes
