@@ -9,7 +9,7 @@ import path from "path";
 import Trigger from "./Trigger";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
 
-function formatPredictions(predictions: IDeepStackPrediction[]): string {
+export function formatPredictions(predictions: IDeepStackPrediction[]): string {
   return predictions
     .map(prediction => {
       return `${prediction.label} (${(prediction.confidence * 100).toFixed(0)}%)`;

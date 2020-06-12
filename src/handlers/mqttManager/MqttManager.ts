@@ -148,6 +148,7 @@ async function publishDetectionMessage(
         fileName,
         basename: path.basename(fileName),
         predictions,
+        formattedPredictions: mustacheFormatter.formatPredictions(predictions),
         state: "on",
       });
 
