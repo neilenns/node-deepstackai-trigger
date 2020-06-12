@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+- An optional `/node-deepstackai-trigger` mount point exists for future use. Resolves
+  [issue 191](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/191).
+
 ## Version 2.0.0
 
 ### Breaking changes
