@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+- Failed calls to the Deepstack server no longer throw an unhandled promise rejection
+  exception. Resolves [issue 175](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/175).
+
 ## Version 1.9.0
 
 - MQTT status messages with statistics are now sent on every received file. The total
