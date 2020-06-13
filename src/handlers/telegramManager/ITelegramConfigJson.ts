@@ -5,5 +5,6 @@
 export default interface ITelegramConfigJson {
   caption?: string;
   chatIds: number[];
+  annotateImage?: boolean;
   cooldownTime: number;
 }

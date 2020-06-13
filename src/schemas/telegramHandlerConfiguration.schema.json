@@ -21,6 +21,12 @@
       "minLength": 1,
       "examples": ["Front door: {{formattedPredictions}}"]
     },
+    "annotateImage": {
+      "description": "Set to true to send an image with annotations overlaid for detected objects.",
+      "type": "boolean",
+      "default": false,
+      "examples": [true]
+    },
     "cooldownTime": {
       "description": "Number of seconds required between sending notifications to the listed chats.",
       "type": "number",

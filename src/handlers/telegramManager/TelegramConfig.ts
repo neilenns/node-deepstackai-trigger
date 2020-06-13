@@ -7,6 +7,7 @@ export default class TelegramConfig {
   public caption?: string;
   public enabled: boolean;
   public cooldownTime: number;
+  public annotateImage?: boolean;
 
   constructor(init?: Partial<TelegramConfig>) {
     Object.assign(this, init);

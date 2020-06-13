@@ -18,7 +18,7 @@ export const localStoragePath = "/node-deepstackai-trigger/www";
  */
 export async function initializeStorage(): Promise<string | undefined> {
   log.info("Local storage", `Creating local storage folder ${localStoragePath}.`);
-  return await mkdirp(localStoragePath);
+  return mkdirp(localStoragePath);
 }
 
 /**

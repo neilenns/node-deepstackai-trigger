@@ -3,12 +3,12 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import * as fs from "fs";
-import { promises as fsPromise } from "fs";
 import * as JSONC from "jsonc-parser";
-import TelegramBot from "node-telegram-bot-api";
-
+import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
+import TelegramBot from "node-telegram-bot-api";
+import { promises as fsPromise } from "fs";
 import telegramManagerConfigurationSchema from "../../schemas/telegramManagerConfiguration.schema.json";
 import validateJsonAgainstSchema from "../../schemaValidator";
 import Trigger from "../../Trigger";
@@ -96,12 +96,19 @@ export async function processTrigger(
   // Save the trigger's last fire time
   cooldowns.set(trigger, new Date());
 
+  // Do mustache variable replacement if a custom caption was provided.
   const caption = trigger.telegramConfig.caption
     ? mustacheFormatter.format(trigger.telegramConfig.caption, fileName, trigger, predictions)
     : trigger.name;
 
+  // Figure out the path to the file to send based on whether
+  // annotated images were requested in the config.
+  const imageFileName = trigger.telegramConfig.annotateImage
+    ? LocalStorageManager.mapToLocalStorage(fileName)
+    : fileName;
+
   // Send all the messages
-  return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, fileName, chatId)));
+  return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, imageFileName, chatId)));
 }
 
 async function sendTelegramMessage(
