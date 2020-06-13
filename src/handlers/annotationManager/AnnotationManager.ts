@@ -8,9 +8,6 @@ import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import * as LocalStorageManager from "../../LocalStorageManager";
 import PImage from "pureimage";
 import * as fs from "fs";
-// Referenced only so webpack picks it up in production Docker image builds
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import CascadiaCode from "../../CascadiaCode.ttf";
 
 export async function processTrigger(
   fileName: string,
@@ -18,7 +15,7 @@ export async function processTrigger(
   predictions: IDeepStackPrediction[],
 ): Promise<string> {
   const outputFileName = LocalStorageManager.mapToLocalStorage(fileName);
-  const font = PImage.registerFont("./src/CascadiaCode.ttf", "Cascadia Code");
+  const font = PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code");
 
   font.load(async () => {
     const decodedImage = await PImage.decodeJPEGFromStream(fs.createReadStream(fileName));
