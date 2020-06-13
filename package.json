@@ -67,6 +67,7 @@
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-notice": "^0.9.10",
+    "file-loader": "^6.0.0",
     "jest": "^26.0.1",
     "jest-cli": "^26.0.1",
     "markdownlint-cli": "^0.21.0",
