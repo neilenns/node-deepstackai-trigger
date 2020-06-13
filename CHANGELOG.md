@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Resolve a warning when using Telegram triggers. Resolves [issue 174](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/174).
 - An optional `/node-deepstackai-trigger` mount point exists for future use. Resolves
   [issue 191](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/191).
 
