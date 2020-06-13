@@ -19,6 +19,7 @@
     "localstorage",
     "localtriggerstorage",
     "mqtts",
+    "pureimage",
     "streetsidesoftware"
   ]
 }

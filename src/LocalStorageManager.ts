@@ -18,15 +18,27 @@ export const localStoragePath = "/node-deepstackai-trigger/www";
  */
 export async function initializeStorage(): Promise<string | undefined> {
   log.info("Local storage", `Creating local storage folder ${localStoragePath}.`);
-  return mkdirp(localStoragePath);
+  return await mkdirp(localStoragePath);
+}
+
+/**
+ * Takes the full path to an original file and returns the  full path for that
+ * same base filename name on local storage.
+ * @param fileName The full path to the original file
+ */
+export function mapToLocalStorage(fileName: string): string {
+  return path.join(localStoragePath, path.basename(fileName));
 }
 
 /**
  * Copies a file to local storage
  * @param fileName The file to copy
  */
-export async function copyToLocalStorage(fileName: string): Promise<void> {
-  return fsPromise.copyFile(fileName, path.join(localStoragePath, path.basename(fileName))).catch(e => {
+export async function copyToLocalStorage(fileName: string): Promise<string> {
+  const localFileName = path.join(localStoragePath, path.basename(fileName));
+  await fsPromise.copyFile(fileName, localFileName).catch(e => {
     log.warn("Local storage", `Unable to copy to local storage: ${e.message}`);
   });
+
+  return localFileName;
 }

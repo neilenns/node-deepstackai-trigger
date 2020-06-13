@@ -9,7 +9,7 @@ import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TriggerManager from "./TriggerManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
-import * as LocalStorageManager from "./LocalStorageManager";
+import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 
 import analyzeImage from "./DeepStack";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
@@ -101,7 +101,9 @@ export default class Trigger {
     }
 
     TriggerManager.incrementTriggeredCount();
-    LocalStorageManager.copyToLocalStorage(fileName);
+
+    // Generate the annotations so it is ready for the other trigger handlers
+    const annotatedFileName = await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
 
     // Call all the handlers for the trigger
     await Promise.all([
