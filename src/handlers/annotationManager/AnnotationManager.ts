@@ -29,7 +29,12 @@ export async function processTrigger(
   context.fontBaseline = "top";
 
   predictions.map(prediction => {
-    context.strokeRect(prediction.x_min, prediction.y_min, prediction.x_max, prediction.y_max);
+    context.strokeRect(
+      prediction.x_min,
+      prediction.y_min,
+      prediction.x_max - prediction.x_min,
+      prediction.y_max - prediction.y_min,
+    );
     context.fillText(
       `${prediction.label} (${(prediction.confidence * 100).toFixed(0)}%)`,
       prediction.x_min + 10,
