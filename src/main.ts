@@ -41,6 +41,7 @@ async function main() {
 
     // Initialize the web storage
     await LocalStorageManager.initializeStorage();
+    LocalStorageManager.startBackgroundPurge(1, 1);
 
     if (!validateEnvironmentVariables()) {
       throw Error(
