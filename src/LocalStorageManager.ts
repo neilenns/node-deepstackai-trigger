@@ -16,7 +16,7 @@ const millisecondsInAMinute = 1000 * 60;
 /**
  * How long an image has to sit in local storage before it gets removed, in minutes.
  */
-let purgeThreshold: number;
+let purgeAge: number;
 
 /**
  * How often the purge runs, in minutes.
@@ -66,12 +66,16 @@ export async function copyToLocalStorage(fileName: string): Promise<string> {
 /**
  * Starts a background task that purges old files from local storage
  * @param interval Frequency of purge, in minutes
- * @param threshold Age of a file, in minutes, to get purged
+ * @param age Age of a file, in minutes, to get purged
  */
-export function startBackgroundPurge(interval: number, threshold: number): void {
-  log.info("Local storage", `Enabling background purge every ${interval} minutes.`);
-  purgeThreshold = threshold;
-  purgeInterval = interval;
+export function startBackgroundPurge(interval?: number, age?: number): void {
+  purgeAge = age ?? 60; // Default is one hour
+  purgeInterval = interval ?? 60; // Default is one hour
+
+  log.info(
+    "Local storage",
+    `Enabling background purge every ${purgeInterval} minutes for files older than ${purgeAge} minutes.`,
+  );
   purgeOldFiles();
 }
 
@@ -107,7 +111,7 @@ async function purgeFile(fileName: string): Promise<void> {
 
   const minutesSinceLastAccess = (new Date().getTime() - lastAccessTime.getTime()) / millisecondsInAMinute;
 
-  if (minutesSinceLastAccess > purgeThreshold) {
+  if (minutesSinceLastAccess > purgeAge) {
     await fsPromise.unlink(fullLocalPath);
     log.info("Local storage", `Purging ${fileName}. Age: ${minutesSinceLastAccess.toFixed(0)} minutes.`);
   }
