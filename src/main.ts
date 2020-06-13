@@ -10,7 +10,12 @@ import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as log from "./Log";
 import * as TriggerManager from "./TriggerManager";
-import * as WebStorageManager from "./WebStorageManager";
+import * as LocalStorageManager from "./LocalStorageManager";
+import * as WebServer from "./WebServer";
+import * as helpers from "./helpers";
+
+let purgeInterval = 30;
+let purgeAge = 60;
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -23,6 +28,19 @@ function validateEnvironmentVariables(): boolean {
   if (!process.env.TZ) {
     log.error("Main", "Required environment variable TZ is missing.");
     isValid = false;
+  }
+
+  // Get the purge interval and purge age from environment variables, with all sorts
+  // of funky stuff to convert a string to a number nicely and not override
+  // the default values if nothing valid was specified.
+  const purgeIntervalValue = helpers.convertStringToNumber(process.env.PURGE_INTERVAL);
+  if (purgeIntervalValue) {
+    purgeInterval = purgeIntervalValue;
+  }
+
+  const purgeAgeValue = helpers.convertStringToNumber(process.env.PURGE_AGE);
+  if (purgeAgeValue) {
+    purgeAge = purgeAgeValue;
   }
 
   return isValid;
@@ -38,17 +56,19 @@ async function main() {
     // we can report the failures via MQTT.
     await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
 
-    // Initialize the web storage
-    WebStorageManager.initializeStorage();
-
     if (!validateEnvironmentVariables()) {
       throw Error(
         `At least one required environment variable is missing. Ensure all required environment variables are set then run again.`,
       );
     }
 
+    // Initialize the web storage
+    await LocalStorageManager.initializeStorage();
+    LocalStorageManager.startBackgroundPurge(purgeInterval, purgeAge);
+
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
+    WebServer.startApp();
 
     // Start watching
     TriggerManager.startWatching();

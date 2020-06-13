@@ -6,12 +6,12 @@
 process.env.NTBA_FIX_350 = "true";
 
 import * as fs from "fs";
-import { promises as fsPromise } from "fs";
 import * as JSONC from "jsonc-parser";
-import TelegramBot from "node-telegram-bot-api";
-
+import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
+import TelegramBot from "node-telegram-bot-api";
+import { promises as fsPromise } from "fs";
 import telegramManagerConfigurationSchema from "../../schemas/telegramManagerConfiguration.schema.json";
 import validateJsonAgainstSchema from "../../schemaValidator";
 import Trigger from "../../Trigger";
@@ -99,12 +99,26 @@ export async function processTrigger(
   // Save the trigger's last fire time
   cooldowns.set(trigger, new Date());
 
+  // Do mustache variable replacement if a custom caption was provided.
   const caption = trigger.telegramConfig.caption
     ? mustacheFormatter.format(trigger.telegramConfig.caption, fileName, trigger, predictions)
     : trigger.name;
 
+  // Figure out the path to the file to send based on whether
+  // annotated images were requested in the config.
+  const imageFileName = trigger.telegramConfig.annotateImage
+    ? LocalStorageManager.mapToLocalStorage(fileName)
+    : fileName;
+
   // Send all the messages
-  return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, fileName, chatId)));
+  try {
+    return Promise.all(
+      trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, imageFileName, chatId)),
+    );
+  } catch (e) {
+    log.warn("Telegram manager", `Unable to send message: ${e.error}`);
+    return [];
+  }
 }
 
 async function sendTelegramMessage(
@@ -114,12 +128,17 @@ async function sendTelegramMessage(
 ): Promise<TelegramBot.Message> {
   log.info("Telegram manager", `Sending message to ${chatId}`);
 
+  const imageBuffer = await fsPromise.readFile(fileName).catch(e => {
+    log.warn("Telegram manager", `Unable to load file: ${e.message}`);
+    return undefined;
+  });
+
   const message = telegramBot
-    .sendPhoto(chatId, await fsPromise.readFile(fileName), {
+    .sendPhoto(chatId, imageBuffer, {
       caption: triggerName,
     })
     .catch(e => {
-      log.warn("Telegram Manager", `Unable to send message: ${e.message}`);
+      log.warn("Telegram manager", `Unable to send message: ${e.message}`);
       return undefined;
     });
 

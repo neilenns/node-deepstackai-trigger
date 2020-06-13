@@ -2,17 +2,15 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master, annotations]
   pull_request:
-    branches: [ master ]
+    branches: [master, annotations]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag nodeblueirisdeepstackai:$(date +%s)
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag nodeblueirisdeepstackai:$(date +%s)

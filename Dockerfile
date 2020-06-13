@@ -1,6 +1,6 @@
 # This temporary image is used to produce the build.
 FROM node:alpine as build
-RUN mkdir -p /home/node/app && chown -R node:node home/node/app
+RUN mkdir -p /home/node/app/fonts && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
 COPY package*.json ./
@@ -22,9 +22,11 @@ RUN mkdir -p /node-deepstackai-trigger && chown -R node:node /node-deepstackai-t
 
 WORKDIR /home/node/app
 USER node
-COPY --from=build --chown=node:node /home/node/app/dist/bundle.js ./bundle.js
+COPY --from=build --chown=node:node /home/node/app/dist/bundle.js .
 COPY --from=build --chown=node:node /home/node/app/README.md .
 COPY --from=build --chown=node:node /home/node/app/LICENSE .
+COPY --from=build --chown=node:node /home/node/app/FONT_LICENSE .
+COPY --from=build --chown=node:node /home/node/app/fonts/CascadiaCode.ttf ./fonts/CascadiaCode.ttf
 
 # Enable polling for watching files by default since it appears that's
 # the only way to have file detection work in a Docker container.

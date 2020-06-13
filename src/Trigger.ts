@@ -6,9 +6,11 @@ import * as chokidar from "chokidar";
 import * as JSONC from "jsonc-parser";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
-import * as triggerManager from "./TriggerManager";
+import * as TriggerManager from "./TriggerManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
+import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
+
 import analyzeImage from "./DeepStack";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
@@ -81,7 +83,7 @@ export default class Trigger {
    * @param stats The stats for the file
    */
   public async processImage(fileName: string, stats: Stats): Promise<void> {
-    triggerManager.incrementAnalyzedFilesCount();
+    TriggerManager.incrementAnalyzedFilesCount();
     // Don't process old files
     if (!this.passesDateTest(fileName, stats)) return;
 
@@ -94,19 +96,20 @@ export default class Trigger {
     // Check to see if any predictions cause this to activate
     const triggeredPredictions = this.getTriggeredPredictions(fileName, predictions);
     if (!triggeredPredictions) {
-      MqttManager.publishStatisticsMessage(triggerManager.triggeredCount, triggerManager.analyzedFilesCount);
+      MqttManager.publishStatisticsMessage(TriggerManager.triggeredCount, TriggerManager.analyzedFilesCount);
       return;
     }
 
-    triggerManager.incrementTriggeredCount();
+    TriggerManager.incrementTriggeredCount();
 
-    // Call all the handlers for the trigger
-    await Promise.all([
-      ...(await WebRequestHandler.processTrigger(fileName, this, triggeredPredictions)),
-      ...(await MqttManager.processTrigger(fileName, this, triggeredPredictions)),
-      ...(await MqttManager.publishStatisticsMessage(triggerManager.triggeredCount, triggerManager.analyzedFilesCount)),
-      ...(await TelegramManager.processTrigger(fileName, this, triggeredPredictions)),
-    ]);
+    // Generate the annotations so it is ready for the other trigger handlers
+    await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
+
+    // Call all the handlers for the trigger. There is no need to wait for these to finish before proceeding
+    WebRequestHandler.processTrigger(fileName, this, triggeredPredictions);
+    MqttManager.processTrigger(fileName, this, triggeredPredictions);
+    MqttManager.publishStatisticsMessage(TriggerManager.triggeredCount, TriggerManager.analyzedFilesCount);
+    TelegramManager.processTrigger(fileName, this, triggeredPredictions);
   }
 
   /**

@@ -8,6 +8,7 @@
     "NTBA",
     "aimotion",
     "ajvkeywords",
+    "cascadia",
     "cooldowns",
     "danecreekphotography",
     "davidanson",
@@ -17,7 +18,9 @@
     "devcontainer",
     "esbenp",
     "localstorage",
+    "localtriggerstorage",
     "mqtts",
+    "pureimage",
     "streetsidesoftware"
   ]
 }
