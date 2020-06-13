@@ -13,6 +13,9 @@ import * as TriggerManager from "./TriggerManager";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as WebServer from "./WebServer";
 
+let purgeInterval = 1;
+let purgeAge = 1;
+
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
 
@@ -24,6 +27,14 @@ function validateEnvironmentVariables(): boolean {
   if (!process.env.TZ) {
     log.error("Main", "Required environment variable TZ is missing.");
     isValid = false;
+  }
+
+  if (process.env.PURGE_INTERVAL) {
+    purgeInterval = 1;
+  }
+
+  if (process.env.PURGE_AGE) {
+    purgeAge = 1;
   }
 
   return isValid;
@@ -39,15 +50,15 @@ async function main() {
     // we can report the failures via MQTT.
     await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
 
-    // Initialize the web storage
-    await LocalStorageManager.initializeStorage();
-    LocalStorageManager.startBackgroundPurge(1, 1);
-
     if (!validateEnvironmentVariables()) {
       throw Error(
         `At least one required environment variable is missing. Ensure all required environment variables are set then run again.`,
       );
     }
+
+    // Initialize the web storage
+    await LocalStorageManager.initializeStorage();
+    LocalStorageManager.startBackgroundPurge(purgeInterval, purgeAge);
 
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
