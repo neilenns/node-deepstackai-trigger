@@ -11,5 +11,9 @@ const port = 4242;
 
 export function startApp(): void {
   app.use("/", express.static(LocalStorageManager.localStoragePath));
-  app.listen(port, () => log.info("Web server", `Listening at http://localhost:${port}`));
+  try {
+    app.listen(port, () => log.info("Web server", `Listening at http://localhost:${port}`));
+  } catch (e) {
+    log.warn("Web server", `Unable to start web server: ${e.error}`);
+  }
 }
