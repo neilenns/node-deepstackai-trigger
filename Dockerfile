@@ -25,6 +25,7 @@ USER node
 COPY --from=build --chown=node:node /home/node/app/dist/bundle.js .
 COPY --from=build --chown=node:node /home/node/app/README.md .
 COPY --from=build --chown=node:node /home/node/app/LICENSE .
+COPY --from=build --chown=node:node /home/node/app/FONT_LICENSE .
 COPY --from=build --chown=node:node /home/node/app/fonts/CascadiaCode.ttf ./fonts/CascadiaCode.ttf
 
 # Enable polling for watching files by default since it appears that's
