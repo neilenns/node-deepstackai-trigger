@@ -12,9 +12,10 @@ import * as log from "./Log";
 import * as TriggerManager from "./TriggerManager";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as WebServer from "./WebServer";
+import * as helpers from "./helpers";
 
-let purgeInterval = 1;
-let purgeAge = 1;
+let purgeInterval = 30;
+let purgeAge = 60;
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -29,12 +30,17 @@ function validateEnvironmentVariables(): boolean {
     isValid = false;
   }
 
-  if (process.env.PURGE_INTERVAL) {
-    purgeInterval = 1;
+  // Get the purge interval and purge age from environment variables, with all sorts
+  // of funky stuff to convert a string to a number nicely and not override
+  // the default values if nothing valid was specified.
+  const purgeIntervalValue = helpers.convertStringToNumber(process.env.PURGE_INTERVAL);
+  if (purgeIntervalValue) {
+    purgeInterval = purgeIntervalValue;
   }
 
-  if (process.env.PURGE_AGE) {
-    purgeAge = 1;
+  const purgeAgeValue = helpers.convertStringToNumber(process.env.PURGE_AGE);
+  if (purgeAgeValue) {
+    purgeAge = purgeAgeValue;
   }
 
   return isValid;
