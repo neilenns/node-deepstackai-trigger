@@ -9,14 +9,19 @@ import { promises as fsPromise } from "fs";
 import path from "path";
 
 /**
- * How long an image has to sit in local storage before it gets removed, in seconds.
+ * Number of milliseconds in a minute
  */
-let purgeThreshold = 60;
+const millisecondsInAMinute = 1000 * 60;
 
 /**
- * How often the purge runs, in seconds.
+ * How long an image has to sit in local storage before it gets removed, in minutes.
  */
-let purgeInterval = 30;
+let purgeThreshold: number;
+
+/**
+ * How often the purge runs, in minutes.
+ */
+let purgeInterval: number;
 
 /**
  * The background timer that runs the local file purge.
@@ -60,11 +65,11 @@ export async function copyToLocalStorage(fileName: string): Promise<string> {
 
 /**
  * Starts a background task that purges old files from local storage
- * @param threshold Age of a file, in seconds, to get purged
- * @param interval Frequency of purge, in seconds
+ * @param interval Frequency of purge, in minutes
+ * @param threshold Age of a file, in minutes, to get purged
  */
 export function startBackgroundPurge(interval: number, threshold: number): void {
-  log.info("Local storage", `Enabling background purge every ${interval} seconds.`);
+  log.info("Local storage", `Enabling background purge every ${interval} minutes.`);
   purgeThreshold = threshold;
   purgeInterval = interval;
   purgeOldFiles();
@@ -84,20 +89,26 @@ export function stopBackgroundPurge(): void {
 async function purgeOldFiles(): Promise<void> {
   log.info("Local storage", "Running purge");
 
-  (await fsPromise.readdir(localStoragePath)).map(async fileName => {
-    const fullLocalPath = mapToLocalStorage(fileName);
-    const lastAccessTime = (await fsPromise.stat(fullLocalPath)).atime;
-
-    const secondsSinceLastAccess = (new Date().getTime() - lastAccessTime.getTime()) / 1000;
-
-    if (secondsSinceLastAccess > purgeThreshold) {
-      await fsPromise.unlink(fullLocalPath);
-      log.info("Local storage", `Purging ${fileName}. Age: ${secondsSinceLastAccess}`);
-    }
-
-    // Get last access time
-  });
+  // Loop through all the files and purge any that are older than they should be.
+  // Can there possibly be more await statements in a single line?
+  await Promise.all((await fsPromise.readdir(localStoragePath)).map(async fileName => await purgeFile(fileName)));
 
   log.info("Local storage", "Purge complete");
-  backgroundTimer = setTimeout(purgeOldFiles, purgeInterval * 1000);
+  backgroundTimer = setTimeout(purgeOldFiles, purgeInterval * millisecondsInAMinute);
+}
+
+/**
+ * Purges an individual file that meets the purge criteria
+ * @param fileName The filename to purge
+ */
+async function purgeFile(fileName: string): Promise<void> {
+  const fullLocalPath = mapToLocalStorage(fileName);
+  const lastAccessTime = (await fsPromise.stat(fullLocalPath)).atime;
+
+  const minutesSinceLastAccess = (new Date().getTime() - lastAccessTime.getTime()) / millisecondsInAMinute;
+
+  if (minutesSinceLastAccess > purgeThreshold) {
+    await fsPromise.unlink(fullLocalPath);
+    log.info("Local storage", `Purging ${fileName}. Age: ${minutesSinceLastAccess.toFixed(0)} minutes.`);
+  }
 }
