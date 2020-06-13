@@ -103,7 +103,7 @@ export default class Trigger {
     TriggerManager.incrementTriggeredCount();
 
     // Generate the annotations so it is ready for the other trigger handlers
-    const annotatedFileName = await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
+    await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
 
     // Call all the handlers for the trigger
     await Promise.all([

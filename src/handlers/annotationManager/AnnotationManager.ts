@@ -17,7 +17,7 @@ export async function processTrigger(
   const outputFileName = LocalStorageManager.mapToLocalStorage(fileName);
   const font = PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code");
 
-  font.load(async () => {
+  await font.load(async () => {
     const decodedImage = await PImage.decodeJPEGFromStream(fs.createReadStream(fileName));
     const context = decodedImage.getContext("2d");
     context.strokeStyle = "rgba(255,0,0,0.75)";
