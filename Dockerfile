@@ -33,4 +33,4 @@ COPY --from=build --chown=node:node /home/node/app/fonts/CascadiaCode.ttf ./font
 # This can always be set to false in docker-compose.yml later if necessary.
 ENV CHOKIDAR_USEPOLLING=true
 
-ENTRYPOINT [ "node", "bundle.js" ]
+ENTRYPOINT [ "node", "--no-deprecation", "bundle.js" ]
