@@ -125,12 +125,17 @@ async function sendTelegramMessage(
 ): Promise<TelegramBot.Message> {
   log.info("Telegram manager", `Sending message to ${chatId}`);
 
+  const imageBuffer = await fsPromise.readFile(fileName).catch(e => {
+    log.warn("Telegram manager", `Unable to load file: ${e.message}`);
+    return undefined;
+  });
+
   const message = telegramBot
-    .sendPhoto(chatId, await fsPromise.readFile(fileName), {
+    .sendPhoto(chatId, imageBuffer, {
       caption: triggerName,
     })
     .catch(e => {
-      log.warn("Telegram Manager", `Unable to send message: ${e.message}`);
+      log.warn("Telegram manager", `Unable to send message: ${e.message}`);
       return undefined;
     });
 
