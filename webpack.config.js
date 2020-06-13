@@ -20,14 +20,6 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
-      {
-        test: /\.ttf$/i,
-        use: [
-          {
-            loader: "file-loader",
-          },
-        ],
-      },
     ],
   },
   resolve: {

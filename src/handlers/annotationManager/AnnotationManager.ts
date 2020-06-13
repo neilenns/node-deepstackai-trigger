@@ -8,9 +8,6 @@ import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import * as LocalStorageManager from "../../LocalStorageManager";
 import PImage from "pureimage";
 import * as fs from "fs";
-// Referenced only so webpack picks it up in production Docker image builds
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import CascadiaCode from "../../CascadiaCode.ttf";
 
 export async function processTrigger(
   fileName: string,
