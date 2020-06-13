@@ -15,10 +15,17 @@ services:
       # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       # The value to use is in the "TZ database name" column.
       - TZ=America/Los_Angeles
+      # Modify this to change the default port used for the service that returns
+      # annotated images. If you change this you also have to set the same value
+      # in the ports: section below.
+      - PORT=4242
       # This is pre-configured for service-to-service connectivity in
       # Docker. Don't change this unless there is a need to talk to an
       # external DeepStack server somewhere and you know what you are doing.
       - DEEPSTACK_URI=http://deepstack-ai:5000/
+
+    ports:
+      - 4242:4242
 
     secrets:
       - triggers
@@ -35,8 +42,6 @@ services:
     restart: always
     depends_on:
       - deepstack-ai
-    ports:
-      - 4242:4242
 
   deepstack-ai:
     image: deepquestai/deepstack:latest
