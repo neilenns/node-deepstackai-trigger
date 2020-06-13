@@ -108,7 +108,14 @@ export async function processTrigger(
     : fileName;
 
   // Send all the messages
-  return Promise.all(trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, imageFileName, chatId)));
+  try {
+    return Promise.all(
+      trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, imageFileName, chatId)),
+    );
+  } catch (e) {
+    log.warn("Telegram manager", `Unable to send message: ${e.error}`);
+    return [];
+  }
 }
 
 async function sendTelegramMessage(
