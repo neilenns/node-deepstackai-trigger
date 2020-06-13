@@ -11,6 +11,7 @@ import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as log from "./Log";
 import * as TriggerManager from "./TriggerManager";
 import * as LocalStorageManager from "./LocalStorageManager";
+import * as WebServer from "./WebServer";
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -49,6 +50,7 @@ async function main() {
 
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
+    WebServer.startApp();
 
     // Start watching
     TriggerManager.startWatching();
