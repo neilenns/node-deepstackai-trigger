@@ -2,6 +2,9 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+// See https://github.com/yagop/node-telegram-bot-api/blob/master/doc/usage.md#file-options-metadata
+process.env.NTBA_FIX_350 = "true";
+
 import * as fs from "fs";
 import * as JSONC from "jsonc-parser";
 import * as LocalStorageManager from "../../LocalStorageManager";
