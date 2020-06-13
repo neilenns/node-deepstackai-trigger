@@ -15,7 +15,7 @@ export async function processTrigger(
   predictions: IDeepStackPrediction[],
 ): Promise<string> {
   const outputFileName = LocalStorageManager.mapToLocalStorage(fileName);
-  const font = PImage.registerFont("./src/CascadiaCode.ttf", "Cascadia Code");
+  const font = PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code");
 
   font.load(async () => {
     const decodedImage = await PImage.decodeJPEGFromStream(fs.createReadStream(fileName));
