@@ -12,6 +12,8 @@ services:
       - DEEPSTACK_URI=http://deepstack-ai:5000/
       - TZ=America/Los_Angeles
       - PROCESS_EXISTING_IMAGES=true
+      - PURGE_AGE=1
+      - PURGE_INTERVAL=1
     image: node:alpine
     build:
       context: .
@@ -27,7 +29,7 @@ services:
       - mqtt
       # To enable Telegram support during development uncomment this line.
       # See CONTRIBUTING.md for more details.
-      # - telegram
+      - telegram
     ports:
       - 4242:4242
 
