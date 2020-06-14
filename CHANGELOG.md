@@ -5,7 +5,7 @@
 - Annotated images that show the objects and confidence percentage for things that fired the triggers are now available
   for Telegram messages. To enable the annotated image in Telegram messages set the new `annotateImage` property to true on
   the handler configuration. The annotated images are also exposed via a web server on port `4242` using their original file name
-  for use by external, for example `http://localhost:4242/Dog_20200523-075000.jpg`. While this should work without any additional
+  for use by external services, for example `http://localhost:4242/Dog_20200523-075000.jpg`. While this should work without any additional
   configuration there are new environment variables available to control the web server port as well as retention of
   the annotated images. By default the images are kept for 60 minutes before being deleted. This can all be disabled by
   setting the `DISABLE_ANNOTATIONS` environment variable.
