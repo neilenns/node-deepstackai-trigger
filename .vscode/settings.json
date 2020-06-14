@@ -6,8 +6,10 @@
     "Ghhiijjkkllmm",
     "MQTT",
     "NTBA",
+    "aiinput",
     "aimotion",
     "ajvkeywords",
+    "bufferutil",
     "cascadia",
     "cooldowns",
     "danecreekphotography",
@@ -19,7 +21,10 @@
     "esbenp",
     "localstorage",
     "localtriggerstorage",
+    "markdownlint",
+    "mosquitto",
     "mqtts",
+    "postversion",
     "pureimage",
     "streetsidesoftware"
   ]

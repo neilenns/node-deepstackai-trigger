@@ -21,7 +21,6 @@ services:
     volumes:
       - ..:/workspace:cached
       - ../sampleConfiguration/aiinput:/aiinput
-      - localtriggerstorage:/node-deepstackai-trigger
     secrets:
       - triggers
       - mqtt
@@ -52,7 +51,6 @@ services:
 
 volumes:
   localstorage:
-  localtriggerstorage:
 
 secrets:
   triggers:
