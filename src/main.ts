@@ -62,13 +62,20 @@ async function main() {
       );
     }
 
-    // Initialize the web storage
-    await LocalStorageManager.initializeStorage();
-    LocalStorageManager.startBackgroundPurge(purgeInterval, purgeAge);
+    // Initialize the local storage and web server
+    if (!process.env.DISABLE_ANNOTATIONS) {
+      await LocalStorageManager.initializeStorage();
+      LocalStorageManager.startBackgroundPurge(purgeInterval, purgeAge);
+      WebServer.startApp();
+    } else {
+      log.info(
+        "Main",
+        "Annotated images are disabled due to presence of the DISABLE_ANNOTATIONS environment variable.",
+      );
+    }
 
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
-    WebServer.startApp();
 
     // Start watching
     TriggerManager.startWatching();

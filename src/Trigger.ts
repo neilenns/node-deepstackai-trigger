@@ -103,7 +103,9 @@ export default class Trigger {
     TriggerManager.incrementTriggeredCount();
 
     // Generate the annotations so it is ready for the other trigger handlers
-    await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
+    if (!process.env.DISABLE_ANNOTATIONS) {
+      await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
+    }
 
     // Call all the handlers for the trigger. There is no need to wait for these to finish before proceeding
     WebRequestHandler.processTrigger(fileName, this, triggeredPredictions);

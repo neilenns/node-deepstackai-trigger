@@ -106,9 +106,10 @@ export async function processTrigger(
 
   // Figure out the path to the file to send based on whether
   // annotated images were requested in the config.
-  const imageFileName = trigger.telegramConfig.annotateImage
-    ? LocalStorageManager.mapToLocalStorage(fileName)
-    : fileName;
+  const imageFileName =
+    trigger.telegramConfig.annotateImage && !process.env.DISABLE_ANNOTATIONS
+      ? LocalStorageManager.mapToLocalStorage(fileName)
+      : fileName;
 
   // Send all the messages
   try {

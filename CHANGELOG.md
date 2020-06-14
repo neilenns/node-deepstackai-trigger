@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Annotated images that show the objects and confidence percentage for things that fired the triggers are now available
+  for Telegram messages and via a built-in web server for other services to use. To enable the annotated image in Telegram
+  messages set the new `annotatedImage` property to true on the handler configuration. The annotated images are
+  exposed on port `4242` by default using their original file name, for example `http://localhost:4242/Dog_20200523-075000.jpg`.
+  While this should work without any additional configuration there are new environment variables available to control
+  the web server port as well as retention of the annotated images. By default the images are kept for 60 minutes before
+  being deleted. This can all be disabled by setting the `DISABLE_ANNOTATIONS` environment variable.
+  Resolves [issue 187](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/191).
 - Resolve a warning when using Telegram triggers. Resolves [issue 174](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/174).
 - An optional `/node-deepstackai-trigger` mount point exists for future use. Resolves
   [issue 191](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/191).
