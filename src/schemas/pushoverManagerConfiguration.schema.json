@@ -4,12 +4,17 @@
   "type": "object",
   "title": "The configuration for Pushover",
   "description": "Defines the connection information for Pushover to send trigger notifications.",
-  "required": ["apiKey"],
+  "required": ["apiKey", "userKey"],
   "properties": {
     "apiKey": {
       "description": "The API key for Pushover.",
       "type": "string",
       "examples": ["atddasdflj2vet213874ljsdg12"]
+    },
+    "userKey": {
+      "description": "The user key for Pushover.",
+      "type": "string",
+      "examples": ["u6asdf8zqd7g7zbn8f86zq6ijx1kg2"]
     }
   }
 }
