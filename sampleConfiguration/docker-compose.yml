@@ -17,9 +17,9 @@ services:
       # annotated images. If you change this you also have to set the same value
       # in the ports: section below.
       - PORT=4242
-      # Uncomment this line to disable the internal web server and
+      # Uncomment this line to enable the internal web server and
       # generation of annotated images
-      # - DISABLE_ANNOTATIONS=true
+      # - ENABLE_ANNOTATIONS=true
       # This is pre-configured for service-to-service connectivity in
       # Docker. Don't change this unless there is a need to talk to an
       # external DeepStack server somewhere and you know what you are doing.
