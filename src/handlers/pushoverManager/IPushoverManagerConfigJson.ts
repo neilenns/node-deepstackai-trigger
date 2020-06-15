@@ -3,5 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 export default interface IPushoverManagerConfigJson {
-  botToken: string;
+  apiKey: string;
+  userKey: string;
 }

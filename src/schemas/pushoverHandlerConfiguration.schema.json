@@ -6,14 +6,15 @@
   "description": "Defines the Telegram chats to send notifications to.",
   "required": ["chatIds"],
   "properties": {
-    "chatIds": {
-      "description": "The list of chat IDs to send notifications to when this handler is triggered.",
+    "users": {
+      "description": "The list of user keys to send notifications to when this handler is triggered.",
       "type": "array",
       "items": {
-        "type": "number"
+        "type": "string"
       },
       "minItems": 1,
-      "uniqueItems": true
+      "uniqueItems": true,
+      "examples": ["u6wer89dggf7a7zbn8f86zq6ijx1kg2"]
     },
     "caption": {
       "description": "Caption to send with the image message",
