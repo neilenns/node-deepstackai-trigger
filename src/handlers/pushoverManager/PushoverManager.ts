@@ -15,6 +15,7 @@ import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import IPushoverManagerConfigJson from "./IPushoverManagerConfigJson";
 import pushoverManagerConfigurationSchema from "../../schemas/pushoverManagerConfiguration.schema.json";
+import Push from "pushover-notifications";
 
 let isEnabled = false;
 
@@ -66,6 +67,26 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
 
   log.info("Pushover manager", `Loaded configuration from ${loadedConfigFilePath}`);
 
+  const p = new Push({
+    user: pushoverConfigJson.userKey,
+    token: pushoverConfigJson.apiKey,
+  });
+
+  const msg = {
+    message: "Pushover test",
+    title: "Amazing",
+    sound: "magic",
+    user: "u6exv89zqd7g7zbn8f86zq6ijx1kg7",
+  };
+
+  p.send(msg, function(err: any, result: any) {
+    if (err) {
+      throw err;
+    }
+
+    log.error("Pushover manager", result);
+  });
+
   isEnabled = true;
 }
 
@@ -107,9 +128,10 @@ export async function processTrigger(
 
   // Send all the messages
   try {
-    return Promise.all(
-      trigger.pushoverConfig.chatIds.map(chatId => sendPushoverMessage(caption, imageFileName, chatId)),
-    );
+    return;
+    // return Promise.all(
+    //   trigger.pushoverConfig.chatIds.map(chatId => sendPushoverMessage(caption, imageFileName, chatId)),
+    // );
   } catch (e) {
     log.warn("Pushover manager", `Unable to send message: ${e.error}`);
     return;
@@ -124,16 +146,16 @@ async function sendPushoverMessage(triggerName: string, fileName: string, chatId
     return undefined;
   });
 
-  const message = telegramBot
-    .sendPhoto(chatId, imageBuffer, {
-      caption: triggerName,
-    })
-    .catch(e => {
-      log.warn("Pushover manager", `Unable to send message: ${e.message}`);
-      return undefined;
-    });
+  // const message = telegramBot
+  //   .sendPhoto(chatId, imageBuffer, {
+  //     caption: triggerName,
+  //   })
+  //   .catch(e => {
+  //     log.warn("Pushover manager", `Unable to send message: ${e.message}`);
+  //     return undefined;
+  //   });
 
-  return message;
+  // return message;
 }
 
 /**
@@ -190,9 +212,9 @@ function readRawConfigFile(configFilePath: string): string {
 }
 
 /**
- * Takes a raw JSON string and converts it to an ITelegramManagerConfigJson
+ * Takes a raw JSON string and converts it to an IPushoverManagerConfigJson
  * @param rawConfig The raw JSON in a string
- * @returns An ITelegramManagerConfigJson from the parsed JSON
+ * @returns An IPushoverManagerConfigJson from the parsed JSON
  */
 function parseConfigFile(rawConfig: string): IPushoverManagerConfigJson {
   let parseErrors: JSONC.ParseError[];
