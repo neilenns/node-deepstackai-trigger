@@ -10,11 +10,13 @@ import * as TriggerManager from "./TriggerManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
 import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
+import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
 
 import analyzeImage from "./DeepStack";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
+import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import { Stats } from "fs";
 import Rect from "./Rect";
@@ -43,6 +45,7 @@ export default class Trigger {
   public webRequestHandlerConfig: WebRequestConfig;
   public mqttHandlerConfig: MqttHandlerConfig;
   public telegramConfig: TelegramConfig;
+  public pushoverConfig: PushoverConfig;
 
   constructor(init?: Partial<Trigger>) {
     Object.assign(this, init);
@@ -111,6 +114,7 @@ export default class Trigger {
     MqttManager.processTrigger(fileName, this, triggeredPredictions);
     MqttManager.publishStatisticsMessage(TriggerManager.triggeredCount, TriggerManager.analyzedFilesCount);
     TelegramManager.processTrigger(fileName, this, triggeredPredictions);
+    PushoverManager.processTrigger(fileName, this, triggeredPredictions);
   }
 
   /**

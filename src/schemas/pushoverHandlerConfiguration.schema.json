@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramHandlerConfiguration.schema.json",
+  "type": "object",
+  "title": "The configuration for a Telegram trigger handler",
+  "description": "Defines the Telegram chats to send notifications to.",
+  "required": ["chatIds"],
+  "properties": {
+    "chatIds": {
+      "description": "The list of chat IDs to send notifications to when this handler is triggered.",
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "caption": {
+      "description": "Caption to send with the image message",
+      "type": "string",
+      "minLength": 1,
+      "examples": ["Front door: {{formattedPredictions}}"]
+    },
+    "annotateImage": {
+      "description": "Set to true to send an image with annotations overlaid for detected objects.",
+      "type": "boolean",
+      "default": false,
+      "examples": [true]
+    },
+    "cooldownTime": {
+      "description": "Number of seconds required between sending notifications to the listed chats.",
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 600,
+      "examples": [5]
+    },
+    "enabled": {
+      "description": "Enables the telegram handler on this trigger. Default is true.",
+      "type": "boolean",
+      "default": "true",
+      "examples": ["false"]
+    }
+  }
+}

@@ -6,6 +6,7 @@ import IMqttHandlerConfigJson from "../handlers/mqttManager/IMqttHandlerConfigJs
 import ITelegramConfigJson from "../handlers/telegramManager/ITelegramConfigJson";
 import IWebRequestHandlerJson from "../handlers/webRequest/IWebRequestHandlerJson";
 import Rect from "../Rect";
+import IPushoverConfigJson from "../handlers/pushoverManager/IPushoverConfigJson";
 
 export default interface ITriggerJson {
   cooldownTime: number;
@@ -23,6 +24,7 @@ export default interface ITriggerJson {
     webRequest: IWebRequestHandlerJson;
     mqtt: IMqttHandlerConfigJson;
     telegram: ITelegramConfigJson;
+    pushover: IPushoverConfigJson;
   };
 
   masks: Rect[];
