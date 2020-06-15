@@ -10,11 +10,42 @@ import PImage from "pureimage";
 import * as fs from "fs";
 import * as log from "../../Log";
 
+/**
+ * True if annotations are enabled
+ */
+export let enabled = false;
+
+/**
+ * Enables annotations
+ */
+export function enable(): void {
+  enabled = true;
+}
+
+/**
+ * Disables annotations
+ */
+export function disable(): void {
+  enabled = false;
+}
+
+/**
+ * Generates an annotated image based on a list of predictions and
+ * saves it to local storage, if the enabled flag is true on
+ * annotationManager. If false does nothing and returns immediately.
+ * @param fileName Filename of the image to annotate
+ * @param trigger Trigger that fired
+ * @param predictions List of matching predictions
+ */
 export async function processTrigger(
   fileName: string,
   trigger: Trigger,
   predictions: IDeepStackPrediction[],
 ): Promise<void> {
+  if (!enabled) {
+    return;
+  }
+
   log.info("Annotations", `Annotating ${fileName}`);
   const outputFileName = LocalStorageManager.mapToLocalStorage(fileName);
   const font = PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code");

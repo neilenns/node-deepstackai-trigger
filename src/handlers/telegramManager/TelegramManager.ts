@@ -10,6 +10,7 @@ import * as JSONC from "jsonc-parser";
 import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
+import * as AnnotationManager from "../annotationManager/AnnotationManager";
 import TelegramBot from "node-telegram-bot-api";
 import { promises as fsPromise } from "fs";
 import telegramManagerConfigurationSchema from "../../schemas/telegramManagerConfiguration.schema.json";
@@ -107,7 +108,7 @@ export async function processTrigger(
   // Figure out the path to the file to send based on whether
   // annotated images were requested in the config.
   const imageFileName =
-    trigger.telegramConfig.annotateImage && !process.env.DISABLE_ANNOTATIONS
+    trigger.telegramConfig.annotateImage && AnnotationManager.enabled
       ? LocalStorageManager.mapToLocalStorage(fileName)
       : fileName;
 

@@ -6,6 +6,7 @@
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
 import npmPackageInfo from "../package.json";
+import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as log from "./Log";
@@ -43,6 +44,10 @@ function validateEnvironmentVariables(): boolean {
     purgeAge = purgeAgeValue;
   }
 
+  if (process.env.ENABLE_ANNOTATIONS) {
+    AnnotationManager.enable();
+  }
+
   return isValid;
 }
 
@@ -63,15 +68,12 @@ async function main() {
     }
 
     // Initialize the local storage and web server
-    if (!process.env.DISABLE_ANNOTATIONS) {
+    if (AnnotationManager.enabled) {
       await LocalStorageManager.initializeStorage();
       LocalStorageManager.startBackgroundPurge(purgeInterval, purgeAge);
       WebServer.startApp();
     } else {
-      log.info(
-        "Main",
-        "Annotated images are disabled due to presence of the DISABLE_ANNOTATIONS environment variable.",
-      );
+      log.info("Main", "Annotated images are enabled due to presence of the ENABLE_ANNOTATIONS environment variable.");
     }
 
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);

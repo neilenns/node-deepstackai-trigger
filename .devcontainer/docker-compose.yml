@@ -12,7 +12,6 @@ services:
       - DEEPSTACK_URI=http://deepstack-ai:5000/
       - TZ=America/Los_Angeles
       - PROCESS_EXISTING_IMAGES=true
-      - DISABLE_ANNOTATIONS=true
     image: node:alpine
     build:
       context: .
