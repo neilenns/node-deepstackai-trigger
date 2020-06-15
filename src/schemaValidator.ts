@@ -7,6 +7,7 @@ import Ajv from "ajv";
 import mqttHandlerConfiguration from "./schemas/mqttHandlerConfiguration.schema.json";
 import mqttManagerConfiguration from "./schemas/mqttManagerConfiguration.schema.json";
 import telegramHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
+import pushoverHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
 import triggerSchema from "./schemas/triggerConfiguration.schema.json";
 import webRequestHandlerConfig from "./schemas/webRequestHandlerConfig.schema.json";
 import maskConfiguration from "./schemas/maskConfiguration.schema.json";
@@ -48,6 +49,10 @@ export default async function validateJsonAgainstSchema(
   validator.addSchema(
     telegramHandlerConfiguration,
     "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/telegramHandlerConfiguration.schema.json",
+  );
+  validator.addSchema(
+    pushoverHandlerConfiguration,
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/pushoverHandlerConfiguration.schema.json",
   );
   validator.addSchema(
     maskConfiguration,
