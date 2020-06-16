@@ -9,6 +9,7 @@ import npmPackageInfo from "../package.json";
 import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
+import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
 import * as log from "./Log";
 import * as TriggerManager from "./TriggerManager";
 import * as LocalStorageManager from "./LocalStorageManager";
@@ -83,6 +84,7 @@ async function main() {
 
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
+    await PushoverManager.loadConfiguration(["/run/secrets/pushover", "/config/pushover.json"]);
 
     // Start watching
     TriggerManager.startWatching(awaitWrite);

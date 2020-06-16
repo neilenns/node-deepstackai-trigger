@@ -7,6 +7,7 @@ import * as log from "./Log";
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
+import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
 import Trigger from "./Trigger";
 import triggerSchema from "./schemas/triggerConfiguration.schema.json";
 import validateJsonAgainstSchema from "./schemaValidator";
@@ -141,6 +142,9 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     }
     if (triggerJson.handlers.telegram) {
       configuredTrigger.telegramConfig = new TelegramConfig(triggerJson.handlers.telegram);
+    }
+    if (triggerJson.handlers.pushover) {
+      configuredTrigger.pushoverConfig = new PushoverConfig(triggerJson.handlers.pushover);
     }
 
     return configuredTrigger;

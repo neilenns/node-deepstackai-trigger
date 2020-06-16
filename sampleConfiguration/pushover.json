@@ -1,0 +1,5 @@
+{
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverManagerConfiguration.schema.json",
+  "apiKey": "api key here",
+  "userKey": "user key here"
+}

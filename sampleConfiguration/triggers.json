@@ -37,6 +37,9 @@
         "mqtt": {
           "messages": [{ "topic": "aimotion/triggers/dog" }]
         },
+        "pushover": {
+          "userKeys": ["1"]
+        },
         "telegram": {
           "chatIds": [1],
           "annotateImage": true

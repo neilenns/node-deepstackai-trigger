@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverHandlerConfiguration.schema.json",
+  "type": "object",
+  "title": "The configuration for a Pushover trigger handler",
+  "description": "Defines the Pushover messages to send.",
+  "required": ["userKeys"],
+  "properties": {
+    "userKeys": {
+      "description": "The list of user keys to send notifications to when this handler is triggered.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "examples": ["u6wer89dggf7a7zbn8f86zq6ijx1kg2"]
+    },
+    "caption": {
+      "description": "Caption to send with the message. Default is the name of the trigger.",
+      "type": "string",
+      "minLength": 1,
+      "examples": ["Front door: {{formattedPredictions}}"]
+    },
+    "sound": {
+      "description": "Pushover notification sound to play. If unspecified the Pushover default is used. See https://pushover.net/api#sounds to play each of the sounds.",
+      "type": "string",
+      "examples": ["magic"],
+      "enum": [
+        "pushover",
+        "bike",
+        "bugle",
+        "cashregister",
+        "classical",
+        "cosmic",
+        "falling",
+        "gamelan",
+        "incoming",
+        "intermission",
+        "magic",
+        "mechanical",
+        "pianobar",
+        "siren",
+        "spacealarm",
+        "tugboat",
+        "alien",
+        "climb",
+        "persistent",
+        "echo",
+        "updown",
+        "vibrate",
+        "none"
+      ]
+    },
+    "annotateImage": {
+      "description": "Set to true to send an image with annotations overlaid for detected objects.",
+      "type": "boolean",
+      "default": false,
+      "examples": [true]
+    },
+    "cooldownTime": {
+      "description": "Number of seconds required between sending notifications to the listed users.",
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 600,
+      "examples": [5]
+    },
+    "enabled": {
+      "description": "Enables the Pushover handler on this trigger. Default is true.",
+      "type": "boolean",
+      "default": "true",
+      "examples": ["false"]
+    }
+  }
+}
