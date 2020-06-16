@@ -2,8 +2,8 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverHandlerConfiguration.schema.json",
   "type": "object",
-  "title": "The configuration for a Telegram trigger handler",
-  "description": "Defines the Telegram chats to send notifications to.",
+  "title": "The configuration for a Pushover trigger handler",
+  "description": "Defines the Pushover messages to send.",
   "required": ["userKeys"],
   "properties": {
     "userKeys": {
@@ -17,7 +17,7 @@
       "examples": ["u6wer89dggf7a7zbn8f86zq6ijx1kg2"]
     },
     "caption": {
-      "description": "Caption to send with the image message",
+      "description": "Caption to send with the message. Default is the name of the trigger.",
       "type": "string",
       "minLength": 1,
       "examples": ["Front door: {{formattedPredictions}}"]
@@ -59,7 +59,7 @@
       "examples": [true]
     },
     "cooldownTime": {
-      "description": "Number of seconds required between sending notifications to the listed chats.",
+      "description": "Number of seconds required between sending notifications to the listed users.",
       "type": "number",
       "default": 0,
       "minimum": 0,
@@ -67,7 +67,7 @@
       "examples": [5]
     },
     "enabled": {
-      "description": "Enables the telegram handler on this trigger. Default is true.",
+      "description": "Enables the Pushover handler on this trigger. Default is true.",
       "type": "boolean",
       "default": "true",
       "examples": ["false"]
