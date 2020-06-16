@@ -1,12 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramHandlerConfiguration.schema.json",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverHandlerConfiguration.schema.json",
   "type": "object",
   "title": "The configuration for a Telegram trigger handler",
   "description": "Defines the Telegram chats to send notifications to.",
-  "required": ["chatIds"],
+  "required": ["userKeys"],
   "properties": {
-    "users": {
+    "userKeys": {
       "description": "The list of user keys to send notifications to when this handler is triggered.",
       "type": "array",
       "items": {

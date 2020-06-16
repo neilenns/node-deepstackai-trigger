@@ -7,7 +7,7 @@ import Ajv from "ajv";
 import mqttHandlerConfiguration from "./schemas/mqttHandlerConfiguration.schema.json";
 import mqttManagerConfiguration from "./schemas/mqttManagerConfiguration.schema.json";
 import telegramHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
-import pushoverHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
+import pushoverHandlerConfiguration from "./schemas/pushoverHandlerConfiguration.schema.json";
 import triggerSchema from "./schemas/triggerConfiguration.schema.json";
 import webRequestHandlerConfig from "./schemas/webRequestHandlerConfig.schema.json";
 import maskConfiguration from "./schemas/maskConfiguration.schema.json";

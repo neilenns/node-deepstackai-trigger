@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 export default interface IPushoverConfigJson {
   caption?: string;
-  users: string[];
+  userKeys: string[];
   annotateImage?: boolean;
   cooldownTime: number;
 }

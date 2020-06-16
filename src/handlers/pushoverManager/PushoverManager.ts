@@ -9,15 +9,16 @@ import * as log from "../../Log";
 import * as LocalStorageManager from "../../LocalStorageManager";
 import * as mustacheFormatter from "../../MustacheFormatter";
 import * as AnnotationManager from "../annotationManager/AnnotationManager";
-import { promises as fsPromise } from "fs";
 import validateJsonAgainstSchema from "../../schemaValidator";
 import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import IPushoverManagerConfigJson from "./IPushoverManagerConfigJson";
 import pushoverManagerConfigurationSchema from "../../schemas/pushoverManagerConfiguration.schema.json";
-import Push from "pushover-notifications";
+import PushoverClient from "../../pushoverClient/PushoverClient";
 
 let isEnabled = false;
+// So ugly
+let pushClient: PushoverClient;
 
 // Tracks the last time each trigger fired, for use when calculating cooldown time windows
 const cooldowns = new Map<Trigger, Date>();
@@ -65,27 +66,12 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     throw new Error("[Pushover Manager] Invalid configuration file.");
   }
 
+  pushClient = new PushoverClient({
+    apiKey: pushoverConfigJson.apiKey,
+    userKey: pushoverConfigJson.userKey,
+  });
+
   log.info("Pushover manager", `Loaded configuration from ${loadedConfigFilePath}`);
-
-  const p = new Push({
-    user: pushoverConfigJson.userKey,
-    token: pushoverConfigJson.apiKey,
-  });
-
-  const msg = {
-    message: "Pushover test",
-    title: "Amazing",
-    sound: "magic",
-    user: "u6exv89zqd7g7zbn8f86zq6ijx1kg7",
-  };
-
-  p.send(msg, function(err: any, result: any) {
-    if (err) {
-      throw err;
-    }
-
-    log.error("Pushover manager", result);
-  });
 
   isEnabled = true;
 }
@@ -95,7 +81,7 @@ export async function processTrigger(
   trigger: Trigger,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   predictions: IDeepStackPrediction[],
-): Promise<void> {
+): Promise<void[]> {
   if (!isEnabled) {
     return;
   }
@@ -128,34 +114,21 @@ export async function processTrigger(
 
   // Send all the messages
   try {
-    return;
-    // return Promise.all(
-    //   trigger.pushoverConfig.chatIds.map(chatId => sendPushoverMessage(caption, imageFileName, chatId)),
-    // );
+    return Promise.all(trigger.pushoverConfig.userKeys.map(user => sendPushoverMessage(caption, imageFileName, user)));
   } catch (e) {
     log.warn("Pushover manager", `Unable to send message: ${e.error}`);
     return;
   }
 }
 
-async function sendPushoverMessage(triggerName: string, fileName: string, chatId: number): Promise<void> {
-  log.info("Telegram manager", `Sending message to ${chatId}`);
+async function sendPushoverMessage(caption: string, fileName: string, user: string): Promise<void> {
+  log.info("Pushover manager", `Sending message to ${user}`);
 
-  const imageBuffer = await fsPromise.readFile(fileName).catch(e => {
-    log.warn("Telegram manager", `Unable to load file: ${e.message}`);
-    return undefined;
+  return await pushClient.send({
+    userKey: user,
+    message: caption,
+    imageFileName: fileName,
   });
-
-  // const message = telegramBot
-  //   .sendPhoto(chatId, imageBuffer, {
-  //     caption: triggerName,
-  //   })
-  //   .catch(e => {
-  //     log.warn("Pushover manager", `Unable to send message: ${e.message}`);
-  //     return undefined;
-  //   });
-
-  // return message;
 }
 
 /**
