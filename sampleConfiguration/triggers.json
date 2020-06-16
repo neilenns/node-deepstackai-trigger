@@ -38,7 +38,7 @@
           "messages": [{ "topic": "aimotion/triggers/dog" }]
         },
         "pushover": {
-          "userKeys": ["u6exv89zqd7g7zbn8f86zq6ijx1kg7"]
+          "userKeys": ["1"]
         },
         "telegram": {
           "chatIds": [1],
