@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Pushover is now supported as a trigger handler. See the wiki for [how to enable it](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-pushover)
+  and [how to configure it on a trigger](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushover-handlers). Resolves [issue 232](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/232).
 - Annotated images that show the objects and confidence percentage for things that fired the triggers are now available
   for Telegram messages. To enable the annotated image in Telegram messages set the new `annotateImage` property to true on
   the handler configuration. The annotated images are also exposed via a web server on port `4242` using their original file name
