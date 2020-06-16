@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- The length of time it takes to analyze an image is now calculated and available via the `analysisDurationMs` property in the default
+  MQTT message. It is also available as a mustache template variable and shown in verbose logging messages. Resolves [issue 242](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/242).
 - MQTT messages now include the trigger's name in the `name` property. Resolves [issue 243](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-pushover).
 - Pushover is now supported as a trigger handler. See the wiki for [how to enable it](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-pushover) and [how to configure it on a trigger](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushover-handlers). Resolves [issue 232](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/232).
 - Annotated images that show the objects and confidence percentage for things that fired the triggers are now available
