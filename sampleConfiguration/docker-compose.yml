@@ -20,6 +20,10 @@ services:
       # Uncomment this line to enable the internal web server and
       # generation of annotated images
       # - ENABLE_ANNOTATIONS=true
+      # Uncomment this line if you are storing the source images
+      # on a network drive that is mounted to Docker and are getting
+      # errors from Deepstack saying {"success":false,"error":"invalid image"}
+      # - CHOKIDAR_AWAITWRITEFINISH=true
       # This is pre-configured for service-to-service connectivity in
       # Docker. Don't change this unless there is a need to talk to an
       # external DeepStack server somewhere and you know what you are doing.
