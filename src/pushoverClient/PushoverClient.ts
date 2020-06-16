@@ -15,7 +15,6 @@ export default class PushoverClient {
     Object.assign(this, init);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async send(message: PushoverMessage): Promise<void> {
     const form = {
       token: this.apiKey,
