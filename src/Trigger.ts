@@ -272,7 +272,9 @@ export default class Trigger {
     }
 
     try {
-      this._watcher = chokidar.watch(this.watchPattern).on("add", this.processImage.bind(this));
+      this._watcher = chokidar
+        .watch(this.watchPattern, { awaitWriteFinish: true })
+        .on("add", this.processImage.bind(this));
       log.info(`Trigger ${this.name}`, `Listening for new images in ${this.watchPattern}`);
     } catch (e) {
       log.error(`Trigger ${this.name}`, `Unable to start watching for images: ${e}`);
