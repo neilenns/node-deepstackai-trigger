@@ -264,16 +264,18 @@ export default class Trigger {
 
   /**
    * Starts watching for file changes.
+   * @param awaitWrite True if Chokidar should wait for writes to complete before firing events. Slows things
+   * down but necessary when this runs on a Docker container with images stored on a network drive.
    * @returns True if watching was started, false if it was skipped because the trigger isn't enabled
    */
-  public startWatching(): boolean {
+  public startWatching(awaitWrite: boolean): boolean {
     if (!this.enabled) {
       return false;
     }
 
     try {
       this._watcher = chokidar
-        .watch(this.watchPattern, { awaitWriteFinish: true })
+        .watch(this.watchPattern, { awaitWriteFinish: awaitWrite })
         .on("add", this.processImage.bind(this));
       log.info(`Trigger ${this.name}`, `Listening for new images in ${this.watchPattern}`);
     } catch (e) {
