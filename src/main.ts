@@ -15,6 +15,7 @@ import * as TriggerManager from "./TriggerManager";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as WebServer from "./WebServer";
 import * as helpers from "./helpers";
+
 let purgeInterval = 30;
 let purgeAge = 60;
 let awaitWrite = false;
