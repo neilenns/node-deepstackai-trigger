@@ -1,5 +1,3 @@
-import { SupportOptionDefault } from "prettier";
-
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
@@ -17,5 +15,8 @@ export default class PushoverConfig {
 
     // Default for enabled is true if it isn't specified in the config file
     this.enabled = init?.enabled ?? true;
+
+    // Default for the sound is Pushover default if undefined
+    this.sound = init?.sound ?? "pushover";
   }
 }

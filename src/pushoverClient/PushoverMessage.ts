@@ -12,9 +12,5 @@ export default class PushoverMessage {
 
   constructor(init?: Partial<PushoverMessage>) {
     Object.assign(this, init);
-
-    // Set the default sound to Pushover's default. Makes
-    // building the submission to Pushover easier later.
-    this.sound = this.sound ?? "pushover";
   }
 }
