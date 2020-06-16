@@ -7,4 +7,5 @@ export default interface IPushoverConfigJson {
   userKeys: string[];
   annotateImage?: boolean;
   cooldownTime: number;
+  sound?: string;
 }

@@ -12,6 +12,7 @@
     "awaitwritefinish",
     "bufferutil",
     "cascadia",
+    "cashregister",
     "chokidar",
     "chokidar awaitwritefinish",
     "cooldown",
@@ -22,14 +23,18 @@
     "deepquestai",
     "deepstackai",
     "devcontainer",
+    "dggf",
     "esbenp",
     "localstorage",
     "localtriggerstorage",
     "markdownlint",
     "mosquitto",
     "mqtts",
+    "pianobar",
     "postversion",
     "pureimage",
-    "streetsidesoftware"
+    "spacealarm",
+    "streetsidesoftware",
+    "updown"
   ]
 }

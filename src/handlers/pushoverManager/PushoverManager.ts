@@ -15,6 +15,7 @@ import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import IPushoverManagerConfigJson from "./IPushoverManagerConfigJson";
 import pushoverManagerConfigurationSchema from "../../schemas/pushoverManagerConfiguration.schema.json";
 import PushoverClient from "../../pushoverClient/PushoverClient";
+import PushoverMessage from "../../pushoverClient/PushoverMessage";
 
 let isEnabled = false;
 // So ugly
@@ -112,23 +113,31 @@ export async function processTrigger(
       ? LocalStorageManager.mapToLocalStorage(fileName)
       : fileName;
 
+  // Build the pushover message options.
+  const pushoverMessage = new PushoverMessage({
+    imageFileName: imageFileName,
+    message: caption,
+    sound: trigger.pushoverConfig.sound,
+  });
+
   // Send all the messages
   try {
-    return Promise.all(trigger.pushoverConfig.userKeys.map(user => sendPushoverMessage(caption, imageFileName, user)));
+    return Promise.all(
+      trigger.pushoverConfig.userKeys.map(user => {
+        pushoverMessage.userKey = user;
+        sendPushoverMessage(pushoverMessage);
+      }),
+    );
   } catch (e) {
     log.warn("Pushover manager", `Unable to send message: ${e.error}`);
     return;
   }
 }
 
-async function sendPushoverMessage(caption: string, fileName: string, user: string): Promise<void> {
-  log.info("Pushover manager", `Sending message to ${user}`);
+async function sendPushoverMessage(message: PushoverMessage): Promise<void> {
+  log.info("Pushover manager", `Sending message to ${message.userKey}`);
 
-  return await pushClient.send({
-    userKey: user,
-    message: caption,
-    imageFileName: fileName,
-  });
+  return await pushClient.send(message);
 }
 
 /**
