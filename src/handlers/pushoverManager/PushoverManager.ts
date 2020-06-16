@@ -18,7 +18,6 @@ import PushoverClient from "../../pushoverClient/PushoverClient";
 import PushoverMessage from "../../pushoverClient/PushoverMessage";
 
 let isEnabled = false;
-// So ugly
 let pushClient: PushoverClient;
 
 // Tracks the last time each trigger fired, for use when calculating cooldown time windows
