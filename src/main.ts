@@ -17,6 +17,7 @@ import * as WebServer from "./WebServer";
 import * as helpers from "./helpers";
 let purgeInterval = 30;
 let purgeAge = 60;
+let awaitWrite = false;
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -46,6 +47,10 @@ function validateEnvironmentVariables(): boolean {
 
   if (process.env.ENABLE_ANNOTATIONS) {
     AnnotationManager.enable();
+  }
+
+  if (process.env.CHOKIDAR_AWAITWRITEFINISH) {
+    awaitWrite = true;
   }
 
   return isValid;
@@ -81,7 +86,7 @@ async function main() {
     await PushoverManager.loadConfiguration(["/run/secrets/pushover", "/config/pushover.json"]);
 
     // Start watching
-    TriggerManager.startWatching();
+    TriggerManager.startWatching(awaitWrite);
 
     // Notify it's up and running
     await MqttManager.publishServerState("online");

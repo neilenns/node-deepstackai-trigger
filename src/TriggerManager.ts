@@ -154,8 +154,8 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
 /**
  * Start all registered triggers watching for changes.
  */
-export function startWatching(): void {
-  _triggers.map(trigger => trigger.startWatching());
+export function startWatching(awaitWrite: boolean): void {
+  _triggers.map(trigger => trigger.startWatching(awaitWrite));
 }
 
 /**
