@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import IMqttHandlerConfigJson from "../handlers/mqttManager/IMqttHandlerConfigJson";
+import IPushoverConfigJson from "../handlers/pushoverManager/IPushoverConfigJson";
 import ITelegramConfigJson from "../handlers/telegramManager/ITelegramConfigJson";
 import IWebRequestHandlerJson from "../handlers/webRequest/IWebRequestHandlerJson";
 import Rect from "../Rect";
-import IPushoverConfigJson from "../handlers/pushoverManager/IPushoverConfigJson";
 
 export default interface ITriggerJson {
   cooldownTime: number;
