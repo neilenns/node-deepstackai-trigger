@@ -25,7 +25,7 @@ services:
       - triggers
       - mqtt
       # To enable Pushover support during development uncomment this line.
-      - pushover
+      # - pushover
       # To enable Telegram support during development uncomment this line.
       # See CONTRIBUTING.md for more details.
       # - telegram
