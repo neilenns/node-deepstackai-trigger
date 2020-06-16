@@ -39,6 +39,7 @@ export function format(
     fileName: optionallyEncode(fileName, urlEncode),
     baseName: optionallyEncode(path.basename(fileName), urlEncode),
     predictions: optionallyEncode(JSON.stringify(predictions), urlEncode),
+    analysisDurationMs: trigger.analysisDuration,
     formattedPredictions: optionallyEncode(formatPredictions(predictions), urlEncode),
     state: "on",
     name: trigger.name,

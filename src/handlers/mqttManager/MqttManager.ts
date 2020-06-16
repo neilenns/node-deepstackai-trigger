@@ -147,6 +147,7 @@ async function publishDetectionMessage(
     : JSON.stringify({
         fileName,
         name: trigger.name,
+        analysisDurationMs: trigger.analysisDuration,
         basename: path.basename(fileName),
         predictions,
         formattedPredictions: mustacheFormatter.formatPredictions(predictions),

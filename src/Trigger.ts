@@ -27,6 +27,7 @@ export default class Trigger {
   private _processExisting: boolean;
   private _watcher: chokidar.FSWatcher;
 
+  public analysisDuration: number;
   public receivedDate: Date;
   public name: string;
   public watchPattern: string;
@@ -64,7 +65,9 @@ export default class Trigger {
 
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
     log.info(`Trigger ${this.name}`, `${fileName}: Analyzing`);
+    const startTime = new Date();
     const analysis = await analyzeImage(fileName);
+    this.analysisDuration = new Date().getTime() - startTime.getTime();
 
     if (!analysis?.success) {
       log.error(`Trigger ${this.name}`, `${fileName}: Analysis failed`);
@@ -72,11 +75,14 @@ export default class Trigger {
     }
 
     if (analysis.predictions.length == 0) {
-      log.info(`Trigger ${this.name}`, `${fileName}: No objects detected`);
+      log.info(`Trigger ${this.name}`, `${fileName}: No objects detected. (${this.analysisDuration} ms)`);
       return undefined;
     }
 
-    log.info(`Trigger ${this.name}`, `${fileName}: Found at least one object in the photo`);
+    log.info(
+      `Trigger ${this.name}`,
+      `${fileName}: Found at least one object in the photo. (${this.analysisDuration} ms)`,
+    );
     return analysis.predictions;
   }
 
