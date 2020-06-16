@@ -16,10 +16,6 @@ export default class PushoverMessage {
    */
   public userKey?: string;
   /**
-   * The device name for the message recipient.
-   */
-  public device?: string;
-  /**
    * The image file to attach to the message.
    */
   public imageFileName: string;
