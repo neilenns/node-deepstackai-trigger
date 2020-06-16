@@ -146,6 +146,7 @@ async function publishDetectionMessage(
     ? mustacheFormatter.format(messageConfig.payload, fileName, trigger, predictions)
     : JSON.stringify({
         fileName,
+        name: trigger.name,
         basename: path.basename(fileName),
         predictions,
         formattedPredictions: mustacheFormatter.formatPredictions(predictions),
