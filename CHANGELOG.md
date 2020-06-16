@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 2.1.0
 
 - The length of time it takes to analyze an image is now calculated and available via the `analysisDurationMs` property in the default
   MQTT message. It is also available as a mustache template variable and shown in verbose logging messages. Resolves [issue 242](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/242).
