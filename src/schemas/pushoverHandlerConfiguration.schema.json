@@ -22,6 +22,36 @@
       "minLength": 1,
       "examples": ["Front door: {{formattedPredictions}}"]
     },
+    "sound": {
+      "description": "Pushover notification sound to play. If unspecified the Pushover default is used. See https://pushover.net/api#sounds to play each of the sounds.",
+      "type": "string",
+      "examples": ["magic"],
+      "enum": [
+        "pushover",
+        "bike",
+        "bugle",
+        "cashregister",
+        "classical",
+        "cosmic",
+        "falling",
+        "gamelan",
+        "incoming",
+        "intermission",
+        "magic",
+        "mechanical",
+        "pianobar",
+        "siren",
+        "spacealarm",
+        "tugboat",
+        "alien",
+        "climb",
+        "persistent",
+        "echo",
+        "updown",
+        "vibrate",
+        "none"
+      ]
+    },
     "annotateImage": {
       "description": "Set to true to send an image with annotations overlaid for detected objects.",
       "type": "boolean",

@@ -8,8 +8,13 @@ export default class PushoverMessage {
   public userKey?: string;
   public device?: string;
   public imageFileName: string;
+  public sound?: string;
 
   constructor(init?: Partial<PushoverMessage>) {
     Object.assign(this, init);
+
+    // Set the default sound to Pushover's default. Makes
+    // building the submission to Pushover easier later.
+    this.sound = this.sound ?? "pushover";
   }
 }

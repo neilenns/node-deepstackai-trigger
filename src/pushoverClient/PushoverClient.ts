@@ -21,13 +21,8 @@ export default class PushoverClient {
       token: this.apiKey,
       user: this.userKey,
       message: message.message,
-      file: {
-        value: fs.createReadStream(message.imageFileName),
-        options: {
-          filename: message.imageFileName,
-          contentType: "image/jpeg",
-        },
-      },
+      sound: message.sound,
+      attachment: fs.createReadStream(message.imageFileName),
     };
 
     return await request
