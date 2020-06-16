@@ -7,6 +7,10 @@
   the handler configuration. The annotated images are also exposed via a web server on port `4242` using their original file name
   for use by external services, for example `http://localhost:4242/Dog_20200523-075000.jpg`. By default the images are kept for 60 minutes before being deleted. This new capability comes with a performance impact due to the additional image manipulation required and is off by default. To enable it set the `ENABLE_ANNOTATIONS` environment variable on the trigger Docker container to true. Resolves [issue 187](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/191).
 - Resolve a warning when using Telegram triggers. Resolves [issue 174](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/174).
+- Added a new `CHOKIDAR_AWAITWRITEFINISH` environment variable that, when true,
+  resolves issues with images getting saved to a network share that's then mounted
+  to Docker as the image source. As this has a performance impact it is off
+  by default. Resolves [issue 236](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/236).
 - An optional `/node-deepstackai-trigger` mount point exists for future use. Resolves
   [issue 191](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/191).
 
