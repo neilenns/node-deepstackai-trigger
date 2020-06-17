@@ -69,7 +69,7 @@ async function main() {
 
     // MQTT manager loads first so if it succeeds but other things fail
     // we can report the failures via MQTT.
-    await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
+    await MqttManager.initialize();
 
     if (!validateEnvironmentVariables()) {
       throw Error(
@@ -86,8 +86,8 @@ async function main() {
     }
 
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
-    await TelegramManager.loadConfiguration(["/run/secrets/telegram", "/config/telegram.json"]);
-    await PushoverManager.loadConfiguration(["/run/secrets/pushover", "/config/pushover.json"]);
+    await TelegramManager.initialize();
+    await PushoverManager.initialize();
 
     // Start watching
     TriggerManager.startWatching(awaitWrite);

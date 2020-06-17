@@ -7,10 +7,12 @@
     "statusTopic": "aimotion/status"
   },
   "telegram": {
-    "botToken": "insert bot token here"
+    "botToken": "insert bot token here",
+    "enabled": false
   },
   "pushover": {
     "apiKey": "api key here",
-    "userKey": "user key here"
+    "userKey": "user key here",
+    "enabled": false
   }
 }
