@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 2.1.1
 
 - Fix an incorrect message at startup regarding annotations being enabled when they aren't.
   Resolves [issue 247](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/247).
