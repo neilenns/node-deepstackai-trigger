@@ -21,6 +21,12 @@
       "type": "string",
       "examples": ["pass"]
     },
+    "retain": {
+      "description": "If true all MQTT messages are published with the retain flag set. Default false.",
+      "type": "boolean",
+      "default": false,
+      "examples": ["true"]
+    },
     "rejectUnauthorized": {
       "description": "Controls whether connections to mqtts:// servers should allow self-signed certificates. Set to false if your MQTT certificates are self-signed and are getting connection errors.",
       "type": "boolean",
