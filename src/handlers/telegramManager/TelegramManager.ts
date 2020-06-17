@@ -8,7 +8,7 @@ process.env.NTBA_FIX_350 = "true";
 import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
-import * as AnnotationManager from "../annotationManager/AnnotationManager";
+import * as Settings from "../../Settings";
 import TelegramBot from "node-telegram-bot-api";
 import { promises as fsPromise } from "fs";
 import Trigger from "../../Trigger";
@@ -74,7 +74,7 @@ export async function processTrigger(
   // Figure out the path to the file to send based on whether
   // annotated images were requested in the config.
   const imageFileName =
-    trigger.telegramConfig.annotateImage && AnnotationManager.enabled
+    trigger.telegramConfig.annotateImage && Settings.enableAnnotations
       ? LocalStorageManager.mapToLocalStorage(fileName)
       : fileName;
 

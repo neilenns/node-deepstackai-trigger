@@ -6,7 +6,7 @@
 import * as log from "../../Log";
 import * as LocalStorageManager from "../../LocalStorageManager";
 import * as mustacheFormatter from "../../MustacheFormatter";
-import * as AnnotationManager from "../annotationManager/AnnotationManager";
+import * as Settings from "../../Settings";
 import { pushover as settings } from "../../Settings";
 import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
@@ -73,7 +73,7 @@ export async function processTrigger(
   // Figure out the path to the file to send based on whether
   // annotated images were requested in the config.
   const imageFileName =
-    trigger.pushoverConfig.annotateImage && AnnotationManager.enabled
+    trigger.pushoverConfig.annotateImage && Settings.enableAnnotations
       ? LocalStorageManager.mapToLocalStorage(fileName)
       : fileName;
 

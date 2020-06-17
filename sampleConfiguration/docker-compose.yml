@@ -13,12 +13,11 @@ services:
       # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       # The value to use is in the "TZ database name" column.
       - TZ=America/Los_Angeles
-      # Modify this to change the default port used for the service that returns
-      # annotated images. If you change this you also have to set the same value
-      # in the ports: section below.
-      - PORT=4242
 
     ports:
+      # This port is used by the local web server when annotated images are enabled.
+      # If you change the port used by the local web server in the settings.json file
+      # this also has to change to match.
       - 4242:4242
 
     secrets:
