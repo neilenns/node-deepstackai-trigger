@@ -5,5 +5,5 @@
 export default interface IPushoverManagerConfigJson {
   apiKey: string;
   userKey: string;
-  enabled? boolean;
+  enabled?: boolean;
 }

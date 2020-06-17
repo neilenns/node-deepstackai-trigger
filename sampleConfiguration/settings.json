@@ -4,15 +4,12 @@
     "uri": "mqtt://mqtt:1883",
     "username": "user",
     "password": "pass",
-    "statusTopic": "aimotion/status",
-    "enabled": false
+    "statusTopic": "aimotion/status"
   },
   "telegram": {
-    "enabled": false,
     "botToken": "insert bot token here"
   },
   "pushover": {
-    "enabled": false,
     "apiKey": "api key here",
     "userKey": "user key here"
   }

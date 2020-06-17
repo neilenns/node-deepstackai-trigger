@@ -175,6 +175,7 @@ function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
 
   return true;
 }
+
 /**
  * Loads a trigger configuration file
  * @param configFilePath The path to the configuration file

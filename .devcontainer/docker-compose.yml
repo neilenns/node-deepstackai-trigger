@@ -22,6 +22,7 @@ services:
       - ..:/workspace:cached
       - ../sampleConfiguration/aiinput:/aiinput
     secrets:
+      - settings
       - triggers
       - mqtt
       # To enable Pushover support during development uncomment this line.
@@ -55,6 +56,8 @@ volumes:
   localstorage:
 
 secrets:
+  settings:
+    file: ../sampleConfiguration/settings.json
   triggers:
     file: ../sampleConfiguration/triggers.json
   mqtt:

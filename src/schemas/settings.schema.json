@@ -5,7 +5,6 @@
   "title": "Settings for the trigger engine.",
   "description": "Configures options for various system-level controls.",
   "uniqueItems": true,
-  "additionalProperties": false,
   "properties": {
     "mqtt": {
       "description": "Enables and configures MQTT events.",

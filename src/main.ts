@@ -15,6 +15,7 @@ import * as TriggerManager from "./TriggerManager";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as WebServer from "./WebServer";
 import * as helpers from "./helpers";
+import * as Settings from "./Settings";
 
 let purgeInterval = 30;
 let purgeAge = 60;
@@ -63,6 +64,9 @@ async function main() {
   log.info("Main", `Current time is ${new Date()}`);
 
   try {
+    // Load the settings file.
+    await Settings.loadConfiguration(["/run/secrets/settings"]);
+
     // MQTT manager loads first so if it succeeds but other things fail
     // we can report the failures via MQTT.
     await MqttManager.loadConfiguration(["/run/secrets/mqtt", "/config/mqtt.json"]);
