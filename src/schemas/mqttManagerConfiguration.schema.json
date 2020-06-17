@@ -32,6 +32,12 @@
       "type": "string",
       "default": "node-deepstackai-trigger/status",
       "examples": ["aimotion/status"]
+    },
+    "enabled": {
+      "description": "Enables MQTT events.",
+      "type": "boolean",
+      "default": true,
+      "examples": ["false"]
     }
   }
 }

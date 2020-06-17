@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/settings.schema.json",
+  "type": "object",
+  "title": "Settings for the trigger engine.",
+  "description": "Configures options for various system-level controls.",
+  "uniqueItems": true,
+  "additionalProperties": false,
+  "properties": {
+    "mqtt": {
+      "description": "Enables and configures MQTT events.",
+      "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/mqttManagerConfiguration.schema.json"
+    },
+    "telegram": {
+      "description": "Enables and configures Telegram bot messages.",
+      "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramManagerConfiguration.schema.json"
+    },
+    "pushover": {
+      "description": "Enables and configures Pushover messages.",
+      "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverManagerConfiguration.schema.json"
+    }
+  }
+}

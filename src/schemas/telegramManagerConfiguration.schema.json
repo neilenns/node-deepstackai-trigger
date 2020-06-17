@@ -10,6 +10,12 @@
       "description": "The access token for Telegram.",
       "type": "string",
       "examples": ["1122334455:AABBCCDDEEFFGGhhiijjkkllmm"]
+    },
+    "enabled": {
+      "description": "Enables MQTT events.",
+      "type": "boolean",
+      "default": true,
+      "examples": ["false"]
     }
   }
 }

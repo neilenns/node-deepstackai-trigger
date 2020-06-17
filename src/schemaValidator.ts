@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import * as log from "./Log";
 import Ajv from "ajv";
+import settingsSchema from "./schemas/settings.schema.json";
 import mqttHandlerConfiguration from "./schemas/mqttHandlerConfiguration.schema.json";
 import mqttManagerConfiguration from "./schemas/mqttManagerConfiguration.schema.json";
 import telegramHandlerConfiguration from "./schemas/telegramHandlerConfiguration.schema.json";
@@ -30,6 +31,10 @@ export default async function validateJsonAgainstSchema(
   // Register all the schemas that get used with this app. It doesn't matter
   // if they are for different schema files/uses, ajv only loads them when
   // actually required by the file being processed.
+  validator.addSchema(
+    settingsSchema,
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/settings.schema.json",
+  );
   validator.addSchema(
     triggerSchema,
     "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/triggerConfiguration.schema.json",

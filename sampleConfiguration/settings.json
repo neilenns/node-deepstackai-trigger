@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/settings.schema.json",
+  "mqtt": {
+    "uri": "mqtt://mqtt:1883",
+    "username": "user",
+    "password": "pass",
+    "statusTopic": "aimotion/status",
+    "enabled": false
+  },
+  "telegram": {
+    "enabled": false,
+    "botToken": "insert bot token here"
+  },
+  "pushover": {
+    "enabled": false,
+    "apiKey": "api key here",
+    "userKey": "user key here"
+  }
+}
