@@ -4,4 +4,5 @@
  *--------------------------------------------------------------------------------------------*/
 export default interface ITelegramManagerConfigJson {
   botToken: string;
+  enabled?: boolean;
 }
