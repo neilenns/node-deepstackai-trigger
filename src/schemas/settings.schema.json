@@ -5,6 +5,7 @@
   "title": "Settings for the trigger engine.",
   "description": "Configures options for various system-level controls.",
   "uniqueItems": true,
+  "required": ["deepstackUri"],
   "properties": {
     "awaitWriteFinish": {
       "type": "boolean",
@@ -22,6 +23,12 @@
       "type": "string",
       "description": "The address of the Deepstack AI processing server.",
       "examples": ["http://deepstack-ai:5000/"]
+    },
+    "port": {
+      "type": "number",
+      "description": "The port the local web server attaches to. Only used when enableAnnotations is true, and also requires the port be exposed in the Docker configuration.",
+      "default": 4242,
+      "examples": [9050]
     },
     "processExistingImages": {
       "type": "boolean",

@@ -17,6 +17,7 @@ export let awaitWriteFinish: boolean;
 export let deepstackUri: string;
 export let enableAnnotations: boolean;
 export let mqtt: IMqttManagerConfigJson;
+export let port: number;
 export let processExistingImages: boolean;
 export let purgeAge: number;
 export let purgeInterval: number;
@@ -61,6 +62,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
   deepstackUri = settingsConfigJson.deepstackUri;
   enableAnnotations = settingsConfigJson.enableAnnotations ?? false;
   mqtt = settingsConfigJson.mqtt;
+  port = settingsConfigJson.port ?? 4242;
   processExistingImages = settingsConfigJson.processExistingImages ?? false;
   purgeAge = settingsConfigJson.purgeAge ?? 30;
   purgeInterval = settingsConfigJson.purgeInterval ?? 60;

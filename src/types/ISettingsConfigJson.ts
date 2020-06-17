@@ -11,6 +11,7 @@ export default interface ISettingsConfigJson {
   deepstackUri: string;
   enableAnnotations?: boolean;
   mqtt?: IMqttManagerConfigJson;
+  port?: number;
   processExistingImages?: boolean;
   purgeAge?: number;
   purgeInterval?: number;
