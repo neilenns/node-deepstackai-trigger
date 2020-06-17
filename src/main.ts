@@ -75,11 +75,10 @@ async function main() {
 
     // Initialize the local storage and web server
     if (AnnotationManager.enabled) {
+      log.info("Main", "Annotated images are enabled due to presence of the ENABLE_ANNOTATIONS environment variable.");
       await LocalStorageManager.initializeStorage();
       LocalStorageManager.startBackgroundPurge(purgeInterval, purgeAge);
       WebServer.startApp();
-    } else {
-      log.info("Main", "Annotated images are enabled due to presence of the ENABLE_ANNOTATIONS environment variable.");
     }
 
     await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);

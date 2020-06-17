@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+- Fix an incorrect message at startup regarding annotations being enabled when they aren't.
+  Resolves [issue 247](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/247).
+
 ## Version 2.1.0
 
 - The length of time it takes to analyze an image is now calculated and available via the `analysisDurationMs` property in the default
