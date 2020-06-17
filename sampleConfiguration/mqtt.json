@@ -3,5 +3,6 @@
   "uri": "mqtt://mqtt:1883",
   "username": "user",
   "password": "pass",
-  "statusTopic": "aimotion/status"
+  "statusTopic": "aimotion/status",
+  "retain": false
 }

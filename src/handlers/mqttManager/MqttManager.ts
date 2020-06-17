@@ -19,6 +19,7 @@ import MqttMessageConfig from "./MqttMessageConfig";
 
 let isEnabled = false;
 let statusTopic = "node-deepstackai-trigger/status";
+let retain = false;
 
 let mqttClient: MQTT.AsyncClient;
 const timers = new Map<string, NodeJS.Timeout>();
@@ -72,6 +73,11 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     statusTopic = mqttConfigJson.statusTopic;
   }
 
+  if (mqttConfigJson.retain) {
+    retain = mqttConfigJson.retain;
+    log.info("Mqtt manager", "Retain flag set in configuration. All messages will be published with retain turned on.");
+  }
+
   mqttClient = await MQTT.connectAsync(mqttConfigJson.uri, {
     username: mqttConfigJson.username,
     password: mqttConfigJson.password,
@@ -81,7 +87,7 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
       topic: statusTopic,
       payload: JSON.stringify({ state: "offline" }),
       qos: 2,
-      retain: false,
+      retain,
     },
   }).catch(e => {
     throw new Error(`[MQTT Manager] Unable to connect: ${e.message}`);
@@ -154,7 +160,7 @@ async function publishDetectionMessage(
         state: "on",
       });
 
-  return await mqttClient.publish(messageConfig.topic, detectionPayload);
+  return await mqttClient.publish(messageConfig.topic, detectionPayload, { retain });
 }
 
 /**
@@ -181,6 +187,7 @@ export async function publishStatisticsMessage(
         triggerCount,
         analyzedFilesCount,
       }),
+      { retain },
     ),
   ];
 }
@@ -194,7 +201,7 @@ export async function publishServerState(state: string, details?: string): Promi
     return;
   }
 
-  return mqttClient.publish(statusTopic, JSON.stringify({ state, details }));
+  return mqttClient.publish(statusTopic, JSON.stringify({ state, details }), { retain });
 }
 
 /**
@@ -202,7 +209,7 @@ export async function publishServerState(state: string, details?: string): Promi
  * @param topic The topic to publish the message on
  */
 async function publishOffEvent(topic: string): Promise<IPublishPacket> {
-  return await mqttClient.publish(topic, JSON.stringify({ state: "off" }));
+  return await mqttClient.publish(topic, JSON.stringify({ state: "off" }), { retain });
 }
 
 /**
