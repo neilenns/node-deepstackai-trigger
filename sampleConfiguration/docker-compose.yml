@@ -17,32 +17,13 @@ services:
       # annotated images. If you change this you also have to set the same value
       # in the ports: section below.
       - PORT=4242
-      # Uncomment this line to enable the internal web server and
-      # generation of annotated images
-      # - ENABLE_ANNOTATIONS=true
-      # Uncomment this line if you are storing the source images
-      # on a network drive that is mounted to Docker and are getting
-      # errors from Deepstack saying {"success":false,"error":"invalid image"}
-      # - CHOKIDAR_AWAITWRITEFINISH=true
-      # This is pre-configured for service-to-service connectivity in
-      # Docker. Don't change this unless there is a need to talk to an
-      # external DeepStack server somewhere and you know what you are doing.
-      - DEEPSTACK_URI=http://deepstack-ai:5000/
 
     ports:
       - 4242:4242
 
     secrets:
       - triggers
-      # To enable MQTT uncomment the following line and add the server
-      # connection settings to mqtt.json
-      # - mqtt
-      # To enable Telegram uncomment the following line and add the bot
-      # token to telegram.json
-      # - telegram
-      # To enable Pushover uncomment the following line and add configuration
-      # details to pushover.json
-      # - pushover
+      - settings
 
     # ------------------------------------------------------------------------
     # Don't change anything below this line unless you know what you are doing
@@ -63,15 +44,9 @@ volumes:
   localstorage:
 
 secrets:
+  settings:
+    # This should point to the location of the settings.json configuration file
+    file: ./settings.json
   triggers:
     # This should point to the location of the triggers.json configuration file
     file: ./triggers.json
-  mqtt:
-    # This should point to the location of the mqtt.json configuration file
-    file: ./mqtt.json
-  telegram:
-    # This should point to the location of the telegram.json configuration file
-    file: ./telegram.json
-  pushover:
-    # This should point to the location of the pushover.json configuration file
-    file: ./pushover.json

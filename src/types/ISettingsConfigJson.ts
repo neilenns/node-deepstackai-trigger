@@ -7,7 +7,13 @@ import ITelegramManagerConfigJson from "../handlers/telegramManager/ITelegramMan
 import IPushoverManagerConfigJson from "../handlers/pushoverManager/IPushoverManagerConfigJson";
 
 export default interface ISettingsConfigJson {
-  mqtt: IMqttManagerConfigJson;
-  telegram: ITelegramManagerConfigJson;
-  pushover: IPushoverManagerConfigJson;
+  awaitWriteFinish?: boolean;
+  deepstackUri: string;
+  enableAnnotations?: boolean;
+  mqtt?: IMqttManagerConfigJson;
+  processExistingImages?: boolean;
+  purgeAge?: number;
+  purgeInterval?: number;
+  pushover?: IPushoverManagerConfigJson;
+  telegram?: ITelegramManagerConfigJson;
 }

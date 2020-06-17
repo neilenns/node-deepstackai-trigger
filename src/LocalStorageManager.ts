@@ -3,8 +3,10 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import mkdirp from "mkdirp";
 import * as log from "./Log";
+import * as Settings from "./Settings";
+
+import mkdirp from "mkdirp";
 import { promises as fsPromise } from "fs";
 import path from "path";
 
@@ -12,16 +14,6 @@ import path from "path";
  * Number of milliseconds in a minute
  */
 const millisecondsInAMinute = 1000 * 60;
-
-/**
- * How long an image has to sit in local storage before it gets removed, in minutes.
- */
-let purgeAge: number;
-
-/**
- * How often the purge runs, in minutes.
- */
-let purgeInterval: number;
 
 /**
  * The background timer that runs the local file purge.
@@ -68,13 +60,10 @@ export async function copyToLocalStorage(fileName: string): Promise<string> {
  * @param interval Frequency of purge, in minutes
  * @param age Age of a file, in minutes, to get purged
  */
-export function startBackgroundPurge(interval?: number, age?: number): void {
-  purgeAge = age ?? 60; // Default is one hour
-  purgeInterval = interval ?? 60; // Default is one hour
-
+export function startBackgroundPurge(): void {
   log.info(
     "Local storage",
-    `Enabling background purge every ${purgeInterval} minutes for files older than ${purgeAge} minutes.`,
+    `Enabling background purge every ${Settings.purgeInterval} minutes for files older than ${Settings.purgeAge} minutes.`,
   );
   purgeOldFiles();
 }
@@ -98,7 +87,7 @@ async function purgeOldFiles(): Promise<void> {
   await Promise.all((await fsPromise.readdir(localStoragePath)).map(async fileName => await purgeFile(fileName)));
 
   log.info("Local storage", "Purge complete");
-  backgroundTimer = setTimeout(purgeOldFiles, purgeInterval * millisecondsInAMinute);
+  backgroundTimer = setTimeout(purgeOldFiles, Settings.purgeInterval * millisecondsInAMinute);
 }
 
 /**
@@ -111,7 +100,7 @@ async function purgeFile(fileName: string): Promise<void> {
 
   const minutesSinceLastAccess = (new Date().getTime() - lastAccessTime.getTime()) / millisecondsInAMinute;
 
-  if (minutesSinceLastAccess > purgeAge) {
+  if (minutesSinceLastAccess > Settings.purgeAge) {
     await fsPromise.unlink(fullLocalPath);
     log.info("Local storage", `Purging ${fileName}. Age: ${minutesSinceLastAccess.toFixed(0)} minutes.`);
   }

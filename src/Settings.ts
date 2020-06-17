@@ -13,9 +13,15 @@ import * as fs from "fs";
 import * as JSONC from "jsonc-parser";
 import ISettingsConfigJson from "./types/ISettingsConfigJson";
 
+export let awaitWriteFinish: boolean;
+export let deepstackUri: string;
+export let enableAnnotations: boolean;
 export let mqtt: IMqttManagerConfigJson;
-export let telegram: ITelegramManagerConfigJson;
+export let processExistingImages: boolean;
+export let purgeAge: number;
+export let purgeInterval: number;
 export let pushover: IPushoverManagerConfigJson;
+export let telegram: ITelegramManagerConfigJson;
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
@@ -51,9 +57,15 @@ export async function loadConfiguration(configFilePaths: string[]): Promise<void
     throw new Error("[Settings] Invalid configuration file.");
   }
 
+  awaitWriteFinish = settingsConfigJson.awaitWriteFinish ?? false;
+  deepstackUri = settingsConfigJson.deepstackUri;
+  enableAnnotations = settingsConfigJson.enableAnnotations ?? false;
   mqtt = settingsConfigJson.mqtt;
-  telegram = settingsConfigJson.telegram;
+  processExistingImages = settingsConfigJson.processExistingImages ?? false;
+  purgeAge = settingsConfigJson.purgeAge ?? 30;
+  purgeInterval = settingsConfigJson.purgeInterval ?? 60;
   pushover = settingsConfigJson.pushover;
+  telegram = settingsConfigJson.telegram;
 
   log.info("Settings", `Loaded settings from ${loadedSettingsFilePath}`);
 }

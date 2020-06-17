@@ -4,9 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 import * as fs from "fs";
 import * as JSONC from "jsonc-parser";
-import request from "request-promise-native";
-
+import * as Settings from "./Settings";
 import * as log from "./Log";
+
+import request from "request-promise-native";
 import IDeepStackResponse from "./types/IDeepStackResponse";
 
 export default async function analyzeImage(fileName: string): Promise<IDeepStackResponse> {
@@ -17,10 +18,10 @@ export default async function analyzeImage(fileName: string): Promise<IDeepStack
   const rawResponse = await request
     .post({
       formData: form,
-      uri: new URL("/v1/vision/detection", process.env.DEEPSTACK_URI).toString(),
+      uri: new URL("/v1/vision/detection", Settings.deepstackUri).toString(),
     })
     .catch(e => {
-      log.error("DeepStack", `Failed to call DeepStack at ${process.env.DEEPSTACK_URI}: ${e.error}`);
+      log.error("DeepStack", `Failed to call DeepStack at ${Settings.deepstackUri}: ${e.error}`);
       return [];
     });
 

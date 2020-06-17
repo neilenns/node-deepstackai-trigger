@@ -6,7 +6,6 @@
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
 import npmPackageInfo from "../package.json";
-import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
@@ -14,45 +13,14 @@ import * as log from "./Log";
 import * as TriggerManager from "./TriggerManager";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as WebServer from "./WebServer";
-import * as helpers from "./helpers";
 import * as Settings from "./Settings";
-
-let purgeInterval = 30;
-let purgeAge = 60;
-let awaitWrite = false;
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
 
-  if (!process.env.DEEPSTACK_URI) {
-    log.error("Main", "Required environment variable DEEPSTACK_URI is missing.");
-    isValid = false;
-  }
-
   if (!process.env.TZ) {
     log.error("Main", "Required environment variable TZ is missing.");
     isValid = false;
-  }
-
-  // Get the purge interval and purge age from environment variables, with all sorts
-  // of funky stuff to convert a string to a number nicely and not override
-  // the default values if nothing valid was specified.
-  const purgeIntervalValue = helpers.convertStringToNumber(process.env.PURGE_INTERVAL);
-  if (purgeIntervalValue) {
-    purgeInterval = purgeIntervalValue;
-  }
-
-  const purgeAgeValue = helpers.convertStringToNumber(process.env.PURGE_AGE);
-  if (purgeAgeValue) {
-    purgeAge = purgeAgeValue;
-  }
-
-  if (process.env.ENABLE_ANNOTATIONS) {
-    AnnotationManager.enable();
-  }
-
-  if (process.env.CHOKIDAR_AWAITWRITEFINISH) {
-    awaitWrite = true;
   }
 
   return isValid;
@@ -78,10 +46,10 @@ async function main() {
     }
 
     // Initialize the local storage and web server
-    if (AnnotationManager.enabled) {
+    if (Settings.enableAnnotations) {
       log.info("Main", "Annotated images are enabled due to presence of the ENABLE_ANNOTATIONS environment variable.");
       await LocalStorageManager.initializeStorage();
-      LocalStorageManager.startBackgroundPurge(purgeInterval, purgeAge);
+      LocalStorageManager.startBackgroundPurge();
       WebServer.startApp();
     }
 
@@ -90,7 +58,7 @@ async function main() {
     await PushoverManager.initialize();
 
     // Start watching
-    TriggerManager.startWatching(awaitWrite);
+    TriggerManager.startWatching();
 
     // Notify it's up and running
     await MqttManager.publishServerState("online");

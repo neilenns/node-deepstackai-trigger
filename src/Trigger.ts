@@ -11,6 +11,7 @@ import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
 import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
+import * as Settings from "./Settings";
 
 import analyzeImage from "./DeepStack";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
@@ -24,7 +25,6 @@ import Rect from "./Rect";
 export default class Trigger {
   private _initializedTime: Date;
   private _lastTriggerTime: Date;
-  private _processExisting: boolean;
   private _watcher: chokidar.FSWatcher;
 
   public analysisDuration: number;
@@ -55,12 +55,6 @@ export default class Trigger {
     // This gets initialized to the epoch date so the first process of an image always passes the
     // cooldown timeout test.
     this._lastTriggerTime = new Date("1/1/1970");
-
-    // If there's an environment variable set for PROCESS_EXISTING_IMAGES then parse it
-    // into an actual boolean value. Otherwise it's false.
-    this._processExisting = process.env.PROCESS_EXISTING_IMAGES
-      ? (JSONC.parse(process.env.PROCESS_EXISTING_IMAGES) as boolean)
-      : false;
   }
 
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
@@ -152,7 +146,7 @@ export default class Trigger {
     // correctly even during development.
     this.receivedDate = new Date(stats.atimeMs);
 
-    if (this.receivedDate < this._initializedTime && !this._processExisting) {
+    if (this.receivedDate < this._initializedTime && !Settings.processExistingImages) {
       log.info(`Trigger ${this.name}`, `${fileName}: Skipping as it was created before the service started.`);
       return false;
     }
@@ -278,14 +272,14 @@ export default class Trigger {
    * down but necessary when this runs on a Docker container with images stored on a network drive.
    * @returns True if watching was started, false if it was skipped because the trigger isn't enabled
    */
-  public startWatching(awaitWrite: boolean): boolean {
+  public startWatching(): boolean {
     if (!this.enabled) {
       return false;
     }
 
     try {
       this._watcher = chokidar
-        .watch(this.watchPattern, { awaitWriteFinish: awaitWrite })
+        .watch(this.watchPattern, { awaitWriteFinish: Settings.awaitWriteFinish })
         .on("add", this.processImage.bind(this));
       log.info(`Trigger ${this.name}`, `Listening for new images in ${this.watchPattern}`);
     } catch (e) {

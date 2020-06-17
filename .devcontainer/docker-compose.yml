@@ -9,9 +9,7 @@ version: "3.3"
 services:
   trigger:
     environment:
-      - DEEPSTACK_URI=http://deepstack-ai:5000/
       - TZ=America/Los_Angeles
-      - PROCESS_EXISTING_IMAGES=true
     image: node:alpine
     build:
       context: .
@@ -24,12 +22,6 @@ services:
     secrets:
       - settings
       - triggers
-      - mqtt
-      # To enable Pushover support during development uncomment this line.
-      # - pushover
-      # To enable Telegram support during development uncomment this line.
-      # See CONTRIBUTING.md for more details.
-      # - telegram
     ports:
       - 4242:4242
 
@@ -60,9 +52,3 @@ secrets:
     file: ../sampleConfiguration/settings.json
   triggers:
     file: ../sampleConfiguration/triggers.json
-  mqtt:
-    file: ../sampleConfiguration/mqtt.json
-  telegram:
-    file: ../sampleConfiguration/telegram.json
-  pushover:
-    file: ../sampleConfiguration/pushover.json

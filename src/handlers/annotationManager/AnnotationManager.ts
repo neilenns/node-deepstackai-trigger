@@ -9,25 +9,7 @@ import * as LocalStorageManager from "../../LocalStorageManager";
 import PImage from "pureimage";
 import * as fs from "fs";
 import * as log from "../../Log";
-
-/**
- * True if annotations are enabled
- */
-export let enabled = false;
-
-/**
- * Enables annotations
- */
-export function enable(): void {
-  enabled = true;
-}
-
-/**
- * Disables annotations
- */
-export function disable(): void {
-  enabled = false;
-}
+import * as settings from "../../Settings";
 
 /**
  * Generates an annotated image based on a list of predictions and
@@ -42,7 +24,7 @@ export async function processTrigger(
   trigger: Trigger,
   predictions: IDeepStackPrediction[],
 ): Promise<void> {
-  if (!enabled) {
+  if (!settings.enableAnnotations) {
     return;
   }
 
