@@ -21,6 +21,7 @@ export let purgeAge: number;
 export let purgeInterval: number;
 export let pushover: IPushoverManagerConfigJson;
 export let telegram: ITelegramManagerConfigJson;
+export let verbose: boolean;
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
@@ -58,6 +59,7 @@ export function loadConfiguration(configFilePaths: string[]): void {
   purgeInterval = settingsConfigJson.purgeInterval ?? 60;
   pushover = settingsConfigJson.pushover;
   telegram = settingsConfigJson.telegram;
+  verbose = settingsConfigJson.verbose ?? false;
 
   log.info("Settings", `Loaded settings from ${loadedSettingsFilePath}`);
 }

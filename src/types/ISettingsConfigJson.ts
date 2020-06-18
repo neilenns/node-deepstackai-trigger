@@ -17,4 +17,5 @@ export default interface ISettingsConfigJson {
   purgeInterval?: number;
   pushover?: IPushoverManagerConfigJson;
   telegram?: ITelegramManagerConfigJson;
+  verbose?: boolean;
 }

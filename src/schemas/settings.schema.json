@@ -48,6 +48,12 @@
       "default": 60,
       "examples": [300]
     },
+    "verbose": {
+      "type": "boolean",
+      "description": "Enables verbose logging.",
+      "default": false,
+      "examples": [true]
+    },
     "mqtt": {
       "description": "Enables and configures MQTT events.",
       "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/mqttManagerConfiguration.schema.json"

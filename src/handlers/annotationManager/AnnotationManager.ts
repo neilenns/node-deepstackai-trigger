@@ -29,7 +29,7 @@ export async function processTrigger(
     return;
   }
 
-  log.info("Annotations", `Annotating ${fileName}`);
+  log.verbose("Annotations", `Annotating ${fileName}`);
   const outputFileName = LocalStorageManager.mapToLocalStorage(fileName);
   const font = PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code");
 
@@ -54,5 +54,5 @@ export async function processTrigger(
   });
 
   await PImage.encodeJPEGToStream(decodedImage, fs.createWriteStream(outputFileName), 75);
-  log.info("Annotations", `Done annotating ${fileName}`);
+  log.verbose("Annotations", `Done annotating ${fileName}`);
 }

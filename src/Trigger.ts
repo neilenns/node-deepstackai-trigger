@@ -57,7 +57,7 @@ export default class Trigger {
   }
 
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
-    log.info(`Trigger ${this.name}`, `${fileName}: Analyzing`);
+    log.verbose(`Trigger ${this.name}`, `${fileName}: Analyzing`);
     const startTime = new Date();
     const analysis = await analyzeImage(fileName);
     this.analysisDuration = new Date().getTime() - startTime.getTime();
@@ -68,11 +68,11 @@ export default class Trigger {
     }
 
     if (analysis.predictions.length == 0) {
-      log.info(`Trigger ${this.name}`, `${fileName}: No objects detected. (${this.analysisDuration} ms)`);
+      log.verbose(`Trigger ${this.name}`, `${fileName}: No objects detected. (${this.analysisDuration} ms)`);
       return undefined;
     }
 
-    log.info(
+    log.verbose(
       `Trigger ${this.name}`,
       `${fileName}: Found at least one object in the photo. (${this.analysisDuration} ms)`,
     );
@@ -152,7 +152,7 @@ export default class Trigger {
     this.receivedDate = new Date(stats.atimeMs);
 
     if (this.receivedDate < this._initializedTime && !Settings.processExistingImages) {
-      log.info(`Trigger ${this.name}`, `${fileName}: Skipping as it was created before the service started.`);
+      log.verbose(`Trigger ${this.name}`, `${fileName}: Skipping as it was created before the service started.`);
       return false;
     }
 
@@ -166,7 +166,7 @@ export default class Trigger {
     // This eases testing since this code only gets to this point for images
     // that arrived prior to startup when _processExisting is true.
     if (secondsSinceLastTrigger < this.cooldownTime && this.receivedDate > this._initializedTime) {
-      log.info(
+      log.verbose(
         `Trigger ${this.name}`,
         `${fileName}: Skipping as it was received before the cooldown period of ${this.cooldownTime} seconds expired.`,
       );
@@ -192,9 +192,9 @@ export default class Trigger {
       !this.isMasked(fileName, prediction);
 
     if (!isTriggered) {
-      log.info(`Trigger ${this.name}`, `${fileName}: Not triggered by ${label} (${scaledConfidence})`);
+      log.verbose(`Trigger ${this.name}`, `${fileName}: Not triggered by ${label} (${scaledConfidence})`);
     } else {
-      log.info(`Trigger ${this.name}`, `${fileName}: Triggered by ${label} (${scaledConfidence})`);
+      log.verbose(`Trigger ${this.name}`, `${fileName}: Triggered by ${label} (${scaledConfidence})`);
     }
     return isTriggered;
   }
@@ -216,7 +216,7 @@ export default class Trigger {
       const doesOverlap = mask.overlaps(predictionRect);
 
       if (doesOverlap) {
-        log.info(`Trigger ${this.name}`, `Prediction region ${predictionRect} blocked by trigger mask ${mask}.`);
+        log.verbose(`Trigger ${this.name}`, `Prediction region ${predictionRect} blocked by trigger mask ${mask}.`);
       }
 
       return doesOverlap;
@@ -236,12 +236,12 @@ export default class Trigger {
     });
 
     if (!isRegistered) {
-      log.info(
+      log.verbose(
         `Trigger ${this.name}`,
         `${fileName}: Detected object ${label} is not in the watch objects list [${this.watchObjects?.join(", ")}]`,
       );
     } else {
-      log.info(`Trigger ${this.name}`, `${fileName}: Matched triggering object ${label}`);
+      log.verbose(`Trigger ${this.name}`, `${fileName}: Matched triggering object ${label}`);
     }
 
     return isRegistered ?? false;
@@ -258,12 +258,12 @@ export default class Trigger {
     const meetsThreshold = confidence >= this.threshold.minimum && confidence <= this.threshold.maximum;
 
     if (!meetsThreshold) {
-      log.info(
+      log.verbose(
         `Trigger ${this.name}`,
         `${fileName}: Confidence ${confidence} wasn't between threshold ${this.threshold.minimum} and ${this.threshold.maximum}`,
       );
     } else {
-      log.info(
+      log.verbose(
         `Trigger ${this.name}`,
         `${fileName}: Confidence ${confidence} meets threshold ${this.threshold.minimum} and ${this.threshold.maximum}`,
       );
@@ -286,10 +286,9 @@ export default class Trigger {
       this._watcher = chokidar
         .watch(this.watchPattern, { awaitWriteFinish: Settings.awaitWriteFinish })
         .on("add", this.processImage.bind(this));
-      log.info(`Trigger ${this.name}`, `Listening for new images in ${this.watchPattern}`);
+      log.verbose(`Trigger ${this.name}`, `Listening for new images in ${this.watchPattern}`);
     } catch (e) {
-      log.error(`Trigger ${this.name}`, `Unable to start watching for images: ${e}`);
-      throw e;
+      throw Error(`Trigger ${this.name} unable to start watching for images: ${e}`);
     }
 
     return true;
@@ -300,10 +299,9 @@ export default class Trigger {
    */
   public async stopWatching(): Promise<void> {
     await this._watcher.close().catch(e => {
-      log.error(`Trigger ${this.name}`, `Unable to stop watching for images: ${e}`);
-      throw e;
+      throw Error(`Trigger ${this.name} unable to stop watching for images: ${e}`);
     });
 
-    log.info(`Trigger ${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
+    log.verbose(`Trigger ${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
   }
 }

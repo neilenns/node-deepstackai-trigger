@@ -7,6 +7,10 @@
   // running elsewhere change this setting to point to the correction location.
   "deepstackUri": "http://deepstack-ai:5000/",
 
+  // Enables verbose logging. Useful when setting up the system to ensure
+  // everything is running correctly.
+  "verbose": true,
+
   // Provides the configuration details for your MQTT server. To enable
   // mqtt set the uri, username (if required), password (if required),
   // and set enabled to true.
@@ -17,7 +21,7 @@
     "enabled": false
   },
 
-  // Provides the configuraton details for Telegram bot messages.
+  // Provides the configuration details for Telegram bot messages.
   // Set the botToken and enabled to true to use Telegram.
   "telegram": {
     "botToken": "insert bot token here",

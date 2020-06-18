@@ -9,6 +9,7 @@
 /* eslint-disable no-console */
 import chalk from "chalk";
 import moment from "moment";
+import * as Settings from "./Settings";
 
 /**
  * Formats a message for output to the logs.
@@ -19,6 +20,13 @@ function formatMessage(source: string, message: string) {
   return `${moment().format()} [${source}] ${message}`;
 }
 
+export function verbose(source: string, message: string): void {
+  if (!Settings.verbose) {
+    return;
+  }
+
+  info(source, message);
+}
 /**
  * Logs an informational message to the console.
  * @param source The source of the message

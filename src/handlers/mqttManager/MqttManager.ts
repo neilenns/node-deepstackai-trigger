@@ -99,7 +99,7 @@ async function publishDetectionMessage(
   messageConfig: MqttMessageConfig,
   predictions: IDeepStackPrediction[],
 ): Promise<MQTT.IPublishPacket> {
-  log.info("MQTT", `${fileName}: Publishing event to ${messageConfig.topic}`);
+  log.verbose("MQTT", `${fileName}: Publishing event to ${messageConfig.topic}`);
 
   // If an off delay is configured set up a timer to send the off message in the requested number of seconds
   if (messageConfig.offDelay) {
