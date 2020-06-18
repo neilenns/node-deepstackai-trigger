@@ -13,7 +13,7 @@ The following five steps are all that's required to start using AI to analyze im
 then call a web URL, e.g. triggering a [BlueIris camera](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-BlueIris) to record.
 
 1. Install [Docker](http://www.docker.com/)
-2. Copy the `docker-compose.yml` and `triggers.json` files from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/main/sampleConfiguration) directory locally.
+2. Copy the `docker-compose.yml`, `settings.json` and `triggers.json` files from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/master/sampleConfiguration) directory locally.
 3. Edit the `docker-compose.yml` file to modify the mount point for source images and set the timezone.
 4. Edit `triggers.json` to [define the triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers) you want to use.
 5. Run `docker-compose up` to start the system running.
@@ -28,21 +28,18 @@ Editing the .json files in [Visual Studio Code](https://code.visualstudio.com/) 
 that understands JSON schemas is recommended: you'll get full auto-complete and documentation as
 you type.
 
-## Quick start - enabling MQTT and Telegram
-
-To enable [MQTT](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt) and [telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram):
-
-1. Copy `mqtt.json` and `telegram.json` from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/main/sampleConfiguration) directory locally.
-2. Edit `mqtt.json` to [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt) for your MQTT server (if using MQTT).
-3. Edit `telegram.json` to [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram) for your Telegram bot.
-   server (if using Telegram).
-4. Edit `triggers.json` to add [mqtt](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers) and [Telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-telegram-handlers) handlers.
-5. Stop the existing running containers.
-6. Run `docker-compse up` to start the system with the new configuration.
-
 Having trouble? Check the logs output from Docker for any errors the system may throw.
 The [troubleshooting](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting)
 page has tips for resolving common deployment problems.
+
+## Quick start - enabling MQTT, Telegram and Pushover
+
+To enable [MQTT](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt), [Telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram),
+and [Pushover](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-pushover):
+
+1. Edit `settings.json` to specify [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#) for the service.
+2. Edit `triggers.json` to add [mqtt](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers), [Telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-telegram-handlers), or [Pushover](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushover-handlers) handlers.
+3. Run `docker-compse up` to start the system with the new configuration.
 
 ## Learning more
 
@@ -50,8 +47,9 @@ The [project wiki](https://github.com/danecreekphotography/node-deepstackai-trig
 
 - [Configuring the system](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration)
 - [Defining triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers)
-- [Integrating with BlueIris](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-BlueIris)
 - [Deploying to Synology or Unraid](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Deploying-to-Synology-and-Unraid)
+- [Integrating with BlueIris](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-BlueIris)
+- [Integrating with HomeAssistant](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-HomeAssistant)
 - [Troubleshooting](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting)
 
 ## Supported Docker image tags
@@ -61,5 +59,5 @@ The following tags are available in the Docker repository:
 | Tag name            | Description                                                                                                                       |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `latest`            | The latest released build. This lags slightly behind `dev`.                                                                       |
-| `dev`               | The latest code as it is checked into the project's main branch.                                                                  |
+| `dev`               | The latest code as it is checked into the project's master branch. This may contain breaking changes that aren't documented yet.  |
 | `version-<version>` | The specific [released version](https://github.com/danecreekphotography/node-deepstackai-trigger/releases), e.g. `version-1.5.0`. |
