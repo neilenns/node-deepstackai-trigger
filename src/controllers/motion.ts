@@ -4,8 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 import express from "express";
 import * as log from "../Log";
+import * as TriggerManager from "../TriggerManager";
 
 export function handleMotionEvent(req: express.Request, res: express.Response): void {
-  log.info("Web server", `Received motion event for ${req.params.triggerName}`);
+  log.verbose("Web server", `Received motion event for ${req.params.triggerName}`);
+
+  TriggerManager.activateWebTrigger(req.params.triggerName);
+
   res.json({ trigger: req.params.triggerName });
 }

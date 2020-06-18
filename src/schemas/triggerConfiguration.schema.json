@@ -42,6 +42,11 @@
             "default": true,
             "type": "boolean"
           },
+          "snapshotUri": {
+            "description": "Address to call to retrieve a camera snapshot when manually triggered.",
+            "type": "string",
+            "examples": ["http://localhost:83/image/FrontDoorSD"]
+          },
           "threshold": {
             "description": "Sets the minimum and maximum prediction confidence required to fire the trigger.",
             "type": "object",

@@ -12,6 +12,7 @@ export default interface ITriggerJson {
   cooldownTime: number;
   enabled: boolean;
   name: string;
+  snapshotUri: string;
   threshold: {
     minimum: number;
     maximum: number;
