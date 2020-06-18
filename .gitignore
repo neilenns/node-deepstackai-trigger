@@ -107,5 +107,5 @@ dist
 .vscode-test
 
 # sample configuration files
-#triggers.json
+triggers.json
 settings.json
