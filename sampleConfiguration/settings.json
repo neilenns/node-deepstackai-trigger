@@ -1,0 +1,34 @@
+{
+  // Leave this line alone. It enables Intellisense when editing this file in Visual Studio Code.
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/settings.schema.json",
+
+  // This is the default uri for Deepstack when deploying using the docker-compose.yaml file
+  // provided in this sampleConfiguration folder. If you have another deployment of Deepstack
+  // running elsewhere change this setting to point to the correction location.
+  "deepstackUri": "http://deepstack-ai:5000/",
+
+  // Provides the configuration details for your MQTT server. To enable
+  // mqtt set the uri, username (if required), password (if required),
+  // and set enabled to true.
+  "mqtt": {
+    "uri": "mqtt://mqtt:1883",
+    //"username": "user",
+    //"password": "pass",
+    "enabled": false
+  },
+
+  // Provides the configuraton details for Telegram bot messages.
+  // Set the botToken and enabled to true to use Telegram.
+  "telegram": {
+    "botToken": "insert bot token here",
+    "enabled": false
+  },
+
+  // Provides the configuration details for Pushover notifications.
+  // Set the apiKey, userKey, and enabled to true to use Pushover.
+  "pushover": {
+    "apiKey": "api key here",
+    "userKey": "user key here",
+    "enabled": false
+  }
+}

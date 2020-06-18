@@ -15,6 +15,12 @@
       "description": "The user key for Pushover.",
       "type": "string",
       "examples": ["u6asdf8zqd7g7zbn8f86zq6ijx1kg2"]
+    },
+    "enabled": {
+      "description": "Enables Pushover notifications.",
+      "type": "boolean",
+      "default": true,
+      "examples": ["false"]
     }
   }
 }

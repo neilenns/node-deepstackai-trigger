@@ -3,10 +3,11 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 export default interface IMqttManagerConfigJson {
-  uri: string;
-  username: string;
+  enabled?: boolean;
   password: string;
   rejectUnauthorized: boolean;
-  statusTopic?: string;
   retain?: boolean;
+  statusTopic?: string;
+  uri: string;
+  username: string;
 }

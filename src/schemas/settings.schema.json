@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/settings.schema.json",
+  "type": "object",
+  "title": "Settings for the trigger engine.",
+  "description": "Configures options for various system-level controls.",
+  "uniqueItems": true,
+  "required": ["deepstackUri"],
+  "properties": {
+    "awaitWriteFinish": {
+      "type": "boolean",
+      "description": "Waits for writes to finish before analyzing images. This is useful if the images live on a network drive that's mounted to Docker, but comes with a performance penalty. Disabled by default.",
+      "default": false,
+      "examples": [true]
+    },
+    "enableAnnotations": {
+      "type": "boolean",
+      "description": "Enables generation of annotated images. Disabled by default.",
+      "default": false,
+      "examples": [true]
+    },
+    "deepstackUri": {
+      "type": "string",
+      "description": "The address of the Deepstack AI processing server.",
+      "examples": ["http://deepstack-ai:5000/"]
+    },
+    "port": {
+      "type": "number",
+      "description": "The port the local web server attaches to. Only used when enableAnnotations is true, and also requires the port be exposed in the Docker configuration.",
+      "default": 4242,
+      "examples": [9050]
+    },
+    "processExistingImages": {
+      "type": "boolean",
+      "description": "Enables processing of images that exist in the input folder at startup. Primarily useful during development. Disabled by default.",
+      "default": false,
+      "examples": [true]
+    },
+    "purgeAge": {
+      "type": "number",
+      "description": "Sets the time, in minutes, an image can go without being accessed before it is purged from local storage. Only used when enableAnnotations is true.",
+      "default": 30,
+      "examples": [true]
+    },
+    "purgeInterval": {
+      "type": "number",
+      "description": "Sets the frequency, in minutes, that the purge process runs. Only used when enableAnnotations is true.",
+      "default": 60,
+      "examples": [300]
+    },
+    "mqtt": {
+      "description": "Enables and configures MQTT events.",
+      "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/mqttManagerConfiguration.schema.json"
+    },
+    "telegram": {
+      "description": "Enables and configures Telegram bot messages.",
+      "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramManagerConfiguration.schema.json"
+    },
+    "pushover": {
+      "description": "Enables and configures Pushover messages.",
+      "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverManagerConfiguration.schema.json"
+    }
+  }
+}

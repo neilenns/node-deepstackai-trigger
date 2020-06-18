@@ -2,17 +2,44 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+import * as fs from "fs";
+import * as JSONC from "jsonc-parser";
+import * as log from "./Log";
 
 /**
- * Converts a string to a number
- * @param text The string to convert to a number
- * @returns The number, or undefined if conversion wasn't possible
+ * Loads a settings file and validates it with JSON schema, then returns it as a typed object.
+ * @param serviceName The name of the service loading the settings. Used in log messages.
+ * @param settingsFileName The path to the file to load.
+ * @type T The type the settings should return as.
  */
-export function convertStringToNumber(text: string): number | undefined {
-  if (!text) {
-    return undefined;
+export function readSettings<T>(serviceName: string, settingsFileName: string): T {
+  let rawConfig: string;
+  try {
+    rawConfig = fs.readFileSync(settingsFileName, "utf-8");
+  } catch (e) {
+    log.warn(serviceName, `Unable to read the configuration file: ${e.message}.`);
+    return null;
   }
 
-  const convertedNumber = Number(text);
-  return isNaN(convertedNumber) ? undefined : convertedNumber;
+  // This shouldn't happen. Keeping the check here in case it does in the real world
+  // and someone reports things not working.
+  if (!rawConfig) {
+    throw new Error(`[${serviceName}] Unable to load configuration file ${settingsFileName}.`);
+  }
+
+  let parseErrors: JSONC.ParseError[];
+
+  const settings = JSONC.parse(rawConfig, parseErrors) as T;
+
+  // This extra level of validation really shouldn't be necessary since the
+  // file passed schema validation. Still, better safe than crashing.
+  if (parseErrors && parseErrors.length > 0) {
+    throw new Error(
+      `[${serviceName}] Unable to load configuration file: ${parseErrors
+        .map(error => log.error("${serviceName}", `${error?.error}`))
+        .join("\n")}`,
+    );
+  }
+
+  return settings;
 }
