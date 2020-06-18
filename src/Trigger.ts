@@ -319,7 +319,10 @@ export default class Trigger {
     log.verbose(`Trigger ${this.name}`, `Downloading snapshot from ${this.snapshotUri}.`);
 
     const localStoragePath = LocalStorage.mapToLocalStorage(`${this.name}_${new Date().getTime()}.jpg`);
-    const response = await request.get(this.snapshotUri);
+    // Setting encoding: null makes the response magically become a Buffer, which
+    // then passes straight to writeFile and generates a proper image file in local storage.
+    // If encoding: null is omitted then the resulting local file is corrupted.
+    const response = await request.get(this.snapshotUri, { encoding: null });
     await fsPromise.writeFile(localStoragePath, response);
 
     log.verbose(`Trigger ${this.name}`, `Download from ${this.snapshotUri} complete.`);
