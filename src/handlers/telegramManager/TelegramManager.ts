@@ -9,11 +9,11 @@ import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
 import * as Settings from "../../Settings";
-import TelegramBot from "node-telegram-bot-api";
-import { promises as fsPromise } from "fs";
-import Trigger from "../../Trigger";
+
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
-import { telegram as settings } from "../../Settings";
+import { promises as fsPromise } from "fs";
+import TelegramBot from "node-telegram-bot-api";
+import Trigger from "../../Trigger";
 
 let isEnabled = false;
 let telegramBot: TelegramBot;
@@ -22,20 +22,20 @@ let telegramBot: TelegramBot;
 const cooldowns = new Map<Trigger, Date>();
 
 export async function initialize(): Promise<void> {
-  if (!settings) {
+  if (!Settings.telegram) {
     log.info("Telegram", "No Telegram settings specified. Telegram is disabled.");
     return;
   }
 
   // The enabled setting is true by default
-  isEnabled = settings.enabled ?? true;
+  isEnabled = Settings.telegram.enabled ?? true;
 
   if (!isEnabled) {
     log.info("Telegram", "Telegram is disabled via settings.");
     return;
   }
 
-  telegramBot = new TelegramBot(settings.botToken, {
+  telegramBot = new TelegramBot(Settings.telegram.botToken, {
     filepath: false,
   });
 
@@ -45,7 +45,6 @@ export async function initialize(): Promise<void> {
 export async function processTrigger(
   fileName: string,
   trigger: Trigger,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   predictions: IDeepStackPrediction[],
 ): Promise<TelegramBot.Message[]> {
   if (!isEnabled) {

@@ -2,25 +2,24 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as chokidar from "chokidar";
-import * as JSONC from "jsonc-parser";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
-import * as TriggerManager from "./TriggerManager";
-import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
-import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
-import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
 import * as Settings from "./Settings";
+import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
+import * as TriggerManager from "./TriggerManager";
+import * as WebRequestHandler from "./handlers/webRequest/WebRequestHandler";
 
 import analyzeImage from "./DeepStack";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
-import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import { Stats } from "fs";
 import Rect from "./Rect";
+import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 
 export default class Trigger {
   private _initializedTime: Date;
@@ -87,34 +86,40 @@ export default class Trigger {
    */
   public async processImage(fileName: string, stats: Stats): Promise<void> {
     TriggerManager.incrementAnalyzedFilesCount();
-    // Don't process old files
+
+    // Don't process old files.
     if (!this.passesDateTest(fileName, stats)) return;
 
     this._lastTriggerTime = new Date();
 
-    // Get the predictions, if any
+    // Get the predictions, if any.
     const predictions = await this.analyzeImage(fileName);
-    if (!predictions) return;
+    if (!predictions) {
+      return;
+    }
 
-    // Check to see if any predictions cause this to activate
+    // Check to see if any predictions cause this to activate.
     const triggeredPredictions = this.getTriggeredPredictions(fileName, predictions);
     if (!triggeredPredictions) {
       MqttManager.publishStatisticsMessage(TriggerManager.triggeredCount, TriggerManager.analyzedFilesCount);
       return;
     }
 
+    // At this point a prediction matched so increment the count.
     TriggerManager.incrementTriggeredCount();
 
     // Generate the annotations so it is ready for the other trigger handlers. This does
     // nothing if annotations are disabled.
     await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
 
-    // Call all the handlers for the trigger. There is no need to wait for these to finish before proceeding
-    WebRequestHandler.processTrigger(fileName, this, triggeredPredictions);
+    // Call all the handlers for the trigger. There is no need to wait for these to finish before proceeding.
     MqttManager.processTrigger(fileName, this, triggeredPredictions);
-    MqttManager.publishStatisticsMessage(TriggerManager.triggeredCount, TriggerManager.analyzedFilesCount);
-    TelegramManager.processTrigger(fileName, this, triggeredPredictions);
     PushoverManager.processTrigger(fileName, this, triggeredPredictions);
+    TelegramManager.processTrigger(fileName, this, triggeredPredictions);
+    WebRequestHandler.processTrigger(fileName, this, triggeredPredictions);
+
+    // Send the updated statistics.
+    MqttManager.publishStatisticsMessage(TriggerManager.triggeredCount, TriggerManager.analyzedFilesCount);
   }
 
   /**

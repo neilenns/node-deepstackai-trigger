@@ -7,18 +7,18 @@ import * as log from "./Log";
 import * as Settings from "./Settings";
 
 import mkdirp from "mkdirp";
-import { promises as fsPromise } from "fs";
 import path from "path";
+import { promises as fsPromise } from "fs";
 
 /**
  * Number of milliseconds in a minute
  */
-const millisecondsInAMinute = 1000 * 60;
+const _millisecondsInAMinute = 1000 * 60;
 
 /**
  * The background timer that runs the local file purge.
  */
-let backgroundTimer: NodeJS.Timeout;
+let _backgroundTimer: NodeJS.Timeout;
 
 /**
  * Local location where all web images are stored.
@@ -72,7 +72,7 @@ export function startBackgroundPurge(): void {
  * Stops the background purge process from running.
  */
 export function stopBackgroundPurge(): void {
-  clearTimeout(backgroundTimer);
+  clearTimeout(_backgroundTimer);
   log.info("Local storage", `Background purge stopped.`);
 }
 
@@ -87,7 +87,7 @@ async function purgeOldFiles(): Promise<void> {
   await Promise.all((await fsPromise.readdir(localStoragePath)).map(async fileName => await purgeFile(fileName)));
 
   log.info("Local storage", "Purge complete");
-  backgroundTimer = setTimeout(purgeOldFiles, Settings.purgeInterval * millisecondsInAMinute);
+  _backgroundTimer = setTimeout(purgeOldFiles, Settings.purgeInterval * _millisecondsInAMinute);
 }
 
 /**
@@ -98,7 +98,7 @@ async function purgeFile(fileName: string): Promise<void> {
   const fullLocalPath = mapToLocalStorage(fileName);
   const lastAccessTime = (await fsPromise.stat(fullLocalPath)).atime;
 
-  const minutesSinceLastAccess = (new Date().getTime() - lastAccessTime.getTime()) / millisecondsInAMinute;
+  const minutesSinceLastAccess = (new Date().getTime() - lastAccessTime.getTime()) / _millisecondsInAMinute;
 
   if (minutesSinceLastAccess > Settings.purgeAge) {
     await fsPromise.unlink(fullLocalPath);

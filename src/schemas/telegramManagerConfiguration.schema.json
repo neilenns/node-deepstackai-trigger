@@ -12,7 +12,7 @@
       "examples": ["1122334455:AABBCCDDEEFFGGhhiijjkkllmm"]
     },
     "enabled": {
-      "description": "Enables MQTT events.",
+      "description": "Enables Telegram bot messages.",
       "type": "boolean",
       "default": true,
       "examples": ["false"]

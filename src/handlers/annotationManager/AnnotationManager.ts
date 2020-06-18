@@ -5,10 +5,11 @@
 
 import Trigger from "../../Trigger";
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
-import * as LocalStorageManager from "../../LocalStorageManager";
 import PImage from "pureimage";
-import * as fs from "fs";
+
+import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
+import * as fs from "fs";
 import * as settings from "../../Settings";
 
 /**

@@ -17,7 +17,7 @@
       "examples": ["u6asdf8zqd7g7zbn8f86zq6ijx1kg2"]
     },
     "enabled": {
-      "description": "Enables MQTT events.",
+      "description": "Enables Pushover notifications.",
       "type": "boolean",
       "default": true,
       "examples": ["false"]

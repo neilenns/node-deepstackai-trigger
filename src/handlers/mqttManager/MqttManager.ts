@@ -5,19 +5,19 @@
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
 
-import MQTT, { IPublishPacket } from "async-mqtt";
+import IDeepStackPrediction from "../../types/IDeepStackPrediction";
+import MQTT from "async-mqtt";
+import { mqtt as settings } from "../../Settings";
+import MqttMessageConfig from "./MqttMessageConfig";
 import path from "path";
 import Trigger from "../../Trigger";
-import IDeepStackPrediction from "../../types/IDeepStackPrediction";
-import MqttMessageConfig from "./MqttMessageConfig";
-import { mqtt as settings } from "../../Settings";
 
-let isEnabled = false;
-let statusTopic = "node-deepstackai-trigger/status";
-let retain = false;
-let mqttClient: MQTT.AsyncClient;
+let _isEnabled = false;
+let _mqttClient: MQTT.AsyncClient;
+let _retain = false;
+let _statusTopic = "node-deepstackai-trigger/status";
 
-const timers = new Map<string, NodeJS.Timeout>();
+const _timers = new Map<string, NodeJS.Timeout>();
 
 /**
  * Initializes the MQTT using settings from the global Settings module.
@@ -29,35 +29,35 @@ export async function initialize(): Promise<void> {
   }
 
   // The enabled setting is true by default
-  isEnabled = settings.enabled ?? true;
+  _isEnabled = settings.enabled ?? true;
 
-  if (!isEnabled) {
+  if (!_isEnabled) {
     log.info("MQTT", "MQTT is disabled via settings.");
     return;
   }
 
   if (settings.statusTopic) {
-    statusTopic = settings.statusTopic;
+    _statusTopic = settings.statusTopic;
   }
 
   if (settings.retain) {
-    retain = settings.retain;
+    _retain = settings.retain;
     log.info("MQTT", "Retain flag set in configuration. All messages will be published with retain turned on.");
   }
 
-  mqttClient = await MQTT.connectAsync(settings.uri, {
+  _mqttClient = await MQTT.connectAsync(settings.uri, {
     username: settings.username,
     password: settings.password,
     clientId: "node-deepstackai-trigger",
     rejectUnauthorized: settings.rejectUnauthorized ?? true,
     will: {
-      topic: statusTopic,
+      topic: _statusTopic,
       payload: JSON.stringify({ state: "offline" }),
       qos: 2,
-      retain,
+      retain: _retain,
     },
   }).catch(e => {
-    isEnabled = false;
+    _isEnabled = false;
     throw new Error(`[MQTT] Unable to connect: ${e.message}`);
   });
 
@@ -70,7 +70,7 @@ export async function processTrigger(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   predictions: IDeepStackPrediction[],
 ): Promise<MQTT.IPublishPacket[]> {
-  if (!isEnabled) {
+  if (!_isEnabled) {
     return [];
   }
 
@@ -103,7 +103,7 @@ async function publishDetectionMessage(
 
   // If an off delay is configured set up a timer to send the off message in the requested number of seconds
   if (messageConfig.offDelay) {
-    const existingTimer = timers.get(messageConfig.topic);
+    const existingTimer = _timers.get(messageConfig.topic);
 
     // Cancel any timer that may still be running for the same topic
     if (existingTimer) {
@@ -111,7 +111,7 @@ async function publishDetectionMessage(
     }
 
     // Set the new timer
-    timers.set(messageConfig.topic, setTimeout(publishOffEvent, messageConfig.offDelay * 1000, messageConfig.topic));
+    _timers.set(messageConfig.topic, setTimeout(publishOffEvent, messageConfig.offDelay * 1000, messageConfig.topic));
   }
 
   // Build the detection payload
@@ -127,7 +127,7 @@ async function publishDetectionMessage(
         state: "on",
       });
 
-  return await mqttClient.publish(messageConfig.topic, detectionPayload, { retain });
+  return await _mqttClient.publish(messageConfig.topic, detectionPayload, { retain: _retain });
 }
 
 /**
@@ -140,13 +140,13 @@ export async function publishStatisticsMessage(
   analyzedFilesCount: number,
 ): Promise<MQTT.IPublishPacket[]> {
   // Don't send anything if MQTT isn't enabled
-  if (!mqttClient) {
+  if (!_mqttClient) {
     return [];
   }
 
   return [
-    await mqttClient.publish(
-      statusTopic,
+    await _mqttClient.publish(
+      _statusTopic,
       JSON.stringify({
         // Ensures the status still reflects as up and running for people
         // that have an MQTT binary sensor in Home Assistant
@@ -154,7 +154,7 @@ export async function publishStatisticsMessage(
         triggerCount,
         analyzedFilesCount,
       }),
-      { retain },
+      { retain: _retain },
     ),
   ];
 }
@@ -162,19 +162,19 @@ export async function publishStatisticsMessage(
 /**
  * Sends a simple message indicating the service is up and running
  */
-export async function publishServerState(state: string, details?: string): Promise<IPublishPacket> {
+export async function publishServerState(state: string, details?: string): Promise<MQTT.IPublishPacket> {
   // Don't do anything if the MQTT client wasn't configured
-  if (!mqttClient) {
+  if (!_mqttClient) {
     return;
   }
 
-  return mqttClient.publish(statusTopic, JSON.stringify({ state, details }), { retain });
+  return _mqttClient.publish(_statusTopic, JSON.stringify({ state, details }), { retain: _retain });
 }
 
 /**
  * Sends a message indicating the motion for a particular trigger has stopped
  * @param topic The topic to publish the message on
  */
-async function publishOffEvent(topic: string): Promise<IPublishPacket> {
-  return await mqttClient.publish(topic, JSON.stringify({ state: "off" }), { retain });
+async function publishOffEvent(topic: string): Promise<MQTT.IPublishPacket> {
+  return await _mqttClient.publish(topic, JSON.stringify({ state: "off" }), { retain: _retain });
 }

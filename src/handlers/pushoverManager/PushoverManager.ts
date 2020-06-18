@@ -3,39 +3,39 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as log from "../../Log";
 import * as LocalStorageManager from "../../LocalStorageManager";
+import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
 import * as Settings from "../../Settings";
-import { pushover as settings } from "../../Settings";
-import Trigger from "../../Trigger";
+
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import PushoverClient from "../../pushoverClient/PushoverClient";
 import PushoverMessage from "../../pushoverClient/PushoverMessage";
+import Trigger from "../../Trigger";
 
-let isEnabled = false;
-let pushClient: PushoverClient;
+let _isEnabled = false;
+let _pushClient: PushoverClient;
 
 // Tracks the last time each trigger fired, for use when calculating cooldown time windows
-const cooldowns = new Map<Trigger, Date>();
+const _cooldowns = new Map<Trigger, Date>();
 
 export async function initialize(): Promise<void> {
-  if (!settings) {
+  if (!Settings.pushover) {
     log.info("Pushover", "No Pushover settings specified. Pushover is disabled.");
     return;
   }
 
   // The enabled setting is true by default
-  isEnabled = settings.enabled ?? true;
+  _isEnabled = Settings.pushover.enabled ?? true;
 
-  if (!isEnabled) {
+  if (!_isEnabled) {
     log.info("Pushover", "Pushover is disabled via settings.");
     return;
   }
 
-  pushClient = new PushoverClient({
-    apiKey: settings.apiKey,
-    userKey: settings.userKey,
+  _pushClient = new PushoverClient({
+    apiKey: Settings.pushover.apiKey,
+    userKey: Settings.pushover.userKey,
   });
 
   log.info("Pushover", `Pushover enabled.`);
@@ -44,10 +44,9 @@ export async function initialize(): Promise<void> {
 export async function processTrigger(
   fileName: string,
   trigger: Trigger,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   predictions: IDeepStackPrediction[],
 ): Promise<void[]> {
-  if (!isEnabled) {
+  if (!_isEnabled) {
     return;
   }
 
@@ -57,13 +56,13 @@ export async function processTrigger(
     return;
   }
 
-  // Don't send if within the cooldown time
+  // Don't send if within the cooldown time.
   if (!passesCooldownTime(fileName, trigger)) {
     return;
   }
 
-  // Save the trigger's last fire time
-  cooldowns.set(trigger, new Date());
+  // Save the trigger's last fire time.
+  _cooldowns.set(trigger, new Date());
 
   // Do mustache variable replacement if a custom caption was provided.
   const caption = trigger.pushoverConfig.caption
@@ -84,7 +83,7 @@ export async function processTrigger(
     sound: trigger.pushoverConfig.sound,
   });
 
-  // Send all the messages
+  // Send all the messages.
   try {
     return Promise.all(
       trigger.pushoverConfig.userKeys.map(user => {
@@ -101,7 +100,7 @@ export async function processTrigger(
 async function sendPushoverMessage(message: PushoverMessage): Promise<void> {
   log.info("Pushover", `Sending message to ${message.userKey}`);
 
-  return await pushClient.send(message);
+  return await _pushClient.send(message);
 }
 
 /**
@@ -112,7 +111,7 @@ async function sendPushoverMessage(message: PushoverMessage): Promise<void> {
  * @returns true if the trigger happened outside of the cooldown window
  */
 function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
-  const lastTriggerTime = cooldowns.get(trigger);
+  const lastTriggerTime = _cooldowns.get(trigger);
 
   // If this was never triggered then no cooldown applies.
   if (!lastTriggerTime) {

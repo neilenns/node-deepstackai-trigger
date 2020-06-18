@@ -5,15 +5,17 @@
 
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
-import npmPackageInfo from "../package.json";
-import * as MqttManager from "./handlers/mqttManager/MqttManager";
-import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
-import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
-import * as log from "./Log";
-import * as TriggerManager from "./TriggerManager";
+
 import * as LocalStorageManager from "./LocalStorageManager";
-import * as WebServer from "./WebServer";
+import * as log from "./Log";
+import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
 import * as Settings from "./Settings";
+import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
+import * as TriggerManager from "./TriggerManager";
+import * as WebServer from "./WebServer";
+
+import npmPackageInfo from "../package.json";
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -38,13 +40,14 @@ async function main() {
     // MQTT manager loads first so if it succeeds but other things fail we can report the failures via MQTT.
     await MqttManager.initialize();
 
+    // Check the environment variables are right.
     if (!validateEnvironmentVariables()) {
       throw Error(
         `At least one required environment variable is missing. Ensure all required environment variables are set then run again.`,
       );
     }
 
-    // Initialize the local storage and web server
+    // Initialize the local storage and web server if enabled.
     if (Settings.enableAnnotations) {
       log.info("Main", "Annotated images are enabled due to presence of the ENABLE_ANNOTATIONS environment variable.");
       await LocalStorageManager.initializeStorage();
@@ -52,7 +55,11 @@ async function main() {
       WebServer.startApp();
     }
 
+    // Load the trigger configuration.
     TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
+
+    // Initialize the other two handler managers. MQTT got done earlier
+    // since it does double-duty and sends overall status messages for the system.
     await TelegramManager.initialize();
     await PushoverManager.initialize();
 
@@ -75,6 +82,7 @@ async function main() {
     await MqttManager.publishServerState("offline", e.message);
   }
 
+  // Spin in circles waiting for new files to arrive.
   wait();
 }
 

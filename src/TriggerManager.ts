@@ -2,15 +2,16 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+import * as helpers from "./helpers";
 import * as log from "./Log";
+
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
-import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
+import Rect from "./Rect";
+import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import Trigger from "./Trigger";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
-import Rect from "./Rect";
-import * as helpers from "./helpers";
 
 /**
  * Provides a running total of the number of times an image caused triggers

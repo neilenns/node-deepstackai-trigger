@@ -3,12 +3,13 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import IMqttManagerConfigJson from "./handlers/mqttManager/IMqttManagerConfigJson";
-import ITelegramManagerConfigJson from "./handlers/telegramManager/ITelegramManagerConfigJson";
-import IPushoverManagerConfigJson from "./handlers/pushoverManager/IPushoverManagerConfigJson";
 import * as helpers from "./helpers";
 import * as log from "./Log";
+
+import IMqttManagerConfigJson from "./handlers/mqttManager/IMqttManagerConfigJson";
+import IPushoverManagerConfigJson from "./handlers/pushoverManager/IPushoverManagerConfigJson";
 import ISettingsConfigJson from "./types/ISettingsConfigJson";
+import ITelegramManagerConfigJson from "./handlers/telegramManager/ITelegramManagerConfigJson";
 
 export let awaitWriteFinish: boolean;
 export let deepstackUri: string;

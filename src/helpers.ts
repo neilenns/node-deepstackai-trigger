@@ -2,10 +2,16 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import * as JSONC from "jsonc-parser";
 import * as fs from "fs";
+import * as JSONC from "jsonc-parser";
 import * as log from "./Log";
 
+/**
+ * Loads a settings file and validates it with JSON schema, then returns it as a typed object.
+ * @param serviceName The name of the service loading the settings. Used in log messages.
+ * @param settingsFileName The path to the file to load.
+ * @type T The type the settings should return as.
+ */
 export function readSettings<T>(serviceName: string, settingsFileName: string): T {
   let rawConfig: string;
   try {
