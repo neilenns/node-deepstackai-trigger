@@ -49,6 +49,6 @@ volumes:
 
 secrets:
   settings:
-    file: ../sampleConfiguration/settings.json
+    file: ./settings.json
   triggers:
-    file: ../sampleConfiguration/triggers.json
+    file: ./triggers.json

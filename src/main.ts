@@ -33,10 +33,9 @@ async function main() {
 
   try {
     // Load the settings file.
-    await Settings.loadConfiguration(["/run/secrets/settings"]);
+    Settings.loadConfiguration(["/run/secrets/settings", "/config/settings.json"]);
 
-    // MQTT manager loads first so if it succeeds but other things fail
-    // we can report the failures via MQTT.
+    // MQTT manager loads first so if it succeeds but other things fail we can report the failures via MQTT.
     await MqttManager.initialize();
 
     if (!validateEnvironmentVariables()) {
@@ -53,7 +52,7 @@ async function main() {
       WebServer.startApp();
     }
 
-    await TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
+    TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
     await TelegramManager.initialize();
     await PushoverManager.initialize();
 
