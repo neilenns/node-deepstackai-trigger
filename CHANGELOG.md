@@ -17,6 +17,7 @@
 ### Non-breaking changes
 
 - All the schema file references are updated to reflect the new `main` branch name. Resolves [issue 255](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/247).
+- The ability to disable verbose logging is back. Somehow between version 1.8.0 and now it broke. Resolves [issue 257](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/247).
 
 ## Version 2.2.0
 
