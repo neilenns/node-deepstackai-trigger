@@ -93,7 +93,7 @@ async function sendTelegramMessage(
   fileName: string,
   chatId: number,
 ): Promise<TelegramBot.Message> {
-  log.info("Telegram", `Sending message to ${chatId}`);
+  log.verbose("Telegram", `Sending message to ${chatId}`);
 
   const imageBuffer = await fsPromise.readFile(fileName).catch(e => {
     log.warn("Telegram", `Unable to load file: ${e.message}`);
@@ -131,7 +131,7 @@ function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
   const secondsSinceLastTrigger = (trigger.receivedDate.getTime() - lastTriggerTime.getTime()) / 1000;
 
   if (secondsSinceLastTrigger < trigger.telegramConfig.cooldownTime) {
-    log.info(
+    log.verbose(
       `Telegram`,
       `${fileName}: Skipping sending message as the cooldown period of ${trigger.telegramConfig.cooldownTime} seconds hasn't expired.`,
     );

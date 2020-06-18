@@ -98,7 +98,7 @@ export async function processTrigger(
 }
 
 async function sendPushoverMessage(message: PushoverMessage): Promise<void> {
-  log.info("Pushover", `Sending message to ${message.userKey}`);
+  log.verbose("Pushover", `Sending message to ${message.userKey}`);
 
   return await _pushClient.send(message);
 }
@@ -122,7 +122,7 @@ function passesCooldownTime(fileName: string, trigger: Trigger): boolean {
   const secondsSinceLastTrigger = (trigger.receivedDate.getTime() - lastTriggerTime.getTime()) / 1000;
 
   if (secondsSinceLastTrigger < trigger.pushoverConfig.cooldownTime) {
-    log.info(
+    log.verbose(
       `Pushover`,
       `${fileName}: Skipping sending message as the cooldown period of ${trigger.pushoverConfig.cooldownTime} seconds hasn't expired.`,
     );

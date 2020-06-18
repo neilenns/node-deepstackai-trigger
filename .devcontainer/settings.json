@@ -2,11 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/settings.schema.json",
   "deepstackUri": "http://deepstack-ai:5000/",
   "processExistingImages": true,
+  "verbose": true,
   "mqtt": {
     "uri": "mqtt://mqtt:1883",
     "username": "user",
-    "password": "pass",
-    "statusTopic": "aimotion/status"
+    "password": "pass"
   },
   "telegram": {
     "botToken": "insert bot token here",

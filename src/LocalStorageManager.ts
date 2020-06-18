@@ -29,7 +29,7 @@ export const localStoragePath = "/node-deepstackai-trigger/www";
  * Creates the data storage directory for the web images
  */
 export async function initializeStorage(): Promise<string | undefined> {
-  log.info("Local storage", `Creating local storage folder ${localStoragePath}.`);
+  log.verbose("Local storage", `Creating local storage folder ${localStoragePath}.`);
   return mkdirp(localStoragePath);
 }
 
@@ -61,7 +61,7 @@ export async function copyToLocalStorage(fileName: string): Promise<string> {
  * @param age Age of a file, in minutes, to get purged
  */
 export function startBackgroundPurge(): void {
-  log.info(
+  log.verbose(
     "Local storage",
     `Enabling background purge every ${Settings.purgeInterval} minutes for files older than ${Settings.purgeAge} minutes.`,
   );
@@ -73,20 +73,20 @@ export function startBackgroundPurge(): void {
  */
 export function stopBackgroundPurge(): void {
   clearTimeout(_backgroundTimer);
-  log.info("Local storage", `Background purge stopped.`);
+  log.verbose("Local storage", `Background purge stopped.`);
 }
 
 /**
  * Purges files older than the purgeThreshold from local storage
  */
 async function purgeOldFiles(): Promise<void> {
-  log.info("Local storage", "Running purge");
+  log.verbose("Local storage", "Running purge");
 
   // Loop through all the files and purge any that are older than they should be.
   // Can there possibly be more await statements in a single line?
   await Promise.all((await fsPromise.readdir(localStoragePath)).map(async fileName => await purgeFile(fileName)));
 
-  log.info("Local storage", "Purge complete");
+  log.verbose("Local storage", "Purge complete");
   _backgroundTimer = setTimeout(purgeOldFiles, Settings.purgeInterval * _millisecondsInAMinute);
 }
 
@@ -102,6 +102,6 @@ async function purgeFile(fileName: string): Promise<void> {
 
   if (minutesSinceLastAccess > Settings.purgeAge) {
     await fsPromise.unlink(fullLocalPath);
-    log.info("Local storage", `Purging ${fileName}. Age: ${minutesSinceLastAccess.toFixed(0)} minutes.`);
+    log.verbose("Local storage", `Purging ${fileName}. Age: ${minutesSinceLastAccess.toFixed(0)} minutes.`);
   }
 }
