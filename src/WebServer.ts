@@ -5,14 +5,17 @@
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
 import * as Settings from "./Settings";
-import motionRouter from "./routes/motion";
 
 import express from "express";
+import motionRouter from "./routes/motion";
+import path from "path";
 
 const app = express();
 
 export function startApp(): void {
-  app.use("/", express.static(LocalStorageManager.localStoragePath));
+  const annotatedImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Annotations);
+  app.use("/", express.static(annotatedImagePath));
+  app.use("/annotations", express.static(annotatedImagePath));
   app.use("/motion", motionRouter);
 
   try {

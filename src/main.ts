@@ -6,6 +6,7 @@
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
 
+import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
@@ -53,9 +54,9 @@ async function main() {
     await LocalStorageManager.initializeStorage();
     LocalStorageManager.startBackgroundPurge();
 
-    // Purely for logging information.
     if (Settings.enableAnnotations) {
       log.info("Main", "Annotated image generation enabled.");
+      await AnnotationManager.initialize();
     }
 
     // Enable the web server.
