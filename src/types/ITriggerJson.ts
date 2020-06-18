@@ -17,7 +17,7 @@ export default interface ITriggerJson {
     minimum: number;
     maximum: number;
   };
-  watchPattern: string;
+  watchPattern?: string;
   watchObjects: string[];
 
   // Handler settings

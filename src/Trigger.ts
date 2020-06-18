@@ -284,6 +284,10 @@ export default class Trigger {
       return false;
     }
 
+    if (!this.watchPattern) {
+      return false;
+    }
+
     try {
       this._watcher = chokidar
         .watch(this.watchPattern, { awaitWriteFinish: Settings.awaitWriteFinish })
@@ -316,6 +320,11 @@ export default class Trigger {
       return;
     }
 
+    if (!this.enabled) 
+    {
+      log.warn(`Trigger ${this.name}`, `Snapshot downloaded requested however this trigger isn't enabled.`);
+      return;
+    }
     log.verbose(`Trigger ${this.name}`, `Downloading snapshot from ${this.snapshotUri}.`);
 
     const localStoragePath = LocalStorage.mapToLocalStorage(`${this.name}_${new Date().getTime()}.jpg`);

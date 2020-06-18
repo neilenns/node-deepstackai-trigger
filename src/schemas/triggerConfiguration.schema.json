@@ -16,7 +16,8 @@
         "title": "Trigger",
         "description": "A trigger that responds to DeepStack predictions.",
         "type": "object",
-        "required": ["handlers", "name", "watchPattern", "watchObjects"],
+        "anyOf": [{ "required": ["watchPattern"] }, { "required": ["snapshotUri"] }],
+        "required": ["handlers", "name", "watchObjects"],
         "additionalProperties": false,
         "properties": {
           "name": {
