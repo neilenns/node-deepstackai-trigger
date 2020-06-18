@@ -5,8 +5,16 @@
   "title": "Settings for the trigger engine.",
   "description": "Configures options for various system-level controls.",
   "uniqueItems": true,
+  "additionalProperties": false,
   "required": ["deepstackUri"],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the schema for the JSON. Set this to the example value to get full Intellisense support in editors that support it.",
+      "examples": [
+        "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/settings.schema.json"
+      ]
+    },
     "awaitWriteFinish": {
       "type": "boolean",
       "description": "Waits for writes to finish before analyzing images. This is useful if the images live on a network drive that's mounted to Docker, but comes with a performance penalty. Disabled by default.",
