@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/settings.schema.json",
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/settings.schema.json",
   "deepstackUri": "http://deepstack-ai:5000/",
   "processExistingImages": true,
   "mqtt": {

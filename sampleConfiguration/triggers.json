@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/triggerConfiguration.schema.json",
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/triggerConfiguration.schema.json",
   "triggers": [
     {
       "name": "Cat detector",

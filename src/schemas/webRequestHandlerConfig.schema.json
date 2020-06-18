@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/webRequestHandlerConfig.schema.json",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/webRequestHandlerConfig.schema.json",
   "type": "object",
   "title": "The configuration for a web request handler",
   "description": "Defines the settings for a trigger handler that calls a list of URIs.",

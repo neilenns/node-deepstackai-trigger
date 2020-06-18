@@ -1,5 +1,23 @@
 # Change Log
 
+## Unreleased
+
+### Breaking changes
+
+- Settings are now kept in a single `settings.json` file instead of separate ones for each handler. **You will need to create
+  a `settings.json` file to use this release** and will need to **modify your Docker configuration** to mount the settings file
+  either as a secret or have it present in your `/config` folder. A sample is included in the
+  `sampleConfiguration` folder as a base to start from. It is essentially what was in the separate files previously now just merged
+  into one file. Additionally all environment variables except for `TZ` are now just settings in this file. Any other environment
+  variables for the ai-trigger container can be removed from your Docker configuration.
+- The source code repository's latest builds now produce out of the `main` branch. This means the location of the schema files
+  has moved. If your `triggers.json` file has `master` in the `$schema` property you will need to update them
+  to say `main` instead.
+
+### Non-breaking changes
+
+- All the schema file references are updated to reflect the new `main` branch name. Resolves [issue 255](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/247).
+
 ## Version 2.2.0
 
 - Setting the `retain` property in `mqtt.conf` to `true` makes all MQTT messages get sent with

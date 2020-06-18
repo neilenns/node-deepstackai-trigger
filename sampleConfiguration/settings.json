@@ -1,6 +1,6 @@
 {
   // Leave this line alone. It enables Intellisense when editing this file in Visual Studio Code.
-  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/settings.schema.json",
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/settings.schema.json",
 
   // This is the default uri for Deepstack when deploying using the docker-compose.yaml file
   // provided in this sampleConfiguration folder. If you have another deployment of Deepstack

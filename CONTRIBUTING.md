@@ -48,7 +48,7 @@ files located in `sampleConfiguration`.
 Feel free to open pull requests but please keep the following in mind:
 
 - All pull requests must reference an issue
-- All pull requests must be made from a feature branch, not master
+- All pull requests must be made from a feature branch, not main
 - If your change touches anything under the `src/` directory or the `README.md` file add
   a user-facing explanation of the change to [CHANGELOG.md](CHANGELOG.md) under the **Unreleased**
   header. These notes will get applied to the next release version for you.
