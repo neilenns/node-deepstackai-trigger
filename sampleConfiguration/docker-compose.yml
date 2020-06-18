@@ -20,12 +20,11 @@ services:
       # this also has to change to match.
       - 4242:4242
 
+    # ------------------------------------------------------------------------
+    # Don't change anything below this line unless you know what you are doing
     secrets:
       - triggers
       - settings
-
-    # ------------------------------------------------------------------------
-    # Don't change anything below this line unless you know what you are doing
     image: danecreekphotography/node-deepstackai-trigger:latest
     restart: always
     depends_on:
