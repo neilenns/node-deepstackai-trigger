@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/triggerConfiguration.schema.json",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/triggerConfiguration.schema.json",
   "type": "object",
   "title": "A list of triggers",
   "description": "Defines the triggers that are used for responding to DeepStack AI predictions.",
@@ -74,19 +74,19 @@
             "properties": {
               "webRequest": {
                 "description": "Sets the configuration for a web request handler.",
-                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/webRequestHandlerConfig.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/webRequestHandlerConfig.schema.json"
               },
               "mqtt": {
                 "description": "Sets the configuration for an MQTT event.",
-                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/mqttHandlerConfiguration.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/mqttHandlerConfiguration.schema.json"
               },
               "pushover": {
                 "description": "Sets the configuration for a Pushover message.",
-                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverHandlerConfiguration.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushoverHandlerConfiguration.schema.json"
               },
               "telegram": {
                 "description": "Sets the configuration for a Telegram message.",
-                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramHandlerConfiguration.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/telegramHandlerConfiguration.schema.json"
               }
             }
           },
@@ -95,7 +95,7 @@
             "type": "array",
             "minItems": 1,
             "items": {
-              "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/maskConfiguration.schema.json"
+              "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/maskConfiguration.schema.json"
             }
           },
           "watchObjects": {

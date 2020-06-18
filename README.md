@@ -13,7 +13,7 @@ The following five steps are all that's required to start using AI to analyze im
 then call a web URL, e.g. triggering a [BlueIris camera](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Integrating-with-BlueIris) to record.
 
 1. Install [Docker](http://www.docker.com/)
-2. Copy the `docker-compose.yml` and `triggers.json` files from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/master/sampleConfiguration) directory locally.
+2. Copy the `docker-compose.yml` and `triggers.json` files from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/main/sampleConfiguration) directory locally.
 3. Edit the `docker-compose.yml` file to modify the mount point for source images and set the timezone.
 4. Edit `triggers.json` to [define the triggers](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers) you want to use.
 5. Run `docker-compose up` to start the system running.
@@ -32,7 +32,7 @@ you type.
 
 To enable [MQTT](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt) and [telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram):
 
-1. Copy `mqtt.json` and `telegram.json` from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/master/sampleConfiguration) directory locally.
+1. Copy `mqtt.json` and `telegram.json` from the [sampleConfiguration](https://github.com/danecreekphotography/node-deepstackai-trigger/tree/main/sampleConfiguration) directory locally.
 2. Edit `mqtt.json` to [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt) for your MQTT server (if using MQTT).
 3. Edit `telegram.json` to [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram) for your Telegram bot.
    server (if using Telegram).
@@ -61,5 +61,5 @@ The following tags are available in the Docker repository:
 | Tag name            | Description                                                                                                                       |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `latest`            | The latest released build. This lags slightly behind `dev`.                                                                       |
-| `dev`               | The latest code as it is checked into the project's master branch.                                                                |
+| `dev`               | The latest code as it is checked into the project's main branch.                                                                  |
 | `version-<version>` | The specific [released version](https://github.com/danecreekphotography/node-deepstackai-trigger/releases), e.g. `version-1.5.0`. |

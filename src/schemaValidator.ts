@@ -36,43 +36,43 @@ export default async function validateJsonAgainstSchema(
   // actually required by the file being processed.
   validator.addSchema(
     maskConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/maskConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/maskConfiguration.schema.json",
   );
   validator.addSchema(
     mqttHandlerConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/mqttHandlerConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/mqttHandlerConfiguration.schema.json",
   );
   validator.addSchema(
     mqttManagerConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/mqttManagerConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/mqttManagerConfiguration.schema.json",
   );
   validator.addSchema(
     pushoverHandlerConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/pushoverHandlerConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/pushoverHandlerConfiguration.schema.json",
   );
   validator.addSchema(
     pushoverManagerConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/pushoverManagerConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/pushoverManagerConfiguration.schema.json",
   );
   validator.addSchema(
     settingsSchema,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/settings.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/settings.schema.json",
   );
   validator.addSchema(
     triggerSchema,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/triggerConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/triggerConfiguration.schema.json",
   );
   validator.addSchema(
     telegramManagerConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/telegramManagerConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/telegramManagerConfiguration.schema.json",
   );
   validator.addSchema(
     telegramHandlerConfiguration,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/telegramHandlerConfiguration.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/telegramHandlerConfiguration.schema.json",
   );
   validator.addSchema(
     webRequestHandlerConfig,
-    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/master/src/schemas/webRequestHandlerConfig.schema.json",
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/webRequestHandlerConfig.schema.json",
   );
 
   const isValid = await validator.validate(schemaFileName, jsonObject);

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/pushoverHandlerConfiguration.schema.json",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushoverHandlerConfiguration.schema.json",
   "type": "object",
   "title": "The configuration for a Pushover trigger handler",
   "description": "Defines the Pushover messages to send.",

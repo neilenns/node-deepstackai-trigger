@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/master/src/schemas/telegramManagerConfiguration.schema.json",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/telegramManagerConfiguration.schema.json",
   "type": "object",
   "title": "The configuration for Telegram",
   "description": "Defines the connection information for Telegram to send trigger notifications.",
