@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 2.2.0
 
 - Setting the `retain` property in `mqtt.conf` to `true` makes all MQTT messages get sent with
   the retain flag on. Default is `false`. Resolves [issue 249](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/247).
