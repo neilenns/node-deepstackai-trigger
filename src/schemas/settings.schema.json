@@ -27,6 +27,12 @@
       "default": false,
       "examples": [true]
     },
+    "enableWebServer": {
+      "type": "boolean",
+      "description": "Enables the local web server. Disabled by default.",
+      "default": false,
+      "examples": [true]
+    },
     "deepstackUri": {
       "type": "string",
       "description": "The address of the Deepstack AI processing server.",

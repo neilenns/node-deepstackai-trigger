@@ -14,6 +14,7 @@ import ITelegramManagerConfigJson from "./handlers/telegramManager/ITelegramMana
 export let awaitWriteFinish: boolean;
 export let deepstackUri: string;
 export let enableAnnotations: boolean;
+export let enableWebServer: boolean;
 export let mqtt: IMqttManagerConfigJson;
 export let port: number;
 export let processExistingImages: boolean;
@@ -52,6 +53,9 @@ export function loadConfiguration(configFilePaths: string[]): void {
   awaitWriteFinish = settingsConfigJson.awaitWriteFinish ?? false;
   deepstackUri = settingsConfigJson.deepstackUri;
   enableAnnotations = settingsConfigJson.enableAnnotations ?? false;
+  // For backwards compatibility reasons enableWebServer is automatically true
+  // when enableAnnotations is true.
+  enableWebServer = enableAnnotations ? true : settingsConfigJson.enableWebServer ?? false;
   mqtt = settingsConfigJson.mqtt;
   port = settingsConfigJson.port ?? 4242;
   processExistingImages = settingsConfigJson.processExistingImages ?? false;

@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+- The internal web server can now be enabled independently from annotated images using the
+  `enableWebServer` setting. It's off by default, and enabled automatically when `enableAnnotations` is on for backwards compatibility reasons. Resolves [issue 265](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/265).
+
 ## Version 3.0.0
 
 ### Breaking changes

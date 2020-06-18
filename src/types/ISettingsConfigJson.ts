@@ -10,6 +10,7 @@ export default interface ISettingsConfigJson {
   awaitWriteFinish?: boolean;
   deepstackUri: string;
   enableAnnotations?: boolean;
+  enableWebServer?: boolean;
   mqtt?: IMqttManagerConfigJson;
   port?: number;
   processExistingImages?: boolean;

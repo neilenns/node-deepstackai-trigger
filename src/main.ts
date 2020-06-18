@@ -47,11 +47,20 @@ async function main() {
       );
     }
 
-    // Initialize the local storage and web server if enabled.
+    // To make things simpler just enable local storage all the time. It won't
+    // do anything harmful if it's unused, just the occasional background purge
+    // that runs.
+    await LocalStorageManager.initializeStorage();
+    LocalStorageManager.startBackgroundPurge();
+
+    // Purely for logging information.
     if (Settings.enableAnnotations) {
-      log.info("Main", "Annotated images are enabled due to presence of the ENABLE_ANNOTATIONS environment variable.");
-      await LocalStorageManager.initializeStorage();
-      LocalStorageManager.startBackgroundPurge();
+      log.info("Main", "Annotated image generation enabled.");
+    }
+
+    // Enable the web server.
+    if (Settings.enableWebServer) {
+      log.info("Main", "Web server enabled.");
       WebServer.startApp();
     }
 
