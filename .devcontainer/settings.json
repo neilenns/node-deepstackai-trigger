@@ -3,6 +3,7 @@
   "deepstackUri": "http://deepstack-ai:5000/",
   "processExistingImages": true,
   "verbose": true,
+  "enableWebServer": true,
   "mqtt": {
     "uri": "mqtt://mqtt:1883",
     "username": "user",

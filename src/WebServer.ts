@@ -5,6 +5,7 @@
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
 import * as Settings from "./Settings";
+import motionRouter from "./routes/motion";
 
 import express from "express";
 
@@ -12,6 +13,8 @@ const app = express();
 
 export function startApp(): void {
   app.use("/", express.static(LocalStorageManager.localStoragePath));
+  app.use("/motion", motionRouter);
+
   try {
     app.listen(Settings.port, () => log.info("Web server", `Listening at http://localhost:${Settings.port}`));
   } catch (e) {
