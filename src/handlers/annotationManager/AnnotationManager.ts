@@ -30,7 +30,7 @@ export async function processTrigger(
   }
 
   log.verbose("Annotations", `Annotating ${fileName}`);
-  const outputFileName = LocalStorageManager.mapToLocalStorage(fileName);
+  const outputFileName = LocalStorageManager.mapToLocalStorage(LocalStorageManager.Locations.Annotations, fileName);
   const font = PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code");
 
   await font.load();
@@ -46,11 +46,11 @@ export async function processTrigger(
     const width = prediction.x_max - prediction.x_min;
     const height = prediction.y_max - prediction.y_min;
     context.strokeRect(prediction.x_min, prediction.y_min, width, height);
-    context.fillText(
-      `${prediction.label} (${(prediction.confidence * 100).toFixed(0)}%)`,
-      prediction.x_min + 10,
-      prediction.y_min + 24,
-    );
+    // context.fillText(
+    //   `${prediction.label} (${(prediction.confidence * 100).toFixed(0)}%)`,
+    //   prediction.x_min + 10,
+    //   prediction.y_min + 24,
+    // );
   });
 
   await PImage.encodeJPEGToStream(decodedImage, fs.createWriteStream(outputFileName), 75);

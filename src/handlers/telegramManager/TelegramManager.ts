@@ -74,7 +74,7 @@ export async function processTrigger(
   // annotated images were requested in the config.
   const imageFileName =
     trigger.telegramConfig.annotateImage && Settings.enableAnnotations
-      ? LocalStorageManager.mapToLocalStorage(fileName)
+      ? LocalStorageManager.mapToLocalStorage(LocalStorageManager.Locations.Annotations, fileName)
       : fileName;
 
   // Send all the messages
