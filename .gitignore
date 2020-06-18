@@ -107,7 +107,5 @@ dist
 .vscode-test
 
 # sample configuration files
-triggers.json
-mqtt.json
-pushover.json
-telegram.json
+#triggers.json
+settings.json
