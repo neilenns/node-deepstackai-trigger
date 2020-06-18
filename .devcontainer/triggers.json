@@ -1,0 +1,51 @@
+{
+  "$schema": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/triggerConfiguration.schema.json",
+  "triggers": [
+    {
+      "name": "Cat detector",
+      "watchPattern": "/aiinput/Cat*.jpg",
+      "enabled": true,
+      "threshold": {
+        "minimum": 10,
+        "maximum": 90
+      },
+      "handlers": {
+        "webRequest": {
+          "triggerUris": ["http://localhost:81/admin?trigger&camera=Cat"]
+        },
+        "mqtt": {
+          "topic": "aimotion/triggers/cat"
+        },
+        "telegram": {
+          "chatIds": [1]
+        }
+      },
+      "watchObjects": ["cat"]
+    },
+    {
+      "name": "Dog detector",
+      "watchPattern": "/aiinput/Dog*.jpg",
+      "enabled": true,
+      "threshold": {
+        "minimum": 50,
+        "maximum": 100
+      },
+      "handlers": {
+        "webRequest": {
+          "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}"]
+        },
+        "mqtt": {
+          "messages": [{ "topic": "aimotion/triggers/dog" }]
+        },
+        "pushover": {
+          "userKeys": ["1"]
+        },
+        "telegram": {
+          "chatIds": [1],
+          "annotateImage": true
+        }
+      },
+      "watchObjects": ["dog"]
+    }
+  ]
+}

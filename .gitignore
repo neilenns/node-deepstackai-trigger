@@ -108,6 +108,4 @@ dist
 
 # sample configuration files
 triggers.json
-mqtt.json
-pushover.json
-telegram.json
+settings.json
