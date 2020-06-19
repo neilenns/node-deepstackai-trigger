@@ -36,7 +36,6 @@ export const localStoragePath = "/node-deepstackai-trigger/www";
 export async function initializeStorage(): Promise<void> {
   log.verbose("Local storage", `Creating local storage folders in ${localStoragePath}.`);
 
-  // Eventually this should become a map() against the Locations enum
   await mkdirp(path.join(localStoragePath, Locations.Annotations));
   await mkdirp(path.join(localStoragePath, Locations.Snapshots));
 }
@@ -90,14 +89,13 @@ export function stopBackgroundPurge(): void {
 async function purgeOldFiles(): Promise<void> {
   log.verbose("Local storage", "Running purge");
 
-  // Eventually this should become part of a map() against the Locations enum.
   // Do annotations first.
   let purgeDir = path.join(localStoragePath, Locations.Annotations);
   await Promise.all(
     (await fsPromise.readdir(purgeDir)).map(async fileName => await purgeFile(path.join(purgeDir, fileName))),
   );
 
-  // Now do snapshots
+  // Now do snapshots.
   purgeDir = path.join(localStoragePath, Locations.Snapshots);
   await Promise.all(
     (await fsPromise.readdir(purgeDir)).map(async fileName => await purgeFile(path.join(purgeDir, fileName))),
