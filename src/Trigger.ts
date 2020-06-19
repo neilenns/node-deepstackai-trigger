@@ -62,7 +62,11 @@ export default class Trigger {
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
     log.verbose(`Trigger ${this.name}`, `${fileName}: Analyzing`);
     const startTime = new Date();
-    const analysis = await analyzeImage(fileName);
+    const analysis = await analyzeImage(fileName).catch(e => {
+      log.warn("Trigger ${this.name}", e);
+      return undefined;
+    });
+
     this.analysisDuration = new Date().getTime() - startTime.getTime();
 
     if (!analysis?.success) {
