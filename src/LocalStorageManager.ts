@@ -28,7 +28,7 @@ let _backgroundTimer: NodeJS.Timeout;
 /**
  * Local location where all web images are stored.
  */
-export const localStoragePath = "/node-deepstackai-trigger/www";
+export const localStoragePath = "/node-deepstackai-trigger";
 
 /**
  * Creates the data storage directory for the web images
