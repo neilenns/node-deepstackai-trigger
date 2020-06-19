@@ -101,8 +101,7 @@ export function loadConfiguration(configFilePaths: string[]): void {
 }
 
 /**
- * Explicitly activates a trigger by name where the image must
- * first be retrieved from a web address.
+ * Explicitly activates a trigger by name where the image must first be retrieved from a web address.
  * @param triggerName The name of the trigger to activate
  */
 export async function activateWebTrigger(triggerName: string): Promise<void> {
@@ -117,7 +116,7 @@ export async function activateWebTrigger(triggerName: string): Promise<void> {
     return;
   }
 
-  log.verbose("Trigger manager", `Activating ${triggerToActivate.name} based on a manual request.`);
+  log.verbose("Trigger manager", `Activating ${triggerToActivate.name} based on a web request.`);
 
   const fileName = await triggerToActivate.downloadWebImage();
   return triggerToActivate.processImage(fileName);
