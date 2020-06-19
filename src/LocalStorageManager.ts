@@ -41,8 +41,9 @@ export async function initializeStorage(): Promise<void> {
 }
 
 /**
- * Takes the full path to an original file and returns the  full path for that
+ * Takes a local storage location and the full path to an original file and returns the full path for that
  * same base filename name on local storage.
+ * @param location The location in local storage to map the file to
  * @param fileName The full path to the original file
  */
 export function mapToLocalStorage(location: Locations, fileName: string): string {
@@ -50,11 +51,12 @@ export function mapToLocalStorage(location: Locations, fileName: string): string
 }
 
 /**
- * Copies a file to local storage
+ * Copies a file to local storage.
+ * @param location The location in local storage to copy the file to
  * @param fileName The file to copy
  */
-export async function copyToLocalStorage(fileName: string): Promise<string> {
-  const localFileName = path.join(localStoragePath, path.basename(fileName));
+export async function copyToLocalStorage(location: Locations, fileName: string): Promise<string> {
+  const localFileName = path.join(localStoragePath, location, path.basename(fileName));
   await fsPromise.copyFile(fileName, localFileName).catch(e => {
     log.warn("Local storage", `Unable to copy to local storage: ${e.message}`);
   });
@@ -63,9 +65,7 @@ export async function copyToLocalStorage(fileName: string): Promise<string> {
 }
 
 /**
- * Starts a background task that purges old files from local storage
- * @param interval Frequency of purge, in minutes
- * @param age Age of a file, in minutes, to get purged
+ * Starts a background task that purges old files from local storage.
  */
 export function startBackgroundPurge(): void {
   log.verbose(
@@ -84,7 +84,7 @@ export function stopBackgroundPurge(): void {
 }
 
 /**
- * Purges files older than the purgeThreshold from local storage
+ * Purges files older than the purgeThreshold from local storage.
  */
 async function purgeOldFiles(): Promise<void> {
   log.verbose("Local storage", "Running purge");
@@ -106,7 +106,7 @@ async function purgeOldFiles(): Promise<void> {
 }
 
 /**
- * Purges an individual file that meets the purge criteria
+ * Purges an individual file that meets the purge criteria.
  * @param fullLocalPath The full path and filename to purge
  */
 async function purgeFile(fullLocalPath: string): Promise<void> {
