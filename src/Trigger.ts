@@ -60,7 +60,7 @@ export default class Trigger {
     log.verbose(`Trigger ${this.name}`, `${fileName}: Analyzing`);
     const startTime = new Date();
     const analysis = await analyzeImage(fileName).catch(e => {
-      log.warn("Trigger ${this.name}", e);
+      log.warn(`Trigger ${this.name}`, e);
       return undefined;
     });
 
