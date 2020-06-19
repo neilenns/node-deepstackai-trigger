@@ -30,7 +30,6 @@
         "minimum": 50,
         "maximum": 100
       },
-      "snapshotUri": "http://192.168.1.170:81/image/FrontDoorSD",
       "handlers": {
         "webRequest": {
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}"]
