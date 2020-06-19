@@ -328,13 +328,15 @@ export default class Trigger {
       log.warn(`Trigger ${this.name}`, `Snapshot downloaded requested however this trigger isn't enabled.`);
       return;
     }
+
     log.verbose(`Trigger ${this.name}`, `Downloading snapshot from ${this.snapshotUri}.`);
 
+    // The image gets saved to local storage using the name of the trigger and a unique-enough number.
     const localStoragePath = LocalStorage.mapToLocalStorage(
       LocalStorage.Locations.Snapshots,
       `${this.name}_${new Date().getTime()}.jpg`,
     );
-  
+
     // Setting encoding: null makes the response magically become a Buffer, which
     // then passes straight to writeFile and generates a proper image file in local storage.
     // If encoding: null is omitted then the resulting local file is corrupted.
@@ -342,6 +344,7 @@ export default class Trigger {
     await fsPromise.writeFile(localStoragePath, response);
 
     log.verbose(`Trigger ${this.name}`, `Download from ${this.snapshotUri} complete.`);
+
     return localStoragePath;
   }
 }
