@@ -340,8 +340,14 @@ export default class Trigger {
     // Setting encoding: null makes the response magically become a Buffer, which
     // then passes straight to writeFile and generates a proper image file in local storage.
     // If encoding: null is omitted then the resulting local file is corrupted.
-    const response = await request.get(this.snapshotUri, { encoding: null });
-    await fsPromise.writeFile(localStoragePath, response);
+    const response = await request.get(this.snapshotUri, { encoding: null }).catch(e => {
+      log.warn(`Trigger ${this.name}`, `Unable to download snapshot from ${this.snapshotUri}: ${e}`);
+      return;
+    });
+    await fsPromise.writeFile(localStoragePath, response).catch(e => {
+      log.warn(`Trigger ${this.name}`, `Unable to save snapshot: ${e}`);
+      return;
+    });
 
     log.verbose(`Trigger ${this.name}`, `Download from ${this.snapshotUri} complete.`);
 
