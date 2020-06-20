@@ -7,14 +7,23 @@ import * as log from "./Log";
 import * as Settings from "./Settings";
 
 import express from "express";
+import { Server } from "http";
 
 const app = express();
+let server: Server;
 
 export function startApp(): void {
   app.use("/", express.static(LocalStorageManager.localStoragePath));
   try {
-    app.listen(Settings.port, () => log.info("Web server", `Listening at http://localhost:${Settings.port}`));
+    server = app.listen(Settings.port, () => log.info("Web server", `Listening at http://localhost:${Settings.port}`));
   } catch (e) {
     log.warn("Web server", `Unable to start web server: ${e.error}`);
+  }
+}
+
+export function stopApp(): void {
+  if (server) {
+    log.verbose("Web server", "Stopping.");
+    server.close();
   }
 }

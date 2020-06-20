@@ -27,8 +27,9 @@ export let verbose: boolean;
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
  * @param configFilePath The path to the configuration file
+ * @returns The path to the loaded configuration file
  */
-export function loadConfiguration(configFilePaths: string[]): void {
+export function loadConfiguration(configFilePaths: string[]): string {
   let settingsConfigJson: ISettingsConfigJson;
   let loadedSettingsFilePath: string;
 
@@ -66,4 +67,6 @@ export function loadConfiguration(configFilePaths: string[]): void {
   verbose = settingsConfigJson.verbose ?? false;
 
   log.info("Settings", `Loaded settings from ${loadedSettingsFilePath}`);
+
+  return loadedSettingsFilePath;
 }
