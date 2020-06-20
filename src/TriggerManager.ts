@@ -33,14 +33,11 @@ let _triggers: Trigger[];
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
  * @param configFilePath The path to the configuration file
- * @returns The path to the loaded configuration file
  */
-export function loadConfiguration(configFilePaths: string[]): string {
+export function loadConfiguration(configFilePaths: string[]): void {
   let loadedConfigFilePath: string;
-  let triggerConfigJson: ITriggerConfigJson;
 
-  // Reset triggers to empty in case this is getting hot reloaded
-  _triggers = [];
+  let triggerConfigJson: ITriggerConfigJson;
 
   // Look through the list of possible loadable config files and try loading
   // them in turn until a valid one is found.
@@ -100,8 +97,6 @@ export function loadConfiguration(configFilePaths: string[]): string {
 
     return configuredTrigger;
   });
-
-  return loadedConfigFilePath;
 }
 
 /**
