@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Changes to `settings.json` and `triggers.json` are automatically detected and cause a reload. No need to restart
+  the Docker container anymore! Just save the file and the system should notice the change and reload with the new
+  configuration. Resolves [issue 278](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/278).
 - The internal web server can now be enabled independently from annotated images using the
   `enableWebServer` setting. It's off by default, and enabled automatically when `enableAnnotations` is on for backwards compatibility reasons. Resolves [issue 265](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/265).
 
