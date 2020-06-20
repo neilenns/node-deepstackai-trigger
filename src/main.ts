@@ -6,6 +6,7 @@
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
 
+import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as chokidar from "chokidar";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
@@ -57,9 +58,9 @@ async function startup(): Promise<void> {
     await LocalStorageManager.initializeStorage();
     LocalStorageManager.startBackgroundPurge();
 
-    // Purely for logging information.
     if (Settings.enableAnnotations) {
       log.info("Main", "Annotated image generation enabled.");
+      await AnnotationManager.initialize();
     }
 
     // Enable the web server.
@@ -96,17 +97,30 @@ async function startup(): Promise<void> {
   }
 }
 
-async function hotLoadSettings(path: string) {
-  log.info("Main", `${path} change detected, reloading.`);
-
+/**
+ * Shuts down all registered file system watchers and the web server
+ */
+async function shutdown(): Promise<void> {
   // Shut down things that are running
   await TriggerManager.stopWatching();
   WebServer.stopApp();
+}
 
-  // Start it all back up again
+/**
+ * Shuts everything down and then restarts the service with a new settings file.
+ * @param path The path to the settings file that changed.
+ */
+async function hotLoadSettings(path: string) {
+  log.info("Main", `${path} change detected, reloading.`);
+
+  await shutdown();
   await startup();
 }
 
+/**
+ * Reloads the list of triggers.
+ * @param path The path to the trigger file that changed.
+ */
 async function hotLoadTriggers(path: string) {
   log.info("Main", `${path} change detected, reloading.`);
 
@@ -141,7 +155,22 @@ function startWatching(): void {
   }
 }
 
-async function main() {
+async function handleDeath(): Promise<void> {
+  log.info("Main", "Shutting down.");
+  await shutdown();
+  process.exit();
+}
+
+function registerForDeath(): void {
+  process.on("SIGINT", handleDeath);
+  process.on("SIGTERM", handleDeath);
+  process.on("SIGQUIT", handleDeath);
+  process.on("SIGBREAK", handleDeath);
+}
+
+async function main(): Promise<void> {
+  registerForDeath();
+
   await startup();
 
   startWatching();
