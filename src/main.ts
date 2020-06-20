@@ -6,6 +6,7 @@
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
 
+import * as chokidar from "chokidar";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
@@ -16,6 +17,9 @@ import * as TriggerManager from "./TriggerManager";
 import * as WebServer from "./WebServer";
 
 import npmPackageInfo from "../package.json";
+
+let settingsFilePath: string;
+let triggersFilePath: string;
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -28,14 +32,14 @@ function validateEnvironmentVariables(): boolean {
   return isValid;
 }
 
-async function main() {
+async function startup(): Promise<void> {
   log.info("Main", `Starting up version ${npmPackageInfo.version}`);
   log.info("Main", `Timezone offset is ${new Date().getTimezoneOffset()}`);
   log.info("Main", `Current time is ${new Date()}`);
 
   try {
     // Load the settings file.
-    Settings.loadConfiguration(["/run/secrets/settings", "/config/settings.json"]);
+    settingsFilePath = Settings.loadConfiguration(["/run/secrets/settings", "/config/settings.json"]);
 
     // MQTT manager loads first so if it succeeds but other things fail we can report the failures via MQTT.
     await MqttManager.initialize();
@@ -65,7 +69,7 @@ async function main() {
     }
 
     // Load the trigger configuration.
-    TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
+    triggersFilePath = TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
 
     // Initialize the other two handler managers. MQTT got done earlier
     // since it does double-duty and sends overall status messages for the system.
@@ -90,6 +94,57 @@ async function main() {
     // Notify it's not up and running
     await MqttManager.publishServerState("offline", e.message);
   }
+}
+
+async function hotLoadSettings(path: string) {
+  log.info("Main", `${path} change detected, reloading.`);
+
+  // Shut down things that are running
+  await TriggerManager.stopWatching();
+  WebServer.stopApp();
+
+  // Start it all back up again
+  await startup();
+}
+
+async function hotLoadTriggers(path: string) {
+  log.info("Main", `${path} change detected, reloading.`);
+
+  // Shut down things that are running
+  await TriggerManager.stopWatching();
+
+  TriggerManager.loadConfiguration([path]);
+  TriggerManager.startWatching();
+}
+
+function startWatching(): void {
+  try {
+    if (settingsFilePath) {
+      chokidar
+        .watch(settingsFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
+        .on("change", path => hotLoadSettings(path));
+      log.verbose("Main", `Watching for changes to ${settingsFilePath}`);
+    }
+  } catch (e) {
+    log.warn("Main", `Unable to watch for changes to ${settingsFilePath}: ${e}`);
+  }
+
+  try {
+    if (triggersFilePath) {
+      chokidar
+        .watch(triggersFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
+        .on("change", path => hotLoadTriggers(path));
+      log.verbose("Main", `Watching for changes to ${triggersFilePath}`);
+    }
+  } catch (e) {
+    log.warn("Main", `Unable to watch for changes to ${triggersFilePath}: ${e}`);
+  }
+}
+
+async function main() {
+  await startup();
+
+  startWatching();
 
   // Spin in circles waiting for new files to arrive.
   wait();
