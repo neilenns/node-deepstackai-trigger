@@ -19,9 +19,7 @@ import * as WebServer from "./WebServer";
 import npmPackageInfo from "../package.json";
 
 let settingsFilePath: string;
-let settingsWatcher: chokidar.FSWatcher;
 let triggersFilePath: string;
-let triggersWatcher: chokidar.FSWatcher;
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -98,23 +96,33 @@ async function startup(): Promise<void> {
   }
 }
 
-async function hotLoad(path: string) {
+async function hotLoadSettings(path: string) {
   log.info("Main", `${path} change detected, reloading.`);
 
   // Shut down things that are running
-  TriggerManager.stopWatching();
+  await TriggerManager.stopWatching();
   WebServer.stopApp();
 
   // Start it all back up again
   await startup();
 }
 
+async function hotLoadTriggers(path: string) {
+  log.info("Main", `${path} change detected, reloading.`);
+
+  // Shut down things that are running
+  await TriggerManager.stopWatching();
+
+  TriggerManager.loadConfiguration([path]);
+  TriggerManager.startWatching();
+}
+
 function startWatching(): void {
   try {
     if (settingsFilePath) {
-      settingsWatcher = chokidar
+      chokidar
         .watch(settingsFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
-        .on("change", path => hotLoad(path));
+        .on("change", path => hotLoadSettings(path));
       log.verbose("Main", `Watching for changes to ${settingsFilePath}`);
     }
   } catch (e) {
@@ -123,9 +131,9 @@ function startWatching(): void {
 
   try {
     if (triggersFilePath) {
-      triggersWatcher = chokidar
+      chokidar
         .watch(triggersFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
-        .on("change", path => hotLoad(path));
+        .on("change", path => hotLoadTriggers(path));
       log.verbose("Main", `Watching for changes to ${triggersFilePath}`);
     }
   } catch (e) {
