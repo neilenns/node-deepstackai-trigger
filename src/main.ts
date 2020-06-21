@@ -11,6 +11,7 @@ import * as chokidar from "chokidar";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import * as PushbulletManager from "./handlers/pushbulletManager/PushbulletManager";
 import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
 import * as Settings from "./Settings";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
@@ -72,10 +73,11 @@ async function startup(): Promise<void> {
     // Load the trigger configuration.
     triggersFilePath = TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
 
-    // Initialize the other two handler managers. MQTT got done earlier
+    // Initialize the other handler managers. MQTT got done earlier
     // since it does double-duty and sends overall status messages for the system.
-    await TelegramManager.initialize();
+    await PushbulletManager.initialize();
     await PushoverManager.initialize();
+    await TelegramManager.initialize();
 
     // Start watching
     TriggerManager.startWatching();

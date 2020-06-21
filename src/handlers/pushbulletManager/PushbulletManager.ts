@@ -7,13 +7,14 @@ import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
 import * as Settings from "../../Settings";
-import PushBullet from "pushbullet";
 
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import Trigger from "../../Trigger";
+import PushbulletClient from "../../pushbulletClient/PushbulletClient";
+import PushbulletMessage from "../../pushbulletClient/PushbulletMessage";
 
 let _isEnabled = false;
-let _pushClient = new PushBullet(Settings.pushbullet.accessToken);
+let _pushClient: PushbulletClient;
 
 // Tracks the last time each trigger fired, for use when calculating cooldown time windows
 const _cooldowns = new Map<Trigger, Date>();
@@ -32,9 +33,9 @@ export async function initialize(): Promise<void> {
     return;
   }
 
-  // _pushClient = new PushbulletClient({
-  //   apiKey: Settings.pushbullet.accessToken,
-  // });
+  _pushClient = new PushbulletClient({
+    accessToken: Settings.pushbullet.accessToken,
+  });
 
   log.info("Pushbullet", `Pushbullet enabled.`);
 }
@@ -74,31 +75,24 @@ export async function processTrigger(
       ? LocalStorageManager.mapToLocalStorage(LocalStorageManager.Locations.Annotations, fileName)
       : fileName;
 
-  // // Build the Pushbullet message options.
-  // const PushbulletMessage = new PushbulletMessage({
-  //   imageFileName: imageFileName,
-  //   message: caption
-  // });
+  // Build the Pushbullet message options.
+  const pushbulletMessage = new PushbulletMessage({
+    body: caption,
+    imageFileName: imageFileName,
+    title: "Motion detected",
+  });
 
-  //   // Send all the messages.
-  //   try {
-  //     return Promise.all(
-  //       trigger.pushbulletConfig.userKeys.map(user => {
-  //         PushbulletMessage.userKey = user;
-  //         sendPushbulletMessage(PushbulletMessage);
-  //       }),
-  //     );
-  //   } catch (e) {
-  //     log.warn("Pushbullet", `Unable to send message: ${e.error}`);
-  //     return;
-  //   }
-  // }
+  try {
+    return [await sendPushbulletMessage(pushbulletMessage)];
+  } catch (e) {
+    log.warn("Pushbullet", `Unable to send message: ${e.error}`);
+    return;
+  }
+}
 
-  // async function sendPushbulletMessage(message: PushbulletMessage): Promise<void> {
-  //   log.verbose("Pushbullet", `Sending message to ${message.userKey}`);
-  // return await _pushClient.send(message);
-
-  return;
+async function sendPushbulletMessage(message: PushbulletMessage): Promise<void> {
+  log.verbose("Pushbullet", `Sending message`);
+  return await _pushClient.push(message);
 }
 
 /**

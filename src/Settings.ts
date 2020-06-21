@@ -64,6 +64,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
   processExistingImages = settingsConfigJson.processExistingImages ?? false;
   purgeAge = settingsConfigJson.purgeAge ?? 30;
   purgeInterval = settingsConfigJson.purgeInterval ?? 60;
+  pushbullet = settingsConfigJson.pushbullet;
   pushover = settingsConfigJson.pushover;
   telegram = settingsConfigJson.telegram;
   verbose = settingsConfigJson.verbose ?? false;
