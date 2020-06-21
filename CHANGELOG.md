@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 3.1.0
 
 - Triggers can now be manually activated via a REST API, and can be configured to retrieve a camera snapshot
   from a REST API instead of watching for image files that appear in a folder. This is useful for NVR systems
