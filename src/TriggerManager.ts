@@ -7,6 +7,7 @@ import * as log from "./Log";
 
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
+import PushbulletConfig from "./handlers/pushbulletManager/PushbulletConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
 import Rect from "./Rect";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
@@ -97,6 +98,9 @@ export function loadConfiguration(configFilePaths: string[]): string {
     }
     if (triggerJson.handlers.pushover) {
       configuredTrigger.pushoverConfig = new PushoverConfig(triggerJson.handlers.pushover);
+    }
+    if (triggerJson.handlers.pushbullet) {
+      configuredTrigger.pushbulletConfig = new PushbulletConfig(triggerJson.handlers.pushbullet);
     }
 
     return configuredTrigger;

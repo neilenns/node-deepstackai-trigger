@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushbulletManagerConfiguration.schema.json",
+  "type": "object",
+  "title": "The configuration for Pushbullet",
+  "description": "Defines the connection information for Pushbullet to send trigger notifications.",
+  "required": ["accessToken"],
+  "properties": {
+    "apiKey": {
+      "description": "The access token for Pushbullet.",
+      "type": "string",
+      "examples": ["op.owie239rksdfanvxo8yuaeklfhalsdf"]
+    },
+    "enabled": {
+      "description": "Enables Pushbullet notifications.",
+      "type": "boolean",
+      "default": true,
+      "examples": ["false"]
+    }
+  }
+}

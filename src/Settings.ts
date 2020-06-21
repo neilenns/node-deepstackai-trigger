@@ -7,6 +7,7 @@ import * as helpers from "./helpers";
 import * as log from "./Log";
 
 import IMqttManagerConfigJson from "./handlers/mqttManager/IMqttManagerConfigJson";
+import IPushbulletManagerConfigJson from "./handlers/pushbulletManager/IPushbulletManagerConfigJson";
 import IPushoverManagerConfigJson from "./handlers/pushoverManager/IPushoverManagerConfigJson";
 import ISettingsConfigJson from "./types/ISettingsConfigJson";
 import ITelegramManagerConfigJson from "./handlers/telegramManager/ITelegramManagerConfigJson";
@@ -20,6 +21,7 @@ export let port: number;
 export let processExistingImages: boolean;
 export let purgeAge: number;
 export let purgeInterval: number;
+export let pushbullet: IPushbulletManagerConfigJson;
 export let pushover: IPushoverManagerConfigJson;
 export let telegram: ITelegramManagerConfigJson;
 export let verbose: boolean;

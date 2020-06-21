@@ -9,6 +9,8 @@ import ajvkeywords from "ajv-keywords";
 import maskConfiguration from "./schemas/maskConfiguration.schema.json";
 import mqttHandlerConfiguration from "./schemas/mqttHandlerConfiguration.schema.json";
 import mqttManagerConfiguration from "./schemas/mqttManagerConfiguration.schema.json";
+import pushbulletHandlerConfiguration from "./schemas/pushbulletHandlerConfiguration.schema.json";
+import pushbulletManagerConfiguration from "./schemas/pushbulletManagerConfiguration.schema.json";
 import pushoverHandlerConfiguration from "./schemas/pushoverHandlerConfiguration.schema.json";
 import pushoverManagerConfiguration from "./schemas/pushoverManagerConfiguration.schema.json";
 import settingsSchema from "./schemas/settings.schema.json";
@@ -45,6 +47,14 @@ export default async function validateJsonAgainstSchema(
   validator.addSchema(
     mqttManagerConfiguration,
     "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/mqttManagerConfiguration.schema.json",
+  );
+  validator.addSchema(
+    pushbulletHandlerConfiguration,
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/pushbulletHandlerConfiguration.schema.json",
+  );
+  validator.addSchema(
+    pushbulletManagerConfiguration,
+    "https://raw.githubusercontent.com/danecreekphotography/node-blueiris-deepstack-ai/main/src/schemas/pushbulletManagerConfiguration.schema.json",
   );
   validator.addSchema(
     pushoverHandlerConfiguration,

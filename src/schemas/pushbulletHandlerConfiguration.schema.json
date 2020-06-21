@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushbulletHandlerConfiguration.schema.json",
+  "type": "object",
+  "title": "The configuration for a Pushbullet trigger handler",
+  "description": "Defines the Pushbullet messages to send.",
+  "required": ["userKeys"],
+  "properties": {
+    "userKeys": {
+      "description": "The list of user keys to send notifications to when this handler is triggered.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "examples": ["u6wer89dggf7a7zbn8f86zq6ijx1kg2"]
+    },
+    "caption": {
+      "description": "Caption to send with the message. Default is the name of the trigger.",
+      "type": "string",
+      "minLength": 1,
+      "examples": ["Front door: {{formattedPredictions}}"]
+    },
+    "annotateImage": {
+      "description": "Set to true to send an image with annotations overlaid for detected objects.",
+      "type": "boolean",
+      "default": false,
+      "examples": [true]
+    },
+    "cooldownTime": {
+      "description": "Number of seconds required between sending notifications to the listed users.",
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 600,
+      "examples": [5]
+    },
+    "enabled": {
+      "description": "Enables the Pushover handler on this trigger. Default is true.",
+      "type": "boolean",
+      "default": "true",
+      "examples": ["false"]
+    }
+  }
+}
