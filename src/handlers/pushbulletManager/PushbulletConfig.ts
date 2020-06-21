@@ -7,6 +7,7 @@ export default class PushoverConfig {
   public caption?: string;
   public cooldownTime: number;
   public enabled: boolean;
+  public title?: string;
 
   constructor(init?: Partial<PushoverConfig>) {
     Object.assign(this, init);

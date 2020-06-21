@@ -79,7 +79,7 @@ export async function processTrigger(
   const pushbulletMessage = new PushbulletMessage({
     body: caption,
     imageFileName: imageFileName,
-    title: "Motion detected",
+    title: trigger.pushbulletConfig.title,
   });
 
   try {

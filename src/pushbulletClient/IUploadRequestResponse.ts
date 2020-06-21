@@ -2,10 +2,10 @@
  *  Copyright (c) Neil Enns. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-export default interface IPushbulletConfigJson {
-  annotateImage?: boolean;
-  caption?: string;
-  cooldownTime?: number;
-  enabled?: boolean;
-  title?: string;
+
+export default interface IUploadRequestResponse {
+  file_name: string;
+  file_type: string;
+  file_url: string;
+  upload_url: string;
 }
