@@ -10,6 +10,11 @@ import mkdirp from "mkdirp";
 import path from "path";
 import { promises as fsPromise } from "fs";
 
+export enum Locations {
+  Annotations = "annotations",
+  Snapshots = "snapshots",
+}
+
 /**
  * Number of milliseconds in a minute
  */
@@ -23,31 +28,35 @@ let _backgroundTimer: NodeJS.Timeout;
 /**
  * Local location where all web images are stored.
  */
-export const localStoragePath = "/node-deepstackai-trigger/www";
+export const localStoragePath = "/node-deepstackai-trigger";
 
 /**
  * Creates the data storage directory for the web images
  */
-export async function initializeStorage(): Promise<string | undefined> {
-  log.verbose("Local storage", `Creating local storage folder ${localStoragePath}.`);
-  return mkdirp(localStoragePath);
+export async function initializeStorage(): Promise<void> {
+  log.verbose("Local storage", `Creating local storage folders in ${localStoragePath}.`);
+
+  await mkdirp(path.join(localStoragePath, Locations.Annotations));
+  await mkdirp(path.join(localStoragePath, Locations.Snapshots));
 }
 
 /**
- * Takes the full path to an original file and returns the  full path for that
+ * Takes a local storage location and the full path to an original file and returns the full path for that
  * same base filename name on local storage.
+ * @param location The location in local storage to map the file to
  * @param fileName The full path to the original file
  */
-export function mapToLocalStorage(fileName: string): string {
-  return path.join(localStoragePath, path.basename(fileName));
+export function mapToLocalStorage(location: Locations, fileName: string): string {
+  return path.join(localStoragePath, location, path.basename(fileName));
 }
 
 /**
- * Copies a file to local storage
+ * Copies a file to local storage.
+ * @param location The location in local storage to copy the file to
  * @param fileName The file to copy
  */
-export async function copyToLocalStorage(fileName: string): Promise<string> {
-  const localFileName = path.join(localStoragePath, path.basename(fileName));
+export async function copyToLocalStorage(location: Locations, fileName: string): Promise<string> {
+  const localFileName = path.join(localStoragePath, location, path.basename(fileName));
   await fsPromise.copyFile(fileName, localFileName).catch(e => {
     log.warn("Local storage", `Unable to copy to local storage: ${e.message}`);
   });
@@ -56,9 +65,7 @@ export async function copyToLocalStorage(fileName: string): Promise<string> {
 }
 
 /**
- * Starts a background task that purges old files from local storage
- * @param interval Frequency of purge, in minutes
- * @param age Age of a file, in minutes, to get purged
+ * Starts a background task that purges old files from local storage.
  */
 export function startBackgroundPurge(): void {
   log.verbose(
@@ -77,31 +84,38 @@ export function stopBackgroundPurge(): void {
 }
 
 /**
- * Purges files older than the purgeThreshold from local storage
+ * Purges files older than the purgeThreshold from local storage.
  */
 async function purgeOldFiles(): Promise<void> {
   log.verbose("Local storage", "Running purge");
 
-  // Loop through all the files and purge any that are older than they should be.
-  // Can there possibly be more await statements in a single line?
-  await Promise.all((await fsPromise.readdir(localStoragePath)).map(async fileName => await purgeFile(fileName)));
+  // Do annotations first.
+  let purgeDir = path.join(localStoragePath, Locations.Annotations);
+  await Promise.all(
+    (await fsPromise.readdir(purgeDir)).map(async fileName => await purgeFile(path.join(purgeDir, fileName))),
+  );
+
+  // Now do snapshots.
+  purgeDir = path.join(localStoragePath, Locations.Snapshots);
+  await Promise.all(
+    (await fsPromise.readdir(purgeDir)).map(async fileName => await purgeFile(path.join(purgeDir, fileName))),
+  );
 
   log.verbose("Local storage", "Purge complete");
   _backgroundTimer = setTimeout(purgeOldFiles, Settings.purgeInterval * _millisecondsInAMinute);
 }
 
 /**
- * Purges an individual file that meets the purge criteria
- * @param fileName The filename to purge
+ * Purges an individual file that meets the purge criteria.
+ * @param fullLocalPath The full path and filename to purge
  */
-async function purgeFile(fileName: string): Promise<void> {
-  const fullLocalPath = mapToLocalStorage(fileName);
+async function purgeFile(fullLocalPath: string): Promise<void> {
   const lastAccessTime = (await fsPromise.stat(fullLocalPath)).atime;
 
   const minutesSinceLastAccess = (new Date().getTime() - lastAccessTime.getTime()) / _millisecondsInAMinute;
 
   if (minutesSinceLastAccess > Settings.purgeAge) {
     await fsPromise.unlink(fullLocalPath);
-    log.verbose("Local storage", `Purging ${fileName}. Age: ${minutesSinceLastAccess.toFixed(0)} minutes.`);
+    log.verbose("Local storage", `Purging ${fullLocalPath}. Age: ${minutesSinceLastAccess.toFixed(0)} minutes.`);
   }
 }

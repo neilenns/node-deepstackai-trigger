@@ -12,6 +12,12 @@ import * as log from "../../Log";
 import * as fs from "fs";
 import * as settings from "../../Settings";
 
+export async function initialize(): Promise<void> {
+  // The font gets loaded once here to work around race condition issues that were happening.
+  // Solution comes from https://github.com/joshmarinacci/node-pureimage/issues/52#issuecomment-368066557
+  await PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code").load();
+}
+
 /**
  * Generates an annotated image based on a list of predictions and
  * saves it to local storage, if the enabled flag is true on
@@ -30,10 +36,7 @@ export async function processTrigger(
   }
 
   log.verbose("Annotations", `Annotating ${fileName}`);
-  const outputFileName = LocalStorageManager.mapToLocalStorage(fileName);
-  const font = PImage.registerFont("./fonts/CascadiaCode.ttf", "Cascadia Code");
-
-  await font.load();
+  const outputFileName = LocalStorageManager.mapToLocalStorage(LocalStorageManager.Locations.Annotations, fileName);
 
   const decodedImage = await PImage.decodeJPEGFromStream(fs.createReadStream(fileName));
   const context = decodedImage.getContext("2d");

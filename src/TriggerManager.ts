@@ -71,6 +71,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
       cooldownTime: triggerJson.cooldownTime,
       enabled: triggerJson.enabled ?? true, // If it isn't specified then enable the camera
       name: triggerJson.name,
+      snapshotUri: triggerJson.snapshotUri,
       threshold: {
         minimum: triggerJson?.threshold?.minimum ?? 0, // If it isn't specified then just assume always trigger.
         maximum: triggerJson?.threshold?.maximum ?? 100, // If it isn't specified then just assume always trigger.
@@ -102,6 +103,28 @@ export function loadConfiguration(configFilePaths: string[]): string {
   });
 
   return loadedConfigFilePath;
+}
+
+/**
+ * Explicitly activates a trigger by name where the image must first be retrieved from a web address.
+ * @param triggerName The name of the trigger to activate
+ */
+export async function activateWebTrigger(triggerName: string): Promise<void> {
+  // Find the trigger to activate. Do it case insensitive to avoid annoying
+  // errors when the trigger name is capitalized slightly differently.
+  const triggerToActivate = _triggers.find(trigger => {
+    return trigger.name.toLowerCase() === triggerName.toLowerCase();
+  });
+
+  if (!triggerToActivate) {
+    log.warn("Trigger manager", `No trigger found matching ${triggerName}`);
+    return;
+  }
+
+  log.verbose("Trigger manager", `Activating ${triggerToActivate.name} based on a web request.`);
+
+  const fileName = await triggerToActivate.downloadWebImage();
+  return triggerToActivate.processImage(fileName);
 }
 
 /**

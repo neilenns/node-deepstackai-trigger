@@ -16,7 +16,8 @@
         "title": "Trigger",
         "description": "A trigger that responds to DeepStack predictions.",
         "type": "object",
-        "required": ["handlers", "name", "watchPattern", "watchObjects"],
+        "anyOf": [{ "required": ["watchPattern"] }, { "required": ["snapshotUri"] }],
+        "required": ["handlers", "name", "watchObjects"],
         "additionalProperties": false,
         "properties": {
           "name": {
@@ -41,6 +42,11 @@
             "examples": [true],
             "default": true,
             "type": "boolean"
+          },
+          "snapshotUri": {
+            "description": "Address to call to retrieve a camera snapshot when manually triggered.",
+            "type": "string",
+            "examples": ["http://localhost:83/image/FrontDoorSD"]
           },
           "threshold": {
             "description": "Sets the minimum and maximum prediction confidence required to fire the trigger.",

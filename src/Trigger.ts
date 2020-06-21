@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import * as AnnotationManager from "./handlers/annotationManager/AnnotationManager";
 import * as chokidar from "chokidar";
+import * as LocalStorage from "./LocalStorageManager";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
@@ -17,8 +18,9 @@ import IDeepStackPrediction from "./types/IDeepStackPrediction";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
-import { Stats } from "fs";
+import { promises as fsPromise } from "fs";
 import Rect from "./Rect";
+import request from "request-promise-native";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 
 export default class Trigger {
@@ -32,6 +34,7 @@ export default class Trigger {
   public watchPattern: string;
   public watchObjects?: string[];
   public triggerUris?: string[];
+  public snapshotUri?: string;
   public enabled = true;
   public cooldownTime: number;
   public threshold: {
@@ -86,13 +89,12 @@ export default class Trigger {
   /**
    * Handles a file system change event and processes the image.
    * @param fileName The filename to process
-   * @param stats The stats for the file
    */
-  public async processImage(fileName: string, stats: Stats): Promise<void> {
+  public async processImage(fileName: string): Promise<void> {
     TriggerManager.incrementAnalyzedFilesCount();
 
     // Don't process old files.
-    if (!this.passesDateTest(fileName, stats)) return;
+    if (!(await this.passesDateTest(fileName))) return;
 
     this._lastTriggerTime = new Date();
 
@@ -144,15 +146,15 @@ export default class Trigger {
    * Checks to see if a file should be processed based on the last modified time
    * and the setting to process existing files.
    * @param fileName The filename of the image being evaluated
-   * @param stats The fs.Stats for the file
    * @returns True if the file is more recent than when this trigger was created
    * or existing files should be processed
    */
-  private passesDateTest(fileName: string, stats: Stats): boolean {
+  private async passesDateTest(fileName: string): Promise<boolean> {
     // This has to use atimeMs (last access time) to ensure it also works while testing.
     // Copying files in Windows preserves the lastModified and createdDate fields
     // from the original. Using lastAccessTime ensures all these checks perform
     // correctly even during development.
+    const stats = await fsPromise.stat(fileName);
     this.receivedDate = new Date(stats.atimeMs);
 
     if (this.receivedDate < this._initializedTime && !Settings.processExistingImages) {
@@ -286,6 +288,10 @@ export default class Trigger {
       return false;
     }
 
+    if (!this.watchPattern) {
+      return false;
+    }
+
     try {
       this._watcher = chokidar
         .watch(this.watchPattern, { awaitWriteFinish: Settings.awaitWriteFinish })
@@ -309,5 +315,44 @@ export default class Trigger {
 
       log.verbose(`Trigger ${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
     }
+  }
+
+  /**
+   * Downloads an image from the address registered with the trigger.
+   */
+  public async downloadWebImage(): Promise<string> {
+    if (!this.snapshotUri) {
+      log.warn(`Trigger ${this.name}`, `Unable to download snapshot: snapshotUri not specified.`);
+      return;
+    }
+
+    if (!this.enabled) {
+      log.warn(`Trigger ${this.name}`, `Snapshot downloaded requested however this trigger isn't enabled.`);
+      return;
+    }
+
+    log.verbose(`Trigger ${this.name}`, `Downloading snapshot from ${this.snapshotUri}.`);
+
+    // The image gets saved to local storage using the name of the trigger and a unique-enough number.
+    const localStoragePath = LocalStorage.mapToLocalStorage(
+      LocalStorage.Locations.Snapshots,
+      `${this.name}_${new Date().getTime()}.jpg`,
+    );
+
+    // Setting encoding: null makes the response magically become a Buffer, which
+    // then passes straight to writeFile and generates a proper image file in local storage.
+    // If encoding: null is omitted then the resulting local file is corrupted.
+    const response = await request.get(this.snapshotUri, { encoding: null }).catch(e => {
+      log.warn(`Trigger ${this.name}`, `Unable to download snapshot from ${this.snapshotUri}: ${e}`);
+      return;
+    });
+    await fsPromise.writeFile(localStoragePath, response).catch(e => {
+      log.warn(`Trigger ${this.name}`, `Unable to save snapshot: ${e}`);
+      return;
+    });
+
+    log.verbose(`Trigger ${this.name}`, `Download from ${this.snapshotUri} complete.`);
+
+    return localStoragePath;
   }
 }

@@ -12,11 +12,12 @@ export default interface ITriggerJson {
   cooldownTime: number;
   enabled: boolean;
   name: string;
+  snapshotUri: string;
   threshold: {
     minimum: number;
     maximum: number;
   };
-  watchPattern: string;
+  watchPattern?: string;
   watchObjects: string[];
 
   // Handler settings

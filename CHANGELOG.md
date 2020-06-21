@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Triggers can now be manually activated via a REST API, and can be configured to retrieve a camera snapshot
+  from a REST API instead of watching for image files that appear in a folder. This is useful for NVR systems
+  other than BlueIris that don't support writing a snapshot automatically when motion is detected and can
+  only call a REST API as the motion activated action. Resolves [issue 260](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/260).
+- Occasional crashes when `enableAnnotations` is on are fixed. Resolves [issue 284](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/284).
 - Requests to end the system (e.g. via ctrl+c) are handled gracefully now. Resolves [issue 280](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/280).
 - Changes to `settings.json` and `triggers.json` are automatically detected and cause a reload. No need to restart
   the Docker container anymore! Just save the file and the system should notice the change and reload with the new

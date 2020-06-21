@@ -73,7 +73,7 @@ export async function processTrigger(
   // annotated images were requested in the config.
   const imageFileName =
     trigger.pushoverConfig.annotateImage && Settings.enableAnnotations
-      ? LocalStorageManager.mapToLocalStorage(fileName)
+      ? LocalStorageManager.mapToLocalStorage(LocalStorageManager.Locations.Annotations, fileName)
       : fileName;
 
   // Build the pushover message options.

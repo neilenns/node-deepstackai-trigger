@@ -19,6 +19,7 @@ services:
     volumes:
       - ..:/workspace:cached
       - ../sampleConfiguration/aiinput:/aiinput
+      - localtriggerstorage:/node-deepstackai-trigger
     secrets:
       - settings
       - triggers
@@ -46,6 +47,7 @@ services:
 
 volumes:
   localstorage:
+  localtriggerstorage:
 
 secrets:
   settings:
