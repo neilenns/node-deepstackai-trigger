@@ -7,11 +7,13 @@ import * as LocalStorageManager from "../../LocalStorageManager";
 import * as log from "../../Log";
 import * as mustacheFormatter from "../../MustacheFormatter";
 import * as Settings from "../../Settings";
+import PushBullet from "pushbullet";
 
 import IDeepStackPrediction from "../../types/IDeepStackPrediction";
 import Trigger from "../../Trigger";
 
 let _isEnabled = false;
+let _pushClient = new PushBullet(Settings.pushbullet.accessToken);
 
 // Tracks the last time each trigger fired, for use when calculating cooldown time windows
 const _cooldowns = new Map<Trigger, Date>();
