@@ -83,6 +83,7 @@ export async function processTrigger(
   });
 
   try {
+    // This returns an array to keep it consistent with all the other managers.
     return [await sendPushbulletMessage(pushbulletMessage)];
   } catch (e) {
     log.warn("Pushbullet", `Unable to send message: ${e.error}`);
@@ -90,6 +91,10 @@ export async function processTrigger(
   }
 }
 
+/**
+ * Sends a message to Pushbullet.
+ * @param message The message to send
+ */
 async function sendPushbulletMessage(message: PushbulletMessage): Promise<void> {
   log.verbose("Pushbullet", `Sending message`);
   return await _pushClient.push(message);

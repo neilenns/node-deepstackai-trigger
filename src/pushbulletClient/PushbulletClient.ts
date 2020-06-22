@@ -10,7 +10,7 @@ import PushbulletMessage from "./PushbulletMessage";
 import request from "request-promise-native";
 
 /**
- * A basic client for sending messages to the Pushover REST API
+ * A basic client for sending messages to the Pushbullet REST API
  */
 export default class PushbulletClient {
   /**
@@ -23,14 +23,16 @@ export default class PushbulletClient {
   }
 
   /**
-   * Asynchronously sends a message to the Pushover REST API.
-   * @param message The PushoverMessage to send
+   * Asynchronously sends a message to the Pushbullet REST API.
+   * @param message The PushbulletMessage to send
    */
   public async push(message: PushbulletMessage): Promise<void> {
     if (!this.accessToken) {
       throw Error("accessToken must be set before calling send().");
     }
 
+    // Sending an image with Pushbullet is absolute nonsense.
+    // Call the method that encapsulates the nonsense before sending the actual message.
     const imageDetails = await this.uploadFile(message);
 
     const body = {
@@ -57,6 +59,16 @@ export default class PushbulletClient {
       });
   }
 
+  /**
+   * Sending an image with Pushbullet is just crazy silly roundabout. First
+   * you have to say you're going to upload the file and get back the URL
+   * to upload to, THEN you can actually upload the file. Oh, and then
+   * you have to remember all the data you got back to send a message that
+   * uses that file. Nonsense!!!
+   * @param message The message with the file details to upload
+   * @returns The response from Pushbullet that has the required details to send
+   * a message with the image.
+   */
   private async uploadFile(message: PushbulletMessage): Promise<IUploadRequestResponse> {
     // First step is to request the upload location
     const response = (await request
