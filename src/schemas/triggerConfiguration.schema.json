@@ -88,11 +88,11 @@
               },
               "pushbullet": {
                 "description": "Sets the configuration for a Pushbullet message.",
-                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushoverHandlerConfiguration.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushbulletHandlerConfiguration.schema.json"
               },
               "pushover": {
                 "description": "Sets the configuration for a Pushover message.",
-                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushbulletHandlerConfiguration.schema.json"
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushoverHandlerConfiguration.schema.json"
               },
               "telegram": {
                 "description": "Sets the configuration for a Telegram message.",
