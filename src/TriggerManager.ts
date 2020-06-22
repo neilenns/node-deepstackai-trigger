@@ -87,20 +87,20 @@ export function loadConfiguration(configFilePaths: string[]): string {
     );
 
     // Set up the handlers
-    if (triggerJson.handlers.webRequest) {
-      configuredTrigger.webRequestHandlerConfig = new WebRequestConfig(triggerJson.handlers.webRequest);
-    }
     if (triggerJson.handlers.mqtt) {
       configuredTrigger.mqttHandlerConfig = new MqttHandlerConfig(triggerJson.handlers.mqtt);
     }
-    if (triggerJson.handlers.telegram) {
-      configuredTrigger.telegramConfig = new TelegramConfig(triggerJson.handlers.telegram);
+    if (triggerJson.handlers.pushbullet) {
+      configuredTrigger.pushbulletConfig = new PushbulletConfig(triggerJson.handlers.pushbullet);
     }
     if (triggerJson.handlers.pushover) {
       configuredTrigger.pushoverConfig = new PushoverConfig(triggerJson.handlers.pushover);
     }
-    if (triggerJson.handlers.pushbullet) {
-      configuredTrigger.pushbulletConfig = new PushbulletConfig(triggerJson.handlers.pushbullet);
+    if (triggerJson.handlers.telegram) {
+      configuredTrigger.telegramConfig = new TelegramConfig(triggerJson.handlers.telegram);
+    }
+    if (triggerJson.handlers.webRequest) {
+      configuredTrigger.webRequestHandlerConfig = new WebRequestConfig(triggerJson.handlers.webRequest);
     }
 
     return configuredTrigger;
