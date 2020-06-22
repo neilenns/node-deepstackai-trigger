@@ -6,7 +6,7 @@
   "description": "Defines the connection information for Pushbullet to send trigger notifications.",
   "required": ["accessToken"],
   "properties": {
-    "apiKey": {
+    "accessToken": {
       "description": "The access token for Pushbullet.",
       "type": "string",
       "examples": ["op.owie239rksdfanvxo8yuaeklfhalsdf"]

@@ -9,13 +9,17 @@
     "username": "user",
     "password": "pass"
   },
-  "telegram": {
-    "botToken": "insert bot token here",
+  "pushbullet": {
+    "accessToken": "access token here",
     "enabled": false
   },
   "pushover": {
     "apiKey": "api key here",
     "userKey": "user key here",
+    "enabled": false
+  },
+  "telegram": {
+    "botToken": "insert bot token here",
     "enabled": false
   }
 }

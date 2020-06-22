@@ -28,6 +28,13 @@
     "enabled": false
   },
 
+  // Provides the configuration details for Pushbullet notifications.
+  // Set the accessToken and enabled to true to use Pushbullet.
+  "pushbullet": {
+    "accessToken": "access token here",
+    "enabled": false
+  },
+
   // Provides the configuration details for Pushover notifications.
   // Set the apiKey, userKey, and enabled to true to use Pushover.
   "pushover": {
