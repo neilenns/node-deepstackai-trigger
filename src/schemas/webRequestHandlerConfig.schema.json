@@ -5,6 +5,7 @@
   "title": "The configuration for a web request handler",
   "description": "Defines the settings for a trigger handler that calls a list of URIs.",
   "required": ["triggerUris"],
+  "additionalProperties": false,
   "properties": {
     "triggerUris": {
       "description": "A list of URIs to call when the trigger is activated.",
