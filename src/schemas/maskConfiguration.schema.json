@@ -5,7 +5,15 @@
   "title": "The configuration for a trigger mask",
   "description": "Defines a rectangle to mask out detected objects.",
   "required": ["xMinimum", "yMinimum", "xMaximum", "yMaximum"],
+  "additionalProperties": false,
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the schema for the JSON. Set this to the example value to get full Intellisense support in editors that support it.",
+      "examples": [
+        "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/settings.schema.json"
+      ]
+    },
     "xMinimum": {
       "description": "The x coordinate of the top right of the mask rectangle.",
       "type": "number",

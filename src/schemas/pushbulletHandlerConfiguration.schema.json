@@ -4,6 +4,7 @@
   "type": "object",
   "title": "The configuration for a Pushbullet trigger handler",
   "description": "Defines the Pushbullet messages to send.",
+  "additionalProperties": false,
   "properties": {
     "caption": {
       "description": "Caption to send with the message. Default is the name of the trigger.",

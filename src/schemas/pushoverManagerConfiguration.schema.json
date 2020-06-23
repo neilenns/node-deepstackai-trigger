@@ -5,6 +5,7 @@
   "title": "The configuration for Pushover",
   "description": "Defines the connection information for Pushover to send trigger notifications.",
   "required": ["apiKey", "userKey"],
+  "additionalProperties": false,
   "properties": {
     "apiKey": {
       "description": "The API key for Pushover.",

@@ -5,6 +5,7 @@
   "title": "The configuration for a Pushover trigger handler",
   "description": "Defines the Pushover messages to send.",
   "required": ["userKeys"],
+  "additionalProperties": false,
   "properties": {
     "userKeys": {
       "description": "The list of user keys to send notifications to when this handler is triggered.",

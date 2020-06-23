@@ -5,6 +5,7 @@
   "title": "The configuration for Telegram",
   "description": "Defines the connection information for Telegram to send trigger notifications.",
   "required": ["botToken"],
+  "additionalProperties": false,
   "properties": {
     "botToken": {
       "description": "The access token for Telegram.",

@@ -5,6 +5,7 @@
   "title": "The configuration for an MQTT trigger handler",
   "description": "Defines the MQTT information sent with trigger notifications.",
   "anyOf": [{ "required": ["topic"] }, { "required": ["messages"] }],
+  "additionalProperties": false,
   "properties": {
     "topic": {
       "description": "The topic to send when this handler is triggered.",

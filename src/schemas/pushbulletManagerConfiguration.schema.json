@@ -5,6 +5,7 @@
   "title": "The configuration for Pushbullet",
   "description": "Defines the connection information for Pushbullet to send trigger notifications.",
   "required": ["accessToken"],
+  "additionalProperties": false,
   "properties": {
     "accessToken": {
       "description": "The access token for Pushbullet.",

@@ -5,7 +5,15 @@
   "title": "A list of triggers",
   "description": "Defines the triggers that are used for responding to DeepStack AI predictions.",
   "required": ["triggers"],
+  "additionalProperties": false,
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the schema for the JSON. Set this to the example value to get full Intellisense support in editors that support it.",
+      "examples": [
+        "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/settings.schema.json"
+      ]
+    },
     "triggers": {
       "$id": "#/properties/triggers",
       "type": "array",
@@ -52,6 +60,7 @@
             "description": "Sets the minimum and maximum prediction confidence required to fire the trigger.",
             "type": "object",
             "required": ["minimum", "maximum"],
+            "additionalProperties": false,
             "properties": {
               "minimum": {
                 "description": "The minimum value required to fire the trigger, inclusive.",

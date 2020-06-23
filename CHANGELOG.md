@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Breaking changes
+
+- `settings.json` and `triggers.json` can no longer have unrecognized properties in them. While this is technically
+  a breaking change it shouldn't impact anyone in practice. The addition of this requirement is to ensure new users
+  get real-time notifications of typos/mistakes in their configuration files while editing in tools that support
+  schema validation (such as Visual Studio Code). Resolves [issue 291](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/291).
+
+### Non-breaking changes
+
 - Pushbullet notifications are now supported as trigger handlers. Enable it in `settings.json` then add
   `pushbullet` handlers to your triggers in `triggers.json`. [See the wiki for more details](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushbullet-handlers). Resolves
   [issue 119](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/260).
