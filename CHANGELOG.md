@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 4.0.0
 
 ### Breaking changes
 
