@@ -2,9 +2,13 @@ version: "3.8"
 services:
   trigger:
     volumes:
-      # Change ./path_to_local_ai_images_folder to point to the folder that
-      # will have the images to analyze
-      - ./path_to_local_ai_images_folder:/aiinput
+      # Change d:/myfolder/myimages to point to the folder that will have the images
+      # to analyze. Only change the local path that is before the :/aiinput portion.
+      # Don't change the :/aiinput part. For example, if you are on Windows and your
+      # images are stored locally in d:/blueiris/capturedImages your final line should
+      # look like this:
+      # d:/blueIris/capturedImages:/aiinput
+      - d:/myfolder/myimages:/aiinput
 
     environment:
       # Change this to match the timezone the images are produced in,
