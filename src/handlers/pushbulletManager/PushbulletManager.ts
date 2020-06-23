@@ -68,6 +68,11 @@ export async function processTrigger(
     ? mustacheFormatter.format(trigger.pushbulletConfig.caption, fileName, trigger, predictions)
     : trigger.name;
 
+  // Do mustache variable replacement if a custom title was provided.
+  const title = trigger.pushbulletConfig.title
+    ? mustacheFormatter.format(trigger.pushbulletConfig.title, fileName, trigger, predictions)
+    : undefined;
+
   // Figure out the path to the file to send based on whether
   // annotated images were requested in the config.
   const imageFileName =
@@ -79,7 +84,7 @@ export async function processTrigger(
   const pushbulletMessage = new PushbulletMessage({
     body: caption,
     imageFileName: imageFileName,
-    title: trigger.pushbulletConfig.title,
+    title: title,
   });
 
   try {
