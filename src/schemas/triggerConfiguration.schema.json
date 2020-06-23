@@ -5,6 +5,7 @@
   "title": "A list of triggers",
   "description": "Defines the triggers that are used for responding to DeepStack AI predictions.",
   "required": ["triggers"],
+  "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string",
@@ -59,6 +60,7 @@
             "description": "Sets the minimum and maximum prediction confidence required to fire the trigger.",
             "type": "object",
             "required": ["minimum", "maximum"],
+            "additionalProperties": false,
             "properties": {
               "minimum": {
                 "description": "The minimum value required to fire the trigger, inclusive.",
