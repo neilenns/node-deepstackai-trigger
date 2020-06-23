@@ -10,10 +10,9 @@ services:
   trigger:
     environment:
       - TZ=America/Los_Angeles
-    image: node:alpine
     build:
       context: .
-      dockerfile: Dockerfile # Apply development-only overrides to the base alpine image
+      dockerfile: Dockerfile # Apply development-only overrides to the base image
     depends_on:
       - deepstack-ai
     volumes:
