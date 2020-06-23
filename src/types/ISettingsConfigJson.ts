@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import IMqttManagerConfigJson from "../handlers/mqttManager/IMqttManagerConfigJson";
 import ITelegramManagerConfigJson from "../handlers/telegramManager/ITelegramManagerConfigJson";
+import IPushbulletManagerConfigJson from "../handlers/pushbulletManager/IPushbulletManagerConfigJson";
 import IPushoverManagerConfigJson from "../handlers/pushoverManager/IPushoverManagerConfigJson";
 
 export default interface ISettingsConfigJson {
@@ -16,6 +17,7 @@ export default interface ISettingsConfigJson {
   processExistingImages?: boolean;
   purgeAge?: number;
   purgeInterval?: number;
+  pushbullet?: IPushbulletManagerConfigJson;
   pushover?: IPushoverManagerConfigJson;
   telegram?: ITelegramManagerConfigJson;
   verbose?: boolean;

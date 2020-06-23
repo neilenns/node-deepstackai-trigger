@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- Pushbullet notifications are now supported as trigger handlers. Enable it in `settings.json` then add
+  `pushbullet` handlers to your triggers in `triggers.json`. [See the wiki for more details](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushbullet-handlers). Resolves
+  [issue 119](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/260).
+
 ## Version 3.1.0
 
 - Triggers can now be manually activated via a REST API, and can be configured to retrieve a camera snapshot

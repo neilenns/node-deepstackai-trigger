@@ -7,6 +7,7 @@ import * as chokidar from "chokidar";
 import * as LocalStorage from "./LocalStorageManager";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import * as PushbulletManager from "./handlers/pushbulletManager/PushbulletManager";
 import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
 import * as Settings from "./Settings";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
@@ -17,6 +18,7 @@ import analyzeImage from "./DeepStack";
 import IDeepStackPrediction from "./types/IDeepStackPrediction";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
+import PushbulletConfig from "./handlers/pushbulletManager/PushbulletConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
 import { promises as fsPromise } from "fs";
 import Rect from "./Rect";
@@ -48,6 +50,7 @@ export default class Trigger {
   public webRequestHandlerConfig: WebRequestConfig;
   public mqttHandlerConfig: MqttHandlerConfig;
   public telegramConfig: TelegramConfig;
+  public pushbulletConfig: PushbulletConfig;
   public pushoverConfig: PushoverConfig;
 
   constructor(init?: Partial<Trigger>) {
@@ -120,6 +123,7 @@ export default class Trigger {
 
     // Call all the handlers for the trigger. There is no need to wait for these to finish before proceeding.
     MqttManager.processTrigger(fileName, this, triggeredPredictions);
+    PushbulletManager.processTrigger(fileName, this, triggeredPredictions);
     PushoverManager.processTrigger(fileName, this, triggeredPredictions);
     TelegramManager.processTrigger(fileName, this, triggeredPredictions);
     WebRequestHandler.processTrigger(fileName, this, triggeredPredictions);

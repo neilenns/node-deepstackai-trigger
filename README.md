@@ -32,14 +32,12 @@ Having trouble? Check the logs output from Docker for any errors the system may 
 The [troubleshooting](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting)
 page has tips for resolving common deployment problems.
 
-## Quick start - enabling MQTT, Telegram and Pushover
+## Quick start - enabling MQTT, Pushbullet, Pushover and Telegram
 
-To enable [MQTT](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-mqtt), [Telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-telegram),
-and [Pushover](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#enabling--configuring-pushover):
+To enable the different push notifications handlers:
 
 1. Edit `settings.json` to specify [specify the connection information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Configuration#) for the service.
-2. Edit `triggers.json` to add [mqtt](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers), [Telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-telegram-handlers), or [Pushover](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushover-handlers) handlers.
-3. Run `docker-compse up` to start the system with the new configuration.
+2. Edit `triggers.json` to add [mqtt](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-mqtt-handlers), [Pushbullet](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushbullet-handlers), [Pushover](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-pushover-handlers), or [Telegram](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Defining-triggers#defining-telegram-handlers) handlers.
 
 ## Learning more
 

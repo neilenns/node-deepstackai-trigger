@@ -86,6 +86,10 @@
                 "description": "Sets the configuration for an MQTT event.",
                 "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/mqttHandlerConfiguration.schema.json"
               },
+              "pushbullet": {
+                "description": "Sets the configuration for a Pushbullet message.",
+                "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushbulletHandlerConfiguration.schema.json"
+              },
               "pushover": {
                 "description": "Sets the configuration for a Pushover message.",
                 "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushoverHandlerConfiguration.schema.json"
