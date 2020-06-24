@@ -1,5 +1,5 @@
 # This temporary image is used to produce the build.
-FROM node:alpine as build
+FROM node:slim as build
 RUN mkdir -p /home/node/app/fonts && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
@@ -11,10 +11,7 @@ RUN npm ci --no-optional
 RUN npm run webpack
 
 # This is the final production image
-FROM node:alpine
-# Install tzdata so the timezone can be set correctly in the image via
-# the TZ environment variable.
-RUN apk --no-cache update && apk --no-cache upgrade && apk --no-cache add tzdata
+FROM node:slim
 
 # Pre-create the temporary storage folder so it has the right user
 # permissions on it after volume mount
