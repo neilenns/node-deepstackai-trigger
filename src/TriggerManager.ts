@@ -135,13 +135,17 @@ export async function activateWebTrigger(triggerName: string): Promise<void> {
  * Start all registered triggers watching for changes.
  */
 export function startWatching(): void {
-  _triggers.map(trigger => trigger.startWatching());
+  _triggers?.map(trigger => trigger.startWatching());
 }
 
 /**
  * Stops all registered triggers from watching for changes.
  */
 export async function stopWatching(): Promise<void[]> {
+  if (!_triggers) {
+    return;
+  }
+
   return Promise.all(_triggers.map(trigger => trigger.stopWatching()));
 }
 

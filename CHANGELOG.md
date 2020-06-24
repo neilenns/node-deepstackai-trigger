@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Shutting down the system after a failed launch no longer throws an error. Resolves [issue 301](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/291).
+
 ## Version 4.0.0
 
 ### Breaking changes
