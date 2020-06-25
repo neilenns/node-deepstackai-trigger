@@ -11,13 +11,12 @@ const _statusResetTopic = "node-deepstack-ai/statistics/reset";
 const _triggerResetTopic = "node-deepstack-ai/statistics/trigger/reset";
 
 export async function initialize(): Promise<void> {
-  const client = MqttManager.client;
-
   if (!MqttManager.isEnabled) {
     return;
   }
 
-  // Register for overall statistic reset
+  const client = MqttManager.client;
+
   try {
     log.info("Mqtt router", `Subscribing to ${_statusResetTopic}.`);
     await client.subscribe(_statusResetTopic);
