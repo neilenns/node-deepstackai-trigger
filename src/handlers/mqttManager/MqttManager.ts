@@ -12,10 +12,11 @@ import MqttMessageConfig from "./MqttMessageConfig";
 import path from "path";
 import Trigger from "../../Trigger";
 
-let _isEnabled = false;
-let _mqttClient: MQTT.AsyncClient;
-let _retain = false;
-let _statusTopic = "node-deepstackai-trigger/status";
+export let client: MQTT.AsyncClient;
+export let isEnabled = false;
+export let retain = false;
+
+const _statusTopic = "node-deepstackai-trigger/status";
 
 const _timers = new Map<string, NodeJS.Timeout>();
 
@@ -29,23 +30,19 @@ export async function initialize(): Promise<void> {
   }
 
   // The enabled setting is true by default
-  _isEnabled = settings.enabled ?? true;
+  isEnabled = settings.enabled ?? true;
 
-  if (!_isEnabled) {
+  if (!isEnabled) {
     log.info("MQTT", "MQTT is disabled via settings.");
     return;
   }
 
-  if (settings.statusTopic) {
-    _statusTopic = settings.statusTopic;
-  }
-
   if (settings.retain) {
-    _retain = settings.retain;
+    retain = settings.retain;
     log.info("MQTT", "Retain flag set in configuration. All messages will be published with retain turned on.");
   }
 
-  _mqttClient = await MQTT.connectAsync(settings.uri, {
+  client = await MQTT.connectAsync(settings.uri, {
     username: settings.username,
     password: settings.password,
     clientId: "node-deepstackai-trigger",
@@ -54,10 +51,10 @@ export async function initialize(): Promise<void> {
       topic: _statusTopic,
       payload: JSON.stringify({ state: "offline" }),
       qos: 2,
-      retain: _retain,
+      retain: retain,
     },
   }).catch(e => {
-    _isEnabled = false;
+    isEnabled = false;
     throw new Error(`[MQTT] Unable to connect: ${e.message}`);
   });
 
@@ -70,7 +67,7 @@ export async function processTrigger(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   predictions: IDeepStackPrediction[],
 ): Promise<MQTT.IPublishPacket[]> {
-  if (!_isEnabled) {
+  if (!isEnabled) {
     return [];
   }
 
@@ -130,7 +127,7 @@ async function publishDetectionMessage(
         triggerCount: trigger.triggeredCount,
       });
 
-  return await _mqttClient.publish(messageConfig.topic, detectionPayload, { retain: _retain });
+  return await client.publish(messageConfig.topic, detectionPayload, { retain: retain });
 }
 
 /**
@@ -153,14 +150,14 @@ export async function publishTriggerStatisticsMessage(trigger: Trigger): Promise
   // Send just the statistics
   return Promise.all(
     trigger.mqttHandlerConfig?.messages.map(message => {
-      return _mqttClient.publish(
+      return client.publish(
         message.topic,
         JSON.stringify({
           formattedStatistics: mustacheFormatter.formatStatistics(trigger.triggeredCount, trigger.analyzedFilesCount),
           analyzedFilesCount: trigger.analyzedFilesCount,
           triggerCount: trigger.triggeredCount,
         }),
-        { retain: _retain },
+        { retain: retain },
       );
     }),
   );
@@ -176,12 +173,12 @@ export async function publishStatisticsMessage(
   analyzedFilesCount: number,
 ): Promise<MQTT.IPublishPacket[]> {
   // Don't send anything if MQTT isn't enabled
-  if (!_mqttClient) {
+  if (!client) {
     return [];
   }
 
   return [
-    await _mqttClient.publish(
+    await client.publish(
       _statusTopic,
       JSON.stringify({
         // Ensures the status still reflects as up and running for people
@@ -191,7 +188,7 @@ export async function publishStatisticsMessage(
         analyzedFilesCount,
         formattedStatistics: mustacheFormatter.formatStatistics(triggerCount, analyzedFilesCount),
       }),
-      { retain: _retain },
+      { retain: retain },
     ),
   ];
 }
@@ -201,11 +198,11 @@ export async function publishStatisticsMessage(
  */
 export async function publishServerState(state: string, details?: string): Promise<MQTT.IPublishPacket> {
   // Don't do anything if the MQTT client wasn't configured
-  if (!_mqttClient) {
+  if (!client) {
     return;
   }
 
-  return _mqttClient.publish(_statusTopic, JSON.stringify({ state, details }), { retain: _retain });
+  return client.publish(_statusTopic, JSON.stringify({ state, details }), { retain: retain });
 }
 
 /**
@@ -213,5 +210,5 @@ export async function publishServerState(state: string, details?: string): Promi
  * @param topic The topic to publish the message on
  */
 async function publishOffEvent(topic: string): Promise<MQTT.IPublishPacket> {
-  return await _mqttClient.publish(topic, JSON.stringify({ state: "off" }), { retain: _retain });
+  return await client.publish(topic, JSON.stringify({ state: "off" }), { retain: retain });
 }

@@ -8,7 +8,6 @@ export default class MqttHandlerConfig {
   public topic?: string;
   public messages: MqttMessageConfig[];
   public enabled: boolean;
-  public statusTopic?: string;
 
   constructor(init?: Partial<MqttHandlerConfig>) {
     Object.assign(this, init);

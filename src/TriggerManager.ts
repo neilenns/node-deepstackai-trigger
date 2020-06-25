@@ -31,7 +31,7 @@ export let analyzedFilesCount = 0;
 /**
  * The list of all the triggers managed by this.
  */
-let _triggers: Trigger[];
+export let triggers: Trigger[];
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
@@ -43,7 +43,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
   let triggerConfigJson: ITriggerConfigJson;
 
   // Reset triggers to empty in case this is getting hot reloaded
-  _triggers = [];
+  triggers = [];
 
   // Look through the list of possible loadable config files and try loading
   // them in turn until a valid one is found.
@@ -68,7 +68,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
 
   log.info("Triggers", `Loaded configuration from ${loadedConfigFilePath}`);
 
-  _triggers = triggerConfigJson.triggers.map(triggerJson => {
+  triggers = triggerConfigJson.triggers.map(triggerJson => {
     log.info("Triggers", `Loaded configuration for ${triggerJson.name}`);
     const configuredTrigger = new Trigger({
       cooldownTime: triggerJson.cooldownTime,
@@ -118,7 +118,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
 export async function activateWebTrigger(triggerName: string): Promise<void> {
   // Find the trigger to activate. Do it case insensitive to avoid annoying
   // errors when the trigger name is capitalized slightly differently.
-  const triggerToActivate = _triggers.find(trigger => {
+  const triggerToActivate = triggers.find(trigger => {
     return trigger.name.toLowerCase() === triggerName.toLowerCase();
   });
 
@@ -137,18 +137,18 @@ export async function activateWebTrigger(triggerName: string): Promise<void> {
  * Start all registered triggers watching for changes.
  */
 export function startWatching(): void {
-  _triggers?.map(trigger => trigger.startWatching());
+  triggers?.map(trigger => trigger.startWatching());
 }
 
 /**
  * Stops all registered triggers from watching for changes.
  */
 export async function stopWatching(): Promise<void[]> {
-  if (!_triggers) {
+  if (!triggers) {
     return;
   }
 
-  return Promise.all(_triggers.map(trigger => trigger.stopWatching()));
+  return Promise.all(triggers.map(trigger => trigger.stopWatching()));
 }
 
 /**
@@ -171,7 +171,7 @@ export function incrementAnalyzedFilesCount(): void {
  * @returns The triggers new statistics
  */
 export function getTriggerStatistics(triggerName: string): ITriggerStatistics {
-  return _triggers
+  return triggers
     .find(trigger => {
       return trigger.name.toLowerCase() === triggerName.toLowerCase();
     })
@@ -184,11 +184,7 @@ export function getTriggerStatistics(triggerName: string): ITriggerStatistics {
  * @returns The trigger's new statistics
  */
 export function resetTriggerStatistics(triggerName: string): ITriggerStatistics {
-  if (!_triggers) {
-    return;
-  }
-
-  const trigger = _triggers.find(trigger => {
+  const trigger = triggers.find(trigger => {
     return trigger.name.toLowerCase() === triggerName.toLowerCase();
   });
 
@@ -205,10 +201,11 @@ export function resetTriggerStatistics(triggerName: string): ITriggerStatistics 
  * Returns the overall statistics
  */
 export function getAllTriggerStatistics(): ITriggerStatistics[] {
-  if (!_triggers) {
+  if (!triggers) {
     return;
   }
-  return _triggers.map(trigger => {
+
+  return triggers.map(trigger => {
     return trigger.getStatistics();
   });
 }
@@ -218,11 +215,11 @@ export function getAllTriggerStatistics(): ITriggerStatistics[] {
  * @returns The new trigger statistics
  */
 export function resetAllTriggerStatistics(): ITriggerStatistics[] {
-  if (!_triggers) {
+  if (!triggers) {
     return;
   }
 
-  return _triggers.map(trigger => {
+  return triggers.map(trigger => {
     return trigger.resetStatistics();
   });
 }

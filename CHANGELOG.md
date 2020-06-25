@@ -2,9 +2,19 @@
 
 ## Unreleased
 
+### Breaking changes
+
+- `statusTopic` can no longer be set on the mqtt configuration in `settings.json`. Overall status messages
+  are always sent to the `node-deepstackai-trigger/status` topic. This change aligns the status topic messages
+  with the new MQTT messages that the system listens to for resetting statistics.
+
+### Non-breaking changes
+
 - Per-trigger statistics are now sent in each MQTT message. The triggered count and analyzed file count are included,
   as well as a formatted string version suitable for presentation to a user. The per-trigger statistics are also
   available as variables for mustache templates. Resolves [issue 306](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/306).
+- Statistics can be reset by publishing specific MQTT messages to the `node-deepstackai-trigger/statistics` topics
+  and sub-topics. Resolves [issue 308](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/306).
 - Statistics can be read and reset via new REST APIs. Overall statistics are available at `/statistics` and
   per-trigger statistics are available at `/statistics/triggerName`. Statistics for all triggers can be retrieved from
   `/statistics/all`. [See the API documentation for more information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/REST-API). Resolves [issue 307](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/307) and [issue 311](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/311).
