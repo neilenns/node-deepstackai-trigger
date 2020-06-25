@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Per-trigger statistics are now sent in each MQTT message. The triggered count and analyzed file count are included,
+  as well as a formatted string version suitable for presentation to a user. The per-trigger statistics are also
+  available as variables for mustache templates. Resolves [issue 306](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/306).
 - Shutting down the system after a failed launch no longer throws an error. Resolves [issue 301](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/291).
 
 ## Version 4.0.0
