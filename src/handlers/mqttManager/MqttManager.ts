@@ -124,7 +124,10 @@ async function publishDetectionMessage(
         basename: path.basename(fileName),
         predictions,
         formattedPredictions: mustacheFormatter.formatPredictions(predictions),
+        formattedStatistics: mustacheFormatter.formatStatistics(trigger.triggeredCount, trigger.analyzedFilesCount),
         state: "on",
+        analyzedFilesCount: trigger.analyzedFilesCount,
+        triggerCount: trigger.triggeredCount,
       });
 
   return await _mqttClient.publish(messageConfig.topic, detectionPayload, { retain: _retain });
@@ -153,6 +156,7 @@ export async function publishStatisticsMessage(
         state: "online",
         triggerCount,
         analyzedFilesCount,
+        formattedStatistics: mustacheFormatter.formatStatistics(triggerCount, analyzedFilesCount),
       }),
       { retain: _retain },
     ),

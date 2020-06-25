@@ -17,6 +17,10 @@ export function formatPredictions(predictions: IDeepStackPrediction[]): string {
     .join(", ");
 }
 
+export function formatStatistics(triggeredCount: number, analyzedFilesCount: number): string {
+  return `Triggered count: ${triggeredCount} Analyzed file count: ${analyzedFilesCount}`;
+}
+
 function optionallyEncode(value: string, urlEncode: boolean): string {
   return urlEncode ? encodeURIComponent(value) : value;
 }
@@ -41,6 +45,12 @@ export function format(
     predictions: optionallyEncode(JSON.stringify(predictions), urlEncode),
     analysisDurationMs: trigger.analysisDuration,
     formattedPredictions: optionallyEncode(formatPredictions(predictions), urlEncode),
+    formattedStatistics: optionallyEncode(
+      formatStatistics(trigger.triggeredCount, trigger.analyzedFilesCount),
+      urlEncode,
+    ),
+    triggeredCount: trigger.triggeredCount,
+    analyzedFilesCount: trigger.analyzedFilesCount,
     state: "on",
     name: trigger.name,
   };
