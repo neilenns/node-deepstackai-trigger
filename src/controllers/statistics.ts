@@ -6,6 +6,18 @@ import express from "express";
 import * as log from "../Log";
 import * as TriggerManager from "../TriggerManager";
 
+export function getAllTriggerStatistics(req: express.Request, res: express.Response): void {
+  log.verbose("Web server", `Received statistics request for all triggers.`);
+
+  res.json(TriggerManager.getAllTriggerStatistics());
+}
+
+export function resetAllTriggerStatistics(req: express.Request, res: express.Response): void {
+  log.verbose("Web server", `Received statistics reset request for all triggers.`);
+
+  res.json(TriggerManager.resetAllTriggerStatistics());
+}
+
 export function getTriggerStatistics(req: express.Request, res: express.Response): void {
   log.verbose("Web server", `Received statistics request for ${req.params.triggerName}.`);
 

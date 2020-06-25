@@ -11,6 +11,8 @@ const router = express.Router();
 router.get("/trigger/:triggerName", statisticsController.getTriggerStatistics);
 router.get("/trigger/:triggerName/reset", statisticsController.resetTriggerStatistics);
 router.get("/", statisticsController.getOverallStatistics);
+router.get("/all", statisticsController.getAllTriggerStatistics);
+router.get("/all/reset", statisticsController.resetAllTriggerStatistics);
 router.get("/reset", statisticsController.resetOverallStatistics);
 
 // Export it for use elsewhere
