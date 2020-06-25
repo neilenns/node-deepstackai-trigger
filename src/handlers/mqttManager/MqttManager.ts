@@ -134,6 +134,39 @@ async function publishDetectionMessage(
 }
 
 /**
+ * Publishes the current statistics for the trigger to all registered MQTT messages on the handler
+ * @param trigger The trigger to publish the statistics for
+ */
+export async function publishTriggerStatisticsMessage(trigger: Trigger): Promise<MQTT.IPublishPacket[]> {
+  // It's possible to not set up an mqtt handler on a trigger or to disable it, so don't
+  // process if that's the case.
+  if (!trigger?.mqttHandlerConfig?.enabled) {
+    return [];
+  }
+
+  // If for some reason we wound up with no messages configured do nothing.
+  // This should never happen due to schema validation but better safe than crashing.
+  if (!trigger?.mqttHandlerConfig?.messages) {
+    return [];
+  }
+
+  // Send just the statistics
+  return Promise.all(
+    trigger.mqttHandlerConfig?.messages.map(message => {
+      return _mqttClient.publish(
+        message.topic,
+        JSON.stringify({
+          formattedStatistics: mustacheFormatter.formatStatistics(trigger.triggeredCount, trigger.analyzedFilesCount),
+          analyzedFilesCount: trigger.analyzedFilesCount,
+          triggerCount: trigger.triggeredCount,
+        }),
+        { retain: _retain },
+      );
+    }),
+  );
+}
+
+/**
  * Publishes statistics to MQTT
  * @param triggerCount Trigger count
  * @param analyzedFilesCount False positive count
