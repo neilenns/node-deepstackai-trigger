@@ -7,8 +7,8 @@ import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TriggerManager from "./TriggerManager";
 
-const statusResetTopic = "node-deepstack-ai/statistics/reset";
-const triggerResetTopic = "node-deepstack-ai/statistics/trigger/reset";
+const _statusResetTopic = "node-deepstack-ai/statistics/reset";
+const _triggerResetTopic = "node-deepstack-ai/statistics/trigger/reset";
 
 export async function initialize(): Promise<void> {
   const client = MqttManager.client;
@@ -19,11 +19,11 @@ export async function initialize(): Promise<void> {
 
   // Register for overall statistic reset
   try {
-    log.info("Mqtt router", `Subscribing to ${statusResetTopic}.`);
-    await client.subscribe(statusResetTopic);
+    log.info("Mqtt router", `Subscribing to ${_statusResetTopic}.`);
+    await client.subscribe(_statusResetTopic);
 
-    log.info("Mqtt router", `Subscribing to ${triggerResetTopic}.`);
-    await client.subscribe(triggerResetTopic);
+    log.info("Mqtt router", `Subscribing to ${_triggerResetTopic}.`);
+    await client.subscribe(_triggerResetTopic);
 
     client.on("message", (topic, message) => processReceivedMessage(topic, message));
   } catch (e) {
@@ -37,14 +37,14 @@ export async function initialize(): Promise<void> {
  * @param message The message received
  */
 function processReceivedMessage(topic: string, message: Buffer): void {
-  log.info("Mqtt router", `Received message: ${statusResetTopic}`);
+  log.info("Mqtt router", `Received message: ${_statusResetTopic}`);
 
-  if (topic === statusResetTopic) {
+  if (topic === _statusResetTopic) {
     log.verbose("Mqtt router", `Received overall statistics reset request.`);
     TriggerManager.resetOverallStatistics();
   }
 
-  if (topic === triggerResetTopic) {
+  if (topic === _triggerResetTopic) {
     log.verbose("Mqtt router", `Received trigger statistics reset request.`);
     let triggerName: string;
 
