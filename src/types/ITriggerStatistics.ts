@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 export default interface ITriggerStatistics {
-  triggeredCount: number;
   analyzedFilesCount: number;
+  name?: string;
+  triggeredCount: number;
 }
