@@ -171,7 +171,7 @@ export function incrementAnalyzedFilesCount(): void {
  * @returns The triggers new statistics
  */
 export function getTriggerStatistics(triggerName: string): ITriggerStatistics {
-  return _triggers
+  return triggers
     .find(trigger => {
       return trigger.name.toLowerCase() === triggerName.toLowerCase();
     })
@@ -201,11 +201,11 @@ export function resetTriggerStatistics(triggerName: string): ITriggerStatistics 
  * Returns the overall statistics
  */
 export function getAllTriggerStatistics(): ITriggerStatistics[] {
-  if (!_triggers) {
+  if (!triggers) {
     return;
   }
 
-  return _triggers.map(trigger => {
+  return triggers.map(trigger => {
     return trigger.getStatistics();
   });
 }
@@ -215,11 +215,11 @@ export function getAllTriggerStatistics(): ITriggerStatistics[] {
  * @returns The new trigger statistics
  */
 export function resetAllTriggerStatistics(): ITriggerStatistics[] {
-  if (!_triggers) {
+  if (!triggers) {
     return;
   }
 
-  return _triggers.map(trigger => {
+  return triggers.map(trigger => {
     return trigger.resetStatistics();
   });
 }
