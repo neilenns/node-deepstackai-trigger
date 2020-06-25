@@ -24,6 +24,7 @@ import { promises as fsPromise } from "fs";
 import Rect from "./Rect";
 import request from "request-promise-native";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
+import ITriggerStatistics from "./types/ITriggerStatistics";
 
 export default class Trigger {
   private _initializedTime: Date;
@@ -369,5 +370,31 @@ export default class Trigger {
     log.verbose(`Trigger ${this.name}`, `Download from ${this.snapshotUri} complete.`);
 
     return localStoragePath;
+  }
+
+  /**
+   * Gets the statistics for the trigger
+   * @returns The current statistics
+   */
+  public getStatistics(): ITriggerStatistics {
+    return {
+      name: this.name,
+      analyzedFilesCount: this.analyzedFilesCount,
+      triggeredCount: this.triggeredCount,
+    };
+  }
+
+  /**
+   * Resets the statistics for the trigger
+   * @returns The current statistics
+   */
+  public resetStatistics(): ITriggerStatistics {
+    this.analyzedFilesCount = 0;
+    this.triggeredCount = 0;
+
+    // Send the MQTT message for the trigger
+    MqttManager.publishTriggerStatisticsMessage(this);
+
+    return this.getStatistics();
   }
 }

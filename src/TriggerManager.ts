@@ -166,29 +166,28 @@ export function incrementAnalyzedFilesCount(): void {
 }
 
 /**
- * Returns a trigger's statistics
+ * Gets a trigger's statistics
  * @param triggerName The name of the trigger to get the statistics for
+ * @returns The triggers new statistics
  */
 export function getTriggerStatistics(triggerName: string): ITriggerStatistics {
-  const trigger = _triggers.find(trigger => {
-    return trigger.name.toLowerCase() === triggerName.toLowerCase();
-  });
-
-  if (!trigger) {
-    return;
-  }
-
-  return {
-    analyzedFilesCount: trigger.analyzedFilesCount,
-    triggeredCount: trigger.triggeredCount,
-  };
+  return _triggers
+    .find(trigger => {
+      return trigger.name.toLowerCase() === triggerName.toLowerCase();
+    })
+    ?.getStatistics();
 }
 
 /**
  * Resets a trigger's statistics
  * @param triggerName The name of the trigger to reset the statistics for
+ * @returns The trigger's new statistics
  */
 export function resetTriggerStatistics(triggerName: string): ITriggerStatistics {
+  if (!_triggers) {
+    return;
+  }
+
   const trigger = _triggers.find(trigger => {
     return trigger.name.toLowerCase() === triggerName.toLowerCase();
   });
@@ -197,20 +196,40 @@ export function resetTriggerStatistics(triggerName: string): ITriggerStatistics 
     return;
   }
 
-  trigger.triggeredCount = 0;
-  trigger.analyzedFilesCount = 0;
+  trigger.resetStatistics();
 
-  // Send the MQTT message for the trigger
-  MQTTManager.publishTriggerStatisticsMessage(trigger);
-
-  return {
-    analyzedFilesCount: trigger.analyzedFilesCount,
-    triggeredCount: trigger.triggeredCount,
-  };
+  return trigger.getStatistics();
 }
 
 /**
  * Returns the overall statistics
+ */
+export function getAllTriggerStatistics(): ITriggerStatistics[] {
+  if (!_triggers) {
+    return;
+  }
+  return _triggers.map(trigger => {
+    return trigger.getStatistics();
+  });
+}
+
+/**
+ * Resets the statistics on every registered trigger.
+ * @returns The new trigger statistics
+ */
+export function resetAllTriggerStatistics(): ITriggerStatistics[] {
+  if (!_triggers) {
+    return;
+  }
+
+  return _triggers.map(trigger => {
+    return trigger.resetStatistics();
+  });
+}
+
+/**
+ * Gets the overall statistics for the system.
+ * @returns The overall statistics for the system.
  */
 export function getOverallStatistics(): ITriggerStatistics {
   return {
@@ -221,6 +240,7 @@ export function getOverallStatistics(): ITriggerStatistics {
 
 /**
  * Resets the overall statistics, publishing the updated MQTT message if necessary.
+ * @returns The new overall statistics
  */
 export function resetOverallStatistics(): ITriggerStatistics {
   analyzedFilesCount = 0;
