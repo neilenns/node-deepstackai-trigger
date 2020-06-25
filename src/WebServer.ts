@@ -10,6 +10,7 @@ import express from "express";
 import motionRouter from "./routes/motion";
 import path from "path";
 import { Server } from "http";
+import statisticsRouter from "./routes/statistics";
 
 const app = express();
 let server: Server;
@@ -19,6 +20,7 @@ export function startApp(): void {
   app.use("/", express.static(annotatedImagePath));
   app.use("/annotations", express.static(annotatedImagePath));
   app.use("/motion", motionRouter);
+  app.use("/statistics", statisticsRouter);
 
   try {
     server = app.listen(Settings.port, () => log.info("Web server", `Listening at http://localhost:${Settings.port}`));

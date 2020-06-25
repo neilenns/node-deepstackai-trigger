@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import * as helpers from "./helpers";
 import * as log from "./Log";
+import * as MQTTManager from "./handlers/mqttManager/MqttManager";
 
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
@@ -13,6 +14,7 @@ import Rect from "./Rect";
 import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import Trigger from "./Trigger";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
+import ITriggerStatistics from "./types/ITriggerStatistics";
 
 /**
  * Provides a running total of the number of times an image caused triggers
@@ -161,4 +163,69 @@ export function incrementTriggeredCount(): void {
  */
 export function incrementAnalyzedFilesCount(): void {
   analyzedFilesCount += 1;
+}
+
+/**
+ * Returns a trigger's statistics
+ * @param triggerName The name of the trigger to get the statistics for
+ */
+export function getTriggerStatistics(triggerName: string): ITriggerStatistics {
+  const trigger = _triggers.find(trigger => {
+    return trigger.name.toLowerCase() === triggerName.toLowerCase();
+  });
+
+  if (!trigger) {
+    return;
+  }
+
+  return {
+    analyzedFilesCount: trigger.analyzedFilesCount,
+    triggeredCount: trigger.triggeredCount,
+  };
+}
+
+/**
+ * Resets a trigger's statistics
+ * @param triggerName The name of the trigger to reset the statistics for
+ */
+export function resetTriggerStatistics(triggerName: string): ITriggerStatistics {
+  const trigger = _triggers.find(trigger => {
+    return trigger.name.toLowerCase() === triggerName.toLowerCase();
+  });
+
+  if (!trigger) {
+    return;
+  }
+
+  trigger.triggeredCount = 0;
+  trigger.analyzedFilesCount = 0;
+
+  // Send the MQTT message for the trigger
+  MQTTManager.publishTriggerStatisticsMessage(trigger);
+
+  return {
+    analyzedFilesCount: trigger.analyzedFilesCount,
+    triggeredCount: trigger.triggeredCount,
+  };
+}
+
+/**
+ * Returns the overall statistics
+ */
+export function getOverallStatistics(): ITriggerStatistics {
+  return {
+    analyzedFilesCount,
+    triggeredCount,
+  };
+}
+
+/**
+ * Resets the overall statistics, publishing the updated MQTT message if necessary.
+ */
+export function resetOverallStatistics(): ITriggerStatistics {
+  analyzedFilesCount = 0;
+  triggeredCount = 0;
+
+  MQTTManager.publishStatisticsMessage(triggeredCount, analyzedFilesCount);
+  return getOverallStatistics();
 }
