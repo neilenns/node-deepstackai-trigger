@@ -2,12 +2,12 @@
 # This is most important for git: if git is installed via postCreateCommand it actually isn't there in
 # time for first container creation. VSCode will attempt to copy the .gitconfig file and fail
 # because git isn't installed
-FROM node:alpine
+FROM node:slim
 
 ARG NPM_GLOBAL=/usr/local/share/npm-global
 ARG USERNAME=node
 
-RUN apk --no-cache update && apk --no-cache upgrade && apk --no-cache add tzdata && apk --no-cache add git
+RUN apt-get update && apt-get install -y git
 
 # Set up the npm install directory so it works with the "node" user
 RUN mkdir -p ${NPM_GLOBAL} \
@@ -20,8 +20,8 @@ RUN mkdir -p ${NPM_GLOBAL} \
 # is mounted there the permissions are correct
 RUN mkdir -p /workspace/.git \
     && mkdir -p /node-deepstackai-trigger \
-    && chown -R node:node /workspace/.git \
-    && chown -R node:node /node-deepstackai-trigger
+    && chown -R ${USERNAME}:${USERNAME} /workspace/.git \
+    && chown -R ${USERNAME}:${USERNAME} /node-deepstackai-trigger
 
 ENV CHOKIDAR_USEPOLLING=true
 USER node
