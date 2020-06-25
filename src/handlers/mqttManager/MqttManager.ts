@@ -15,7 +15,8 @@ import Trigger from "../../Trigger";
 export let client: MQTT.AsyncClient;
 export let isEnabled = false;
 export let retain = false;
-export let statusTopic = "node-deepstackai-trigger/status";
+
+const _statusTopic = "node-deepstackai-trigger/status";
 
 const _timers = new Map<string, NodeJS.Timeout>();
 
@@ -47,7 +48,7 @@ export async function initialize(): Promise<void> {
     clientId: "node-deepstackai-trigger",
     rejectUnauthorized: settings.rejectUnauthorized ?? true,
     will: {
-      topic: statusTopic,
+      topic: _statusTopic,
       payload: JSON.stringify({ state: "offline" }),
       qos: 2,
       retain: retain,
@@ -178,7 +179,7 @@ export async function publishStatisticsMessage(
 
   return [
     await client.publish(
-      statusTopic,
+      _statusTopic,
       JSON.stringify({
         // Ensures the status still reflects as up and running for people
         // that have an MQTT binary sensor in Home Assistant
@@ -201,7 +202,7 @@ export async function publishServerState(state: string, details?: string): Promi
     return;
   }
 
-  return client.publish(statusTopic, JSON.stringify({ state, details }), { retain: retain });
+  return client.publish(_statusTopic, JSON.stringify({ state, details }), { retain: retain });
 }
 
 /**
