@@ -11,6 +11,7 @@ import * as chokidar from "chokidar";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
+import * as MqttRouter from "./MqttRouter";
 import * as PushbulletManager from "./handlers/pushbulletManager/PushbulletManager";
 import * as PushoverManager from "./handlers/pushoverManager/PushoverManager";
 import * as Settings from "./Settings";
@@ -78,6 +79,9 @@ async function startup(): Promise<void> {
     await PushbulletManager.initialize();
     await PushoverManager.initialize();
     await TelegramManager.initialize();
+
+    // Start listening for MQTT events
+    await MqttRouter.initialize();
 
     // Start watching
     TriggerManager.startWatching();

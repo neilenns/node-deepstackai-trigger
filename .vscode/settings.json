@@ -29,6 +29,7 @@
     "localtriggerstorage",
     "markdownlint",
     "mosquitto",
+    "mqttpacket",
     "mqtts",
     "mutli",
     "pianobar",
