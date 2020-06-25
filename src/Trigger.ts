@@ -31,20 +31,29 @@ export default class Trigger {
   private _watcher: chokidar.FSWatcher;
 
   public analysisDuration: number;
-  public receivedDate: Date;
-  public name: string;
-  public watchPattern: string;
-  public watchObjects?: string[];
-  public triggerUris?: string[];
-  public snapshotUri?: string;
-  public enabled = true;
+  /**
+   * Provides a running total of the number of files analyzed.
+   * Use the incrementAnalyzedFiles() method to update the total.
+   */
+  public analyzedFilesCount = 0;
   public cooldownTime: number;
+  public enabled = true;
+  public name: string;
+  public masks: Rect[];
+  public receivedDate: Date;
+  public snapshotUri?: string;
   public threshold: {
     minimum: number;
     maximum: number;
   };
-
-  public masks: Rect[];
+  /**
+   * Provides a running total of the number of times an image caused triggers
+   * to fire. Use the incrementTriggeredCount() method to update the total.
+   */
+  public triggeredCount = 0;
+  public triggerUris?: string[];
+  public watchPattern: string;
+  public watchObjects?: string[];
 
   // Handler configurations
   public webRequestHandlerConfig: WebRequestConfig;
@@ -95,6 +104,7 @@ export default class Trigger {
    */
   public async processImage(fileName: string): Promise<void> {
     TriggerManager.incrementAnalyzedFilesCount();
+    this.analyzedFilesCount += 1;
 
     // Don't process old files.
     if (!(await this.passesDateTest(fileName))) return;
@@ -116,6 +126,7 @@ export default class Trigger {
 
     // At this point a prediction matched so increment the count.
     TriggerManager.incrementTriggeredCount();
+    this.triggeredCount += 1;
 
     // Generate the annotations so it is ready for the other trigger handlers. This does
     // nothing if annotations are disabled.
