@@ -130,6 +130,12 @@ export async function activateWebTrigger(triggerName: string): Promise<void> {
   log.verbose("Trigger manager", `Activating ${triggerToActivate.name} based on a web request.`);
 
   const fileName = await triggerToActivate.downloadWebImage();
+
+  // If no file name came back that means download failed for reason so just give up.
+  if (!fileName) {
+    return;
+  }
+
   return triggerToActivate.processImage(fileName);
 }
 

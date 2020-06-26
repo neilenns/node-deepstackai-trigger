@@ -9,6 +9,7 @@ import * as TriggerManager from "./TriggerManager";
 
 const _statusResetTopic = "node-deepstackai-trigger/statistics/reset";
 const _triggerResetTopic = "node-deepstackai-trigger/statistics/trigger/reset";
+const _triggerMotionTopic = "node-deepstackai-trigger/motion";
 
 export async function initialize(): Promise<void> {
   if (!MqttManager.isEnabled) {
@@ -23,6 +24,9 @@ export async function initialize(): Promise<void> {
 
     log.info("Mqtt router", `Subscribing to ${_triggerResetTopic}.`);
     await client.subscribe(_triggerResetTopic);
+
+    log.info("Mqtt router", `Subscribing to ${_triggerMotionTopic}.`);
+    await client.subscribe(_triggerMotionTopic);
 
     client.on("message", (topic, message) => processReceivedMessage(topic, message));
   } catch (e) {
@@ -41,23 +45,34 @@ function processReceivedMessage(topic: string, message: Buffer): void {
   if (topic === _statusResetTopic) {
     log.verbose("Mqtt router", `Received overall statistics reset request.`);
     TriggerManager.resetOverallStatistics();
+    return;
   }
 
+  // All topics after this point must have a trigger name in the message
+  let triggerName: string;
+  try {
+    triggerName = JSON.parse(message.toString())?.name;
+  } catch (e) {
+    log.warn("Mqtt router", `Unable to process incoming message: ${e}`);
+    return;
+  }
+
+  if (!triggerName) {
+    log.warn("Mqtt router", `Received a statistics reset request but no trigger name was provided`);
+  }
+
+  // Now that the name exists process the remaining topics
   if (topic === _triggerResetTopic) {
-    log.verbose("Mqtt router", `Received trigger statistics reset request.`);
-    let triggerName: string;
-
-    try {
-      triggerName = JSON.parse(message.toString())?.name;
-    } catch (e) {
-      log.warn("Mqtt router", `Unable to process incoming message: ${e}`);
-      return;
-    }
-
-    if (!triggerName) {
-      log.warn("Mqtt router", `Received a statistics reset request but no trigger name was provided`);
-    }
+    log.verbose("Mqtt router", `Received trigger statistics reset request for ${triggerName}.`);
 
     TriggerManager.resetTriggerStatistics(triggerName);
+    return;
+  }
+
+  if (topic === _triggerMotionTopic) {
+    log.verbose("Mqtt router", `Received motion event for ${triggerName}.`);
+
+    TriggerManager.activateWebTrigger(triggerName);
+    return;
   }
 }
