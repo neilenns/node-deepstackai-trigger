@@ -362,6 +362,11 @@ export default class Trigger {
       log.warn(`Trigger ${this.name}`, `Unable to download snapshot from ${this.snapshotUri}: ${e}`);
       return;
     });
+
+    if (!response) {
+      return;
+    }
+
     await fsPromise.writeFile(localStoragePath, response).catch(e => {
       log.warn(`Trigger ${this.name}`, `Unable to save snapshot: ${e}`);
       return;
