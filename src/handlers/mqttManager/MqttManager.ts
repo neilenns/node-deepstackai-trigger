@@ -17,6 +17,7 @@ export let isEnabled = false;
 export let retain = false;
 
 const _statusTopic = "node-deepstackai-trigger/status";
+const _statisticsTopicPrefix = "node-deepstackai-trigger/statistics";
 
 const _timers = new Map<string, NodeJS.Timeout>();
 
@@ -83,11 +84,14 @@ export async function processTrigger(
     return [];
   }
 
-  return Promise.all(
-    trigger.mqttHandlerConfig?.messages.map(message => {
+  return Promise.all([
+    // Publish all the detection messages
+    ...trigger.mqttHandlerConfig?.messages.map(message => {
       return publishDetectionMessage(fileName, trigger, message, predictions);
     }),
-  );
+    // Then publish the statistics message
+    publishTriggerStatisticsMessage(trigger),
+  ]);
 }
 
 async function publishDetectionMessage(
@@ -115,51 +119,45 @@ async function publishDetectionMessage(
   const detectionPayload = messageConfig.payload
     ? mustacheFormatter.format(messageConfig.payload, fileName, trigger, predictions)
     : JSON.stringify({
-        fileName,
-        name: trigger.name,
         analysisDurationMs: trigger.analysisDuration,
         basename: path.basename(fileName),
-        predictions,
+        fileName,
         formattedPredictions: mustacheFormatter.formatPredictions(predictions),
-        formattedStatistics: mustacheFormatter.formatStatistics(trigger.triggeredCount, trigger.analyzedFilesCount),
+        name: trigger.name,
+        predictions,
         state: "on",
-        analyzedFilesCount: trigger.analyzedFilesCount,
-        triggerCount: trigger.triggeredCount,
       });
 
-  return await client.publish(messageConfig.topic, detectionPayload, { retain: retain });
+  return client.publish(messageConfig.topic, detectionPayload, { retain: retain });
 }
 
 /**
  * Publishes the current statistics for the trigger to all registered MQTT messages on the handler
  * @param trigger The trigger to publish the statistics for
  */
-export async function publishTriggerStatisticsMessage(trigger: Trigger): Promise<MQTT.IPublishPacket[]> {
+export async function publishTriggerStatisticsMessage(trigger: Trigger): Promise<MQTT.IPublishPacket> {
   // It's possible to not set up an mqtt handler on a trigger or to disable it, so don't
   // process if that's the case.
   if (!trigger?.mqttHandlerConfig?.enabled) {
-    return [];
+    return;
   }
 
   // If for some reason we wound up with no messages configured do nothing.
   // This should never happen due to schema validation but better safe than crashing.
   if (!trigger?.mqttHandlerConfig?.messages) {
-    return [];
+    return;
   }
 
   // Send just the statistics
-  return Promise.all(
-    trigger.mqttHandlerConfig?.messages.map(message => {
-      return client.publish(
-        message.topic,
-        JSON.stringify({
-          formattedStatistics: mustacheFormatter.formatStatistics(trigger.triggeredCount, trigger.analyzedFilesCount),
-          analyzedFilesCount: trigger.analyzedFilesCount,
-          triggerCount: trigger.triggeredCount,
-        }),
-        { retain: retain },
-      );
+  return client.publish(
+    path.join(_statisticsTopicPrefix, "trigger"),
+    JSON.stringify({
+      analyzedFilesCount: trigger.analyzedFilesCount,
+      formattedStatistics: mustacheFormatter.formatStatistics(trigger.triggeredCount, trigger.analyzedFilesCount),
+      name: trigger.name,
+      triggerCount: trigger.triggeredCount,
     }),
+    { retain: retain },
   );
 }
 
@@ -183,10 +181,10 @@ export async function publishStatisticsMessage(
       JSON.stringify({
         // Ensures the status still reflects as up and running for people
         // that have an MQTT binary sensor in Home Assistant
-        state: "online",
-        triggerCount,
         analyzedFilesCount,
         formattedStatistics: mustacheFormatter.formatStatistics(triggerCount, analyzedFilesCount),
+        state: "online",
+        triggerCount,
       }),
       { retain: retain },
     ),
