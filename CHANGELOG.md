@@ -20,6 +20,7 @@
   `/statistics/all`. [See the API documentation for more information](https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/REST-API). Resolves [issue 307](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/307) and [issue 311](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/311).
 - Shutting down the system after a failed launch no longer throws an error. Resolves [issue 301](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/291).
 - The underlying Linux variant used for the Docker image is now `node:slim`. Resolves [issue 299](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/291).
+- Pushbullet is now included in the settings JSON schema. Resolves [issue 316](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/291).
 
 ## Version 4.0.0
 
