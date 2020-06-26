@@ -13,7 +13,7 @@ RUN npm run webpack
 # This is the final production image
 FROM node:slim
 
-RUN RUN apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev
+RUN apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev
 
 # Pre-create the temporary storage folder so it has the right user
 # permissions on it after volume mount
