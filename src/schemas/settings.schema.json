@@ -76,6 +76,10 @@
       "description": "Enables and configures Telegram bot messages.",
       "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/telegramManagerConfiguration.schema.json"
     },
+    "pushbullet": {
+      "description": "Enables and configures Pushbullet messages.",
+      "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushbulletManagerConfiguration.schema.json"
+    },
     "pushover": {
       "description": "Enables and configures Pushover messages.",
       "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/pushoverManagerConfiguration.schema.json"
