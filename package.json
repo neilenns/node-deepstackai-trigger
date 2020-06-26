@@ -12,7 +12,6 @@
     "lint:eslint": "eslint -c .eslintrc.json --ext .ts src/",
     "lint:markdown": "node ./node_modules/markdownlint-cli/markdownlint.js **/*.md --ignore node_modules",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "prepare": "npm run build",
     "prepublishOnly": "npm run lint",
     "postversion": "git push",
     "start": "node dist/src/main.js",
@@ -38,7 +37,6 @@
     "canvas": "^2.6.1",
     "chalk": "^3.0.0",
     "chokidar": "^3.4.0",
-    "commander": "^4.1.1",
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "image-size": "^0.8.3",
@@ -83,6 +81,7 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   }
 }

@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 const path = require("path");
+const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
   entry: "./src/main.ts",
@@ -10,21 +11,18 @@ module.exports = {
   node: {
     fsevents: "empty",
   },
-  externals: {
-    fsevents: "fsevents",
-    express: "express",
-    canvas: "commonjs canvas",
-  },
+  externals: [
+    nodeExternals(),
+    {
+      fsevents: "fsevents",
+    },
+  ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
-      },
-      {
-        test: /\.node$/,
-        use: "node-loader",
       },
     ],
   },
