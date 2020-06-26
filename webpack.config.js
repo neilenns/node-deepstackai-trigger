@@ -13,6 +13,7 @@ module.exports = {
   externals: {
     fsevents: "fsevents",
     express: "express",
+    canvas: "commonjs canvas",
   },
   module: {
     rules: [
