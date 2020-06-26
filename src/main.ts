@@ -21,6 +21,12 @@ import * as WebServer from "./WebServer";
 
 import npmPackageInfo from "../package.json";
 
+// If startup fails restart is reattempted 5 times every 30 seconds
+const restartAttemptWaitTime = 5 * 1000;
+const maxRestartAttempts = 5;
+
+let restartAttemptCount = 0;
+let restartTimer: NodeJS.Timeout;
 let settingsFilePath: string;
 let triggersFilePath: string;
 
@@ -89,6 +95,14 @@ async function startup(): Promise<void> {
     // Notify it's up and running
     await MqttManager.publishServerState("online");
 
+    // Start watching for config file changes
+    startWatching();
+
+    // At this point startup succeeded so reset the restart count. This is in case
+    // later hot reloads cause something to break, it should still support multiple
+    // restarts.
+    restartAttemptCount = 0;
+
     log.info("Main", "****************************************");
     log.info("Main", "Up and running!");
   } catch (e) {
@@ -96,10 +110,29 @@ async function startup(): Promise<void> {
     log.error("Main", "****************************************");
     log.error(
       "Main",
-      "Startup cancelled due to errors. For troubleshooting assistance see https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting.",
+      "Startup failed due to errors. For troubleshooting assistance see https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting.",
     );
+
     // Notify it's not up and running
     await MqttManager.publishServerState("offline", e.message);
+
+    restartAttemptCount++;
+
+    // Try starting again in a little bit.
+    if (restartAttemptCount < maxRestartAttempts) {
+      log.info(
+        "Main",
+        `Startup reattempt ${restartAttemptCount} of ${maxRestartAttempts} in ${restartAttemptWaitTime /
+          1000} seconds.`,
+      );
+      restartTimer = setTimeout(startup, restartAttemptWaitTime);
+    } else {
+      log.error(
+        "Main",
+        `Startup failed ${maxRestartAttempts} times. For troubleshooting assistance see https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting.`,
+      );
+      return;
+    }
   }
 }
 
@@ -107,6 +140,8 @@ async function startup(): Promise<void> {
  * Shuts down all registered file system watchers and the web server
  */
 async function shutdown(): Promise<void> {
+  clearTimeout(restartTimer);
+
   // Shut down things that are running
   await TriggerManager.stopWatching();
   WebServer.stopApp();
@@ -178,8 +213,6 @@ async function main(): Promise<void> {
   registerForDeath();
 
   await startup();
-
-  startWatching();
 
   // Spin in circles waiting for new files to arrive.
   wait();

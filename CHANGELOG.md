@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- Startup is now re-attempted if there are any failures during launch. Each re-attempt is 30 seconds
+  apart and five re-attempts will happen before things are assumed to just be completely broken.
+  Resolves [issue 322](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/322).
+
 ## Version 5.0.0
 
 ### Breaking changes
