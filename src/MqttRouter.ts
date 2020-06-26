@@ -7,8 +7,8 @@ import * as log from "./Log";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as TriggerManager from "./TriggerManager";
 
-const _statusResetTopic = "node-deepstack-ai/statistics/reset";
-const _triggerResetTopic = "node-deepstack-ai/statistics/trigger/reset";
+const _statusResetTopic = "node-deepstackai-trigger/statistics/reset";
+const _triggerResetTopic = "node-deepstackai-trigger/statistics/trigger/reset";
 
 export async function initialize(): Promise<void> {
   if (!MqttManager.isEnabled) {

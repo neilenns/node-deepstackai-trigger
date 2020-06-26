@@ -10,9 +10,9 @@
 
 ### Non-breaking changes
 
-- Per-trigger statistics are now sent in each MQTT message. The triggered count and analyzed file count are included,
-  as well as a formatted string version suitable for presentation to a user. The per-trigger statistics are also
-  available as variables for mustache templates. Resolves [issue 306](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/306).
+- Per-trigger statistics are now sent in new MQTT messages published to the `node-deepstackai-trigger/statistics`
+  topic. The trigger name, triggered count and analyzed file count are included, as well as a formatted string version suitable for presentation to a user. The per-trigger statistics are also available as variables for mustache templates.
+  Resolves [issue 306](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/306).
 - Statistics can be reset by publishing specific MQTT messages to the `node-deepstackai-trigger/statistics` topics
   and sub-topics. Resolves [issue 308](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/306).
 - Statistics can be read and reset via new REST APIs. Overall statistics are available at `/statistics` and
