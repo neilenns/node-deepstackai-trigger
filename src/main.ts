@@ -62,7 +62,7 @@ async function startup(): Promise<void> {
 
     if (Settings.enableAnnotations) {
       log.info("Main", "Annotated image generation enabled.");
-      await AnnotationManager.initialize();
+      AnnotationManager.initialize();
     }
 
     // Enable the web server.

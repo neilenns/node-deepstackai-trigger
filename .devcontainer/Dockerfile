@@ -7,7 +7,8 @@ FROM node:slim
 ARG NPM_GLOBAL=/usr/local/share/npm-global
 ARG USERNAME=node
 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git \
+    && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev
 
 # Set up the npm install directory so it works with the "node" user
 RUN mkdir -p ${NPM_GLOBAL} \
