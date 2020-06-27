@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Web server now shuts down properly when reloading settings. Resolves [issue 323](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/323).
 - Startup is now re-attempted if there are any failures during launch. Each re-attempt is 30 seconds
   apart and five re-attempts will happen before things are assumed to just be completely broken.
   Resolves [issue 322](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/322).

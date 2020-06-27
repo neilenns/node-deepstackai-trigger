@@ -6,6 +6,7 @@ import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
 import * as Settings from "./Settings";
 
+import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import express from "express";
 import motionRouter from "./routes/motion";
 import path from "path";
@@ -14,6 +15,7 @@ import statisticsRouter from "./routes/statistics";
 
 const app = express();
 let server: Server;
+let httpTerminator: HttpTerminator;
 
 export function startApp(): void {
   const annotatedImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Annotations);
@@ -24,14 +26,17 @@ export function startApp(): void {
 
   try {
     server = app.listen(Settings.port, () => log.info("Web server", `Listening at http://localhost:${Settings.port}`));
+    httpTerminator = createHttpTerminator({
+      server,
+    });
   } catch (e) {
     log.warn("Web server", `Unable to start web server: ${e.error}`);
   }
 }
 
-export function stopApp(): void {
+export async function stopApp(): Promise<void> {
   if (server) {
     log.verbose("Web server", "Stopping.");
-    server.close();
+    await httpTerminator.terminate();
   }
 }

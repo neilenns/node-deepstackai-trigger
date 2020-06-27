@@ -21,9 +21,12 @@ import * as WebServer from "./WebServer";
 
 import npmPackageInfo from "../package.json";
 
-// If startup fails restart is reattempted 5 times every 30 seconds
+// If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 5 * 1000;
 const maxRestartAttempts = 5;
+
+// The list of settings file watchers, used to stop them on hot reloading of settings.
+const watchers: chokidar.FSWatcher[] = [];
 
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
@@ -42,6 +45,7 @@ function validateEnvironmentVariables(): boolean {
 }
 
 async function startup(): Promise<void> {
+  log.info("Main", "****************************************");
   log.info("Main", `Starting up version ${npmPackageInfo.version}`);
   log.info("Main", `Timezone offset is ${new Date().getTimezoneOffset()}`);
   log.info("Main", `Current time is ${new Date()}`);
@@ -143,8 +147,9 @@ async function shutdown(): Promise<void> {
   clearTimeout(restartTimer);
 
   // Shut down things that are running
+  await stopWatching();
   await TriggerManager.stopWatching();
-  WebServer.stopApp();
+  await WebServer.stopApp();
 }
 
 /**
@@ -172,12 +177,17 @@ async function hotLoadTriggers(path: string) {
   TriggerManager.startWatching();
 }
 
+/**
+ * Starts watching for changes to settings files
+ */
 function startWatching(): void {
   try {
     if (settingsFilePath) {
-      chokidar
-        .watch(settingsFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
-        .on("change", path => hotLoadSettings(path));
+      watchers.push(
+        chokidar
+          .watch(settingsFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
+          .on("change", path => hotLoadSettings(path)),
+      );
       log.verbose("Main", `Watching for changes to ${settingsFilePath}`);
     }
   } catch (e) {
@@ -186,9 +196,11 @@ function startWatching(): void {
 
   try {
     if (triggersFilePath) {
-      chokidar
-        .watch(triggersFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
-        .on("change", path => hotLoadTriggers(path));
+      watchers.push(
+        chokidar
+          .watch(triggersFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
+          .on("change", path => hotLoadTriggers(path)),
+      );
       log.verbose("Main", `Watching for changes to ${triggersFilePath}`);
     }
   } catch (e) {
@@ -196,6 +208,20 @@ function startWatching(): void {
   }
 }
 
+/**
+ * Stops watching for settings file changes.
+ */
+async function stopWatching(): Promise<void[]> {
+  return Promise.all(
+    watchers.map(async watcher => {
+      await watcher.close();
+    }),
+  );
+}
+
+/**
+ * Shut down gracefully when requested.
+ */
 async function handleDeath(): Promise<void> {
   log.info("Main", "Shutting down.");
   await shutdown();
