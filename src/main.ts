@@ -211,10 +211,12 @@ function startWatching(): void {
 /**
  * Stops watching for settings file changes.
  */
-async function stopWatching(): Promise<void> {
-  watchers.map(async watcher => {
-    await watcher.close();
-  });
+async function stopWatching(): Promise<void[]> {
+  return Promise.all(
+    watchers.map(async watcher => {
+      await watcher.close();
+    }),
+  );
 }
 
 /**
