@@ -80,6 +80,14 @@ export async function processTrigger(
       ? LocalStorageManager.mapToLocalStorage(LocalStorageManager.Locations.Annotations, fileName)
       : fileName;
 
+  // Throw a warning if annotations was requested but it wasn't enabled in settings
+  if (trigger.pushbulletConfig.annotateImage && !Settings.enableAnnotations) {
+    log.warn(
+      "Pushbullet",
+      `annotateImage is enabled on the trigger however enableAnnotations isn't true in settings.json. Make sure enableAnnotations is set to true to use annotated images.`,
+    );
+  }
+
   // Build the Pushbullet message options.
   const pushbulletMessage = new PushbulletMessage({
     body: caption,
