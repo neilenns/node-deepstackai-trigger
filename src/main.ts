@@ -22,7 +22,7 @@ import * as WebServer from "./WebServer";
 import npmPackageInfo from "../package.json";
 
 // If startup fails restart is reattempted 5 times every 30 seconds.
-const restartAttemptWaitTime = 5 * 1000;
+const restartAttemptWaitTime = 30 * 1000;
 const maxRestartAttempts = 5;
 
 // The list of settings file watchers, used to stop them on hot reloading of settings.
@@ -83,6 +83,9 @@ async function startup(): Promise<void> {
 
     // Load the trigger configuration.
     triggersFilePath = TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
+    if (!TriggerManager.verifyTriggerWatchLocations()) {
+      throw Error(`Unable to access one or more watch locations.`);
+    }
 
     // Initialize the other handler managers. MQTT got done earlier
     // since it does double-duty and sends overall status messages for the system.
@@ -119,6 +122,9 @@ async function startup(): Promise<void> {
 
     // Notify it's not up and running
     await MqttManager.publishServerState("offline", e.message);
+
+    // Shutdown the web server plus other things that may have spun up successfully.
+    await shutdown();
 
     restartAttemptCount++;
 
@@ -174,6 +180,11 @@ async function hotLoadTriggers(path: string) {
   await TriggerManager.stopWatching();
 
   TriggerManager.loadConfiguration([path]);
+  if (!TriggerManager.verifyTriggerWatchLocations()) {
+    log.warn("Main", `Unable to access one or more watch locations.`);
+    return;
+  }
+
   TriggerManager.startWatching();
 }
 
