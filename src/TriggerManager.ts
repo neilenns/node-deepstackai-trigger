@@ -276,7 +276,7 @@ export function verifyTriggerWatchLocations(): boolean {
       return true;
     }
 
-    log.info("Trigger manager", `There are ${files.length} images waiting in ${watchFolder} for ${trigger.name}.`);
+    log.verbose("Trigger manager", `There are ${files.length} images waiting in ${watchFolder} for ${trigger.name}.`);
     return false;
   });
 
