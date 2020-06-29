@@ -7,7 +7,9 @@ import * as log from "./Log";
 import * as MQTTManager from "./handlers/mqttManager/MqttManager";
 
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
+import * as fs from "fs";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
+import path from "path";
 import PushbulletConfig from "./handlers/pushbulletManager/PushbulletConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
 import Rect from "./Rect";
@@ -251,4 +253,33 @@ export function resetOverallStatistics(): ITriggerStatistics {
 
   MQTTManager.publishStatisticsMessage(triggeredCount, analyzedFilesCount);
   return getOverallStatistics();
+}
+
+/**
+ * Checks the watch folder on each trigger to see if there are images in it. If
+ * not throws a warning.
+ * @returns True if all the watch locations are valid, false otherwise.
+ */
+export function verifyTriggerWatchLocations(): boolean {
+  const invalidWatchLocations = triggers?.filter(trigger => {
+    const watchFolder = path.dirname(trigger.watchPattern);
+
+    let files: string[];
+
+    try {
+      files = fs.readdirSync(watchFolder);
+    } catch (e) {
+      log.warn(
+        "Trigger manager",
+        `Unable to read contents of watch folder ${watchFolder} for trigger ${trigger.name}. Check and make sure the image folder is mounted properly. ${e}`,
+      );
+      return true;
+    }
+
+    log.verbose("Trigger manager", `There are ${files.length} images waiting in ${watchFolder} for ${trigger.name}.`);
+    return false;
+  });
+
+  // If no invalid watch locations were found then we're good to go and return true
+  return invalidWatchLocations.length == 0;
 }
