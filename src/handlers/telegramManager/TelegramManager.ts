@@ -70,6 +70,14 @@ export async function processTrigger(
     ? mustacheFormatter.format(trigger.telegramConfig.caption, fileName, trigger, predictions)
     : trigger.name;
 
+  // Throw a warning if annotations was requested but it wasn't enabled in settings
+  if (trigger.telegramConfig.annotateImage && !Settings.enableAnnotations) {
+    log.warn(
+      "Telegram",
+      `annotateImage is enabled on the trigger however enableAnnotations isn't true in settings.json. Make sure enableAnnotations is set to true to use annotated images.`,
+    );
+  }
+
   // Figure out the path to the file to send based on whether
   // annotated images were requested in the config.
   const imageFileName =

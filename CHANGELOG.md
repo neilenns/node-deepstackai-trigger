@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Warnings are now shown when `annotateImage` is `true` for a trigger handler but `enableAnnotations` wasn't set
+  to `true` in the `settings.json` file. Resolves [issue 333](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/330).
 - Log messages are printed on startup to help confirm the image folder was mounted correctly with Docker.
   Resolves [issue 330](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/330).
 - Web server now shuts down properly when reloading settings. Resolves [issue 323](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/323).
