@@ -7,9 +7,22 @@
   // running elsewhere change this setting to point to the correction location.
   "deepstackUri": "http://deepstack-ai:5000/",
 
+  // Set this to true to enable annotated images for use in trigger handlers.
+  // There is a performance penalty to using this, leave it off unless
+  // you really want to see the annotated images.
+  "enableAnnotations": false,
+
+  // Set this to true to enable the internal web server for remote access
+  // to processed and annotated images.
+  "enableWebServer": false,
+
   // Enables verbose logging. Useful when setting up the system to ensure
   // everything is running correctly.
   "verbose": true,
+
+  // Set this to true if your images are stored in a remote folder that's
+  // mounted as a network share and then mapped to the Docker image.
+  "awaitWriteFinish": false,
 
   // Provides the configuration details for your MQTT server. To enable
   // mqtt set the uri, username (if required), password (if required),
