@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 5.1.0
 
 - Warnings are now shown when `annotateImage` is `true` for a trigger handler but `enableAnnotations` wasn't set
   to `true` in the `settings.json` file. Resolves [issue 333](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/330).
