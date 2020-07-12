@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 5.1.1
 
 - Relax the test for valid watchObject folders at startup. If the path has globs in it a warning will still get
   thrown but system startup will proceed. Resolves [issue 342](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/342).
