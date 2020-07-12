@@ -81,11 +81,11 @@ async function startup(): Promise<void> {
       WebServer.startApp();
     }
 
-    // Load the trigger configuration.
+    // Load the trigger configuration. Verifying the location is just a quick check for basic
+    // mounting issues. It doesn't stop the startup of the system since globs are valid in
+    // watchObject paths and that's not something that can easily be verified.
     triggersFilePath = TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
-    if (!TriggerManager.verifyTriggerWatchLocations()) {
-      throw Error(`Unable to access one or more watch locations.`);
-    }
+    TriggerManager.verifyTriggerWatchLocations();
 
     // Initialize the other handler managers. MQTT got done earlier
     // since it does double-duty and sends overall status messages for the system.
@@ -179,11 +179,11 @@ async function hotLoadTriggers(path: string) {
   // Shut down things that are running
   await TriggerManager.stopWatching();
 
+  // Load the trigger configuration. Verifying the location is just a quick check for basic
+  // mounting issues. It doesn't stop the startup of the system since globs are valid in
+  // watchObject paths and that's not something that can easily be verified.
   TriggerManager.loadConfiguration([path]);
-  if (!TriggerManager.verifyTriggerWatchLocations()) {
-    log.warn("Main", `Unable to access one or more watch locations.`);
-    return;
-  }
+  TriggerManager.verifyTriggerWatchLocations();
 
   TriggerManager.startWatching();
 }
