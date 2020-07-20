@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- The original image that caused a trigger to fire is now stored temporarily and available for
+  use via the built-in web server. The images are available in the `/originals` folder
+  with the original filename. Resolves [issue 350](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/350).
+
 ## Version 5.1.1
 
 - Relax the test for valid watchObject folders at startup. If the path has globs in it a warning will still get

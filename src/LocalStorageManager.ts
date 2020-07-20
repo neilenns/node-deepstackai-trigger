@@ -13,6 +13,7 @@ import { promises as fsPromise } from "fs";
 export enum Locations {
   Annotations = "annotations",
   Snapshots = "snapshots",
+  Originals = "originals",
 }
 
 /**
@@ -38,6 +39,7 @@ export async function initializeStorage(): Promise<void> {
 
   await mkdirp(path.join(localStoragePath, Locations.Annotations));
   await mkdirp(path.join(localStoragePath, Locations.Snapshots));
+  await mkdirp(path.join(localStoragePath, Locations.Originals));
 }
 
 /**
@@ -97,6 +99,12 @@ async function purgeOldFiles(): Promise<void> {
 
   // Now do snapshots.
   purgeDir = path.join(localStoragePath, Locations.Snapshots);
+  await Promise.all(
+    (await fsPromise.readdir(purgeDir)).map(async fileName => await purgeFile(path.join(purgeDir, fileName))),
+  );
+
+  // Now do originals.
+  purgeDir = path.join(localStoragePath, Locations.Originals);
   await Promise.all(
     (await fsPromise.readdir(purgeDir)).map(async fileName => await purgeFile(path.join(purgeDir, fileName))),
   );

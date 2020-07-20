@@ -19,8 +19,10 @@ let httpTerminator: HttpTerminator;
 
 export function startApp(): void {
   const annotatedImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Annotations);
+  const originalsImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Originals);
   app.use("/", express.static(annotatedImagePath));
   app.use("/annotations", express.static(annotatedImagePath));
+  app.use("/originals", express.static(originalsImagePath));
   app.use("/motion", motionRouter);
   app.use("/statistics", statisticsRouter);
 
