@@ -6,6 +6,10 @@
   use via the built-in web server. The images are available in the `/originals` folder
   with the original filename. Resolves [issue 350](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/350).
 
+## Version 5.1.2
+
+- Address a low-severity security vulnerability in a 3rd party library. Resolves [issue 347](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/347).
+
 ## Version 5.1.1
 
 - Relax the test for valid watchObject folders at startup. If the path has globs in it a warning will still get
