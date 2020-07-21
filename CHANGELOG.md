@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## Version 5.2.0
 
 - The original image that caused a trigger to fire is now stored temporarily and available for
   use via the built-in web server. The images are available in the `/originals` folder
