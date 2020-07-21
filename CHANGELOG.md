@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- The original image that caused a trigger to fire is now stored temporarily and available for
+  use via the built-in web server. The images are available in the `/originals` folder
+  with the original filename. Resolves [issue 350](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/350).
+
 ## Version 5.1.2
 
 - Address a low-severity security vulnerability in a 3rd party library. Resolves [issue 347](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/347).

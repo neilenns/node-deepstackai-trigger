@@ -133,6 +133,9 @@ export default class Trigger {
     // nothing if annotations are disabled.
     await AnnotationManager.processTrigger(fileName, this, triggeredPredictions);
 
+    // Copy the image to the originals folder
+    await LocalStorage.copyToLocalStorage(LocalStorage.Locations.Originals, fileName);
+
     // Call all the handlers for the trigger. There is no need to wait for these to finish before proceeding.
     MqttManager.processTrigger(fileName, this, triggeredPredictions);
     PushbulletManager.processTrigger(fileName, this, triggeredPredictions);
