@@ -1,6 +1,6 @@
 # Change Log
 
-## Unrelease
+## Unreleased
 
 - Address security vulnerability in webpack used during the build process. Resolves [issue 357](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/357).
 
