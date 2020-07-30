@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Address security vulnerability in webpack used during the build process. Resolves [issue 357](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/357).
+
 ## Version 5.2.0
 
 - The original image that caused a trigger to fire is now stored temporarily and available for
