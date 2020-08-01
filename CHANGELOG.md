@@ -1,8 +1,9 @@
 # Change Log
 
-## Unreleased
+## 5.2.1
 
 - Address security vulnerability in webpack used during the build process. Resolves [issue 357](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/357).
+- Address security vulnerability in the annotated image processing library. Resolves [issue 360](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/360).
 
 ## Version 5.2.0
 
