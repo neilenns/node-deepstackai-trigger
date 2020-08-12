@@ -12,6 +12,7 @@ module.exports = {
   },
   externals: {
     fsevents: "fsevents",
+    emitter: "emitter",
   },
   module: {
     rules: [
