@@ -27,7 +27,7 @@ export function startApp(): void {
   // they are in the node_modules folder.
   const serveIndexPublicPath =
     process.env.ENVIRONMENT === "prod"
-      ? path.join(__dirname, "public")
+      ? "/home/node/app/public"
       : path.join(__dirname, "../../node_modules/serve-index/public");
 
   log.verbose("Web server", `Public resource folder is ${serveIndexPublicPath}`);
