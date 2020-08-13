@@ -30,6 +30,7 @@ export function startApp(): void {
       ? path.join(__dirname, "public")
       : path.join(__dirname, "../../node_modules/serve-index/public");
 
+  log.verbose("Web server", `Public resource folder is ${serveIndexPublicPath}`);
   app.use("/", express.static(annotatedImagePath));
   app.use("/public", express.static(serveIndexPublicPath), serveIndex(serveIndexPublicPath));
   app.use(
