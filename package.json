@@ -38,6 +38,7 @@
     "chalk": "^3.0.0",
     "chokidar": "^3.4.0",
     "commander": "^4.1.1",
+    "emitter": "0.0.5",
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "http-terminator": "^2.0.3",

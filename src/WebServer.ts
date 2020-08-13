@@ -21,10 +21,19 @@ let httpTerminator: HttpTerminator;
 export function startApp(): void {
   const annotatedImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Annotations);
   const originalsImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Originals);
+
+  // The path to the public folder for serveIndex varies depending on whether this is being run in the Docker
+  // image. For the production Docker image the files are in the public folder. For all other cases (e.g. dev environment)
+  // they are in the node_modules folder.
+  const serveIndexPublicPath =
+    process.env.ENVIRONMENT === "prod"
+      ? path.join(__dirname, "public")
+      : path.join(__dirname, "../../node_modules/serve-index/public");
+
   app.use("/", express.static(annotatedImagePath));
+  app.use("/public", express.static(serveIndexPublicPath), serveIndex(serveIndexPublicPath));
   app.use(
     "/annotations",
-    express.static(annotatedImagePath),
     express.static(annotatedImagePath),
     serveIndex(annotatedImagePath, { icons: true, view: "details" }),
   );
