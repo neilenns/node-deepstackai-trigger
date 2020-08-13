@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 5.3.0
 
 - The `/originals` and `/annotations` folders can now be viewed via the webserver. This enables
   browsing the list of all stored images instead of having to know the specific filename of the
