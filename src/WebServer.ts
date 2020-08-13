@@ -22,17 +22,7 @@ export function startApp(): void {
   const annotatedImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Annotations);
   const originalsImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Originals);
 
-  // The path to the public folder for serveIndex varies depending on whether this is being run in the Docker
-  // image. For the production Docker image the files are in the public folder. For all other cases (e.g. dev environment)
-  // they are in the node_modules folder.
-  const serveIndexPublicPath =
-    process.env.ENVIRONMENT === "prod"
-      ? "/home/node/app/public"
-      : path.join(__dirname, "../../node_modules/serve-index/public");
-
-  log.verbose("Web server", `Public resource folder is ${serveIndexPublicPath}`);
   app.use("/", express.static(annotatedImagePath));
-  app.use("/public", express.static(serveIndexPublicPath), serveIndex(serveIndexPublicPath));
   app.use(
     "/annotations",
     express.static(annotatedImagePath),
