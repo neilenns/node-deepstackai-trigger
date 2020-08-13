@@ -34,7 +34,4 @@ COPY --from=build --chown=node:node /home/node/app/node_modules/serve-index/publ
 # This can always be set to false in docker-compose.yml later if necessary.
 ENV CHOKIDAR_USEPOLLING=true
 
-# Set the environment for the container to prod so paths to the public folder get set correctly
-ENV ENVIRONMENT=prod
-
 ENTRYPOINT [ "node", "--no-deprecation", "bundle.js" ]
