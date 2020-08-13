@@ -9,6 +9,10 @@ module.exports = {
   target: "node",
   node: {
     fsevents: "empty",
+    // From https://github.com/webpack/webpack/issues/1599#issuecomment-186841345
+    // This makes __dirname valid in the Docker image and means serve-index
+    // can read its files from the public folder.
+    __dirname: false,
   },
   externals: {
     fsevents: "fsevents",

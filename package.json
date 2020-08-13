@@ -38,6 +38,7 @@
     "chalk": "^3.0.0",
     "chokidar": "^3.4.0",
     "commander": "^4.1.1",
+    "emitter": "0.0.5",
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "http-terminator": "^2.0.3",
@@ -50,6 +51,7 @@
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "safe-regex": "^2.1.1",
+    "serve-index": "^1.9.1",
     "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
@@ -64,6 +66,7 @@
     "@types/request": "^2.48.5",
     "@types/request-promise-native": "^1.0.17",
     "@types/safe-regex": "^1.1.2",
+    "@types/serve-index": "^1.7.30",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "@typescript-eslint/eslint-plugin-tslint": "^3.2.0",
     "@typescript-eslint/parser": "^3.2.0",

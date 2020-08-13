@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- The `/originals` and `/annotations` folders can now be viewed via the webserver. This enables
+  browsing the list of all stored images instead of having to know the specific filename of the
+  image. Resolves [issue363](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/363).
+
 ## 5.2.1
 
 - Address security vulnerability in webpack used during the build process. Resolves [issue 357](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/357).

@@ -12,6 +12,7 @@ import motionRouter from "./routes/motion";
 import path from "path";
 import { Server } from "http";
 import statisticsRouter from "./routes/statistics";
+import serveIndex from "serve-index";
 
 const app = express();
 let server: Server;
@@ -20,9 +21,18 @@ let httpTerminator: HttpTerminator;
 export function startApp(): void {
   const annotatedImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Annotations);
   const originalsImagePath = path.join(LocalStorageManager.localStoragePath, LocalStorageManager.Locations.Originals);
+
   app.use("/", express.static(annotatedImagePath));
-  app.use("/annotations", express.static(annotatedImagePath));
-  app.use("/originals", express.static(originalsImagePath));
+  app.use(
+    "/annotations",
+    express.static(annotatedImagePath),
+    serveIndex(annotatedImagePath, { icons: true, view: "details" }),
+  );
+  app.use(
+    "/originals",
+    express.static(originalsImagePath),
+    serveIndex(originalsImagePath, { icons: true, view: "details" }),
+  );
   app.use("/motion", motionRouter);
   app.use("/statistics", statisticsRouter);
 

@@ -16,6 +16,7 @@ FROM node:slim
 # Pre-create the temporary storage folder so it has the right user
 # permissions on it after volume mount
 RUN mkdir -p /node-deepstackai-trigger && chown -R node:node /node-deepstackai-trigger
+RUN mkdir -p /home/node/app/public && chown -R node:node /home/node/app/public
 
 WORKDIR /home/node/app
 USER node
@@ -24,6 +25,9 @@ COPY --from=build --chown=node:node /home/node/app/README.md .
 COPY --from=build --chown=node:node /home/node/app/LICENSE .
 COPY --from=build --chown=node:node /home/node/app/FONT_LICENSE .
 COPY --from=build --chown=node:node /home/node/app/fonts/CascadiaCode.ttf ./fonts/CascadiaCode.ttf
+
+# The static files for directory display by the Express web server need to get copied over.
+COPY --from=build --chown=node:node /home/node/app/node_modules/serve-index/public ./public
 
 # Enable polling for watching files by default since it appears that's
 # the only way to have file detection work in a Docker container.
