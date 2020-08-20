@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.3.1
+
+- File watching now works on Macs when the folder of images is a mounted network share. Resolves [issue 362](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/362).
+
 ## 5.3.0
 
 - The `/originals` and `/annotations` folders can now be viewed via the webserver. This enables
