@@ -27,18 +27,17 @@ export function readSettings<T>(serviceName: string, settingsFileName: string): 
     throw new Error(`[${serviceName}] Unable to load configuration file ${settingsFileName}.`);
   }
 
-  let parseErrors: JSONC.ParseError[];
+  const parseErrors: JSONC.ParseError[] = [];
 
   const settings = JSONC.parse(rawConfig, parseErrors) as T;
 
   // This extra level of validation really shouldn't be necessary since the
   // file passed schema validation. Still, better safe than crashing.
   if (parseErrors && parseErrors.length > 0) {
-    throw new Error(
-      `[${serviceName}] Unable to load configuration file: ${parseErrors
-        .map(error => log.error("${serviceName}", `${error?.error}`))
-        .join("\n")}`,
-    );
+    const parseErrorsAsString = parseErrors.map(parseError => JSON.stringify(parseError)).join(" ");
+    log.error(serviceName, parseErrorsAsString);
+    const errorMessage = `[${serviceName}] Unable to load configuration file: ${parseErrorsAsString}`;
+    throw new Error(errorMessage);
   }
 
   return settings;
