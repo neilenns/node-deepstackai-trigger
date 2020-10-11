@@ -11,7 +11,7 @@
     "lint": "npm run lint:eslint && npm run lint:markdown",
     "lint:eslint": "eslint -c .eslintrc.json --ext .ts src/",
     "lint:markdown": "node ./node_modules/markdownlint-cli/markdownlint.js **/*.md --ignore node_modules",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\" \"tests/**/*.ts\" \"tests/**/*.js\"",
     "prepare": "npm run build",
     "prepublishOnly": "npm run lint",
     "postversion": "git push",
