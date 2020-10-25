@@ -1,5 +1,10 @@
 # Change Log
 
+## 5.5.0
+
+- Secrets can now be stored in a separate `secrets.json` file and inserted in `settings.json` and `triggers.json` via mustache templates. Resolves
+  [issue 371](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/371).
+
 ## 5.4.0
 
 - Triggers can now specify `activateRegions` which have the opposite effect of masks. If activateRegions are specified then the triggering
