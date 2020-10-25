@@ -17,6 +17,7 @@ import TelegramConfig from "./handlers/telegramManager/TelegramConfig";
 import Trigger from "./Trigger";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import ITriggerStatistics from "./types/ITriggerStatistics";
+import IConfiguration from "./types/IConfiguration";
 
 /**
  * Provides a running total of the number of times an image caused triggers
@@ -40,8 +41,8 @@ export let triggers: Trigger[];
  * @param configFilePath The path to the configuration file
  * @returns The path to the loaded configuration file
  */
-export function loadConfiguration(configFilePaths: string[]): string {
-  let loadedConfigFilePath: string;
+export function loadConfiguration(configurations: IConfiguration[]): IConfiguration {
+  let loadedConfiguration: IConfiguration;
   let triggerConfigJson: ITriggerConfigJson;
 
   // Reset triggers to empty in case this is getting hot reloaded
@@ -49,14 +50,18 @@ export function loadConfiguration(configFilePaths: string[]): string {
 
   // Look through the list of possible loadable config files and try loading
   // them in turn until a valid one is found.
-  configFilePaths.some(configFilePath => {
-    triggerConfigJson = helpers.readSettings<ITriggerConfigJson>("Triggers", configFilePath);
+  configurations.some(configuration => {
+    triggerConfigJson = helpers.readSettings<ITriggerConfigJson>(
+      "Triggers",
+      configuration.baseFilePath,
+      configuration.secretsFilePath,
+    );
 
     if (!triggerConfigJson) {
       return false;
     }
 
-    loadedConfigFilePath = configFilePath;
+    loadedConfiguration = configuration;
     return true;
   });
 
@@ -68,7 +73,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
     );
   }
 
-  log.info("Triggers", `Loaded configuration from ${loadedConfigFilePath}`);
+  log.info("Triggers", `Loaded configuration from ${loadedConfiguration.baseFilePath}`);
 
   triggers = triggerConfigJson.triggers.map(triggerJson => {
     log.info("Triggers", `Loaded configuration for ${triggerJson.name}`);
@@ -110,7 +115,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
     return configuredTrigger;
   });
 
-  return loadedConfigFilePath;
+  return loadedConfiguration;
 }
 
 /**

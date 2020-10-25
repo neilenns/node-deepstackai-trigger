@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.4.0
+
+- Mustache templating now works in settings.json and triggers.json, secrets are pulled from secrets.json. See the wiki for more thorough documentation.
+
 ## 5.3.1
 
 - File watching now works on Macs when the folder of images is a mounted network share. Resolves [issue 362](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/362).
