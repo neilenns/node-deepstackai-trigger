@@ -215,8 +215,8 @@ export default class Trigger {
     const isTriggered =
       this.isRegisteredForObject(fileName, label) &&
       this.confidenceMeetsThreshold(fileName, scaledConfidence) &&
-      (!this.isMasked(fileName, this.masks, true, prediction) ||
-        this.isMasked(fileName, this.activateRegions, true, prediction));
+      !this.isMasked(fileName, this.masks, true, prediction) &&
+      this.isMasked(fileName, this.activateRegions, false, prediction);
 
     if (!isTriggered) {
       log.verbose(`Trigger ${this.name}`, `${fileName}: Not triggered by ${label} (${scaledConfidence})`);
@@ -237,12 +237,20 @@ export default class Trigger {
   public isMasked(fileName: string, masks: Rect[], block: boolean, prediction: IDeepStackPrediction): boolean {
     // If no masks are specified and this is a blocking mask return false since nothing could possibly be blocked.
     if (!masks && block) {
+      log.verbose(
+        `Trigger ${this.name}`,
+        "No blocking masks specified and block is true so skipping blocking masks check.",
+      );
       return false;
     }
 
     // If no masks are specified and this is a non-blocking mask return true since everything should get accepted
     // to maintain backwards compatibility.
     if (!masks && !block) {
+      log.verbose(
+        `Trigger ${this.name}`,
+        "No activate masks specified and block is false so skipping activate masks check.",
+      );
       return true;
     }
 

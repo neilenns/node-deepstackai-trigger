@@ -1,5 +1,10 @@
 # Change Log
 
+## 5.4.0
+
+- Triggers can now specify `activateRegions` which have the opposite effect of masks. If activateRegions are specified then the triggering
+  object's bounding box must overlap with the activate region for the trigger to fire. Resolves [issue 384](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/384).
+
 ## 5.3.1
 
 - File watching now works on Macs when the folder of images is a mounted network share. Resolves [issue 362](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/362).
