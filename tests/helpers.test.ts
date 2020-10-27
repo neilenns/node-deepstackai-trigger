@@ -41,6 +41,17 @@ describe("helpers", () => {
     expect(actualSettings).toEqual({ foo: "bar" });
   });
 
+  test("Verify can load settings.json with secrets that are urls", () => {
+    const secrets = { someSecret: "http://127.0.0.1:5000/" };
+    writeFileSync(secretsFilePath, JSON.stringify(secrets));
+    const settings = { foo: "{{{someSecret}}}" };
+    writeFileSync(settingsFilePath, JSON.stringify(settings));
+
+    const actualSettings = helpers.readSettings(serviceName, settingsFilePath, secretsFilePath);
+
+    expect(actualSettings).toEqual({ foo: "http://127.0.0.1:5000/" });
+  });
+
   test("Verify secret is rendered empty if it doesn't exist'", () => {
     const secrets = {};
     writeFileSync(secretsFilePath, JSON.stringify(secrets));
