@@ -117,6 +117,14 @@
               "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/maskConfiguration.schema.json"
             }
           },
+          "activateRegions": {
+            "description": "A list of rectangles that activate the trigger if a detected object overlaps the rectangle.",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "https://raw.githubusercontent.com/danecreekphotography/node-deepstackai-trigger/main/src/schemas/maskConfiguration.schema.json"
+            }
+          },
           "watchObjects": {
             "description": "A list of objects the trigger will activate on.",
             "type": "array",

@@ -41,6 +41,7 @@ export default class Trigger {
   public enabled = true;
   public name: string;
   public masks: Rect[];
+  public activateRegions: Rect[];
   public receivedDate: Date;
   public snapshotUri?: string;
   public threshold: {
@@ -214,7 +215,8 @@ export default class Trigger {
     const isTriggered =
       this.isRegisteredForObject(fileName, label) &&
       this.confidenceMeetsThreshold(fileName, scaledConfidence) &&
-      !this.isMasked(fileName, prediction);
+      (!this.isMasked(fileName, this.masks, true, prediction) ||
+        this.isMasked(fileName, this.activateRegions, true, prediction));
 
     if (!isTriggered) {
       log.verbose(`Trigger ${this.name}`, `${fileName}: Not triggered by ${label} (${scaledConfidence})`);
@@ -227,21 +229,38 @@ export default class Trigger {
   /**
    * Checks to see if predictions overlap the list of masks defined in the trigger
    * @param fileName The filename of the image being evaluated
+   * @param masks The array of masks to check against
+   * @param block True if this is a blocking mask.
    * @param predictions The list of predictions found in the image
    * @returns True if any of the predictions are masked
    */
-  public isMasked(fileName: string, prediction: IDeepStackPrediction): boolean {
-    if (!this.masks) {
+  public isMasked(fileName: string, masks: Rect[], block: boolean, prediction: IDeepStackPrediction): boolean {
+    // If no masks are specified and this is a blocking mask return false since nothing could possibly be blocked.
+    if (!masks && block) {
       return false;
     }
 
+    // If no masks are specified and this is a non-blocking mask return true since everything should get accepted
+    // to maintain backwards compatibility.
+    if (!masks && !block) {
+      return true;
+    }
+
     // Loop through the masks to see if any overlap the prediction
-    const result = this.masks.some(mask => {
+    const result = masks.some(mask => {
       const predictionRect = new Rect(prediction.x_min, prediction.y_min, prediction.x_max, prediction.y_max);
       const doesOverlap = mask.overlaps(predictionRect);
 
       if (doesOverlap) {
-        log.verbose(`Trigger ${this.name}`, `Prediction region ${predictionRect} blocked by trigger mask ${mask}.`);
+        log.verbose(
+          `Trigger ${this.name}`,
+          `Prediction region ${predictionRect} ${block ? "blocked" : "activated"} by mask ${mask}.`,
+        );
+      } else {
+        log.verbose(
+          `Trigger ${this.name}`,
+          `Prediction region ${predictionRect} does not overlap with ${block ? "block" : "activate"} region ${mask}.`,
+        );
       }
 
       return doesOverlap;

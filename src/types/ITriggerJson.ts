@@ -31,4 +31,5 @@ export default interface ITriggerJson {
   };
 
   masks: Rect[];
+  activateRegions: Rect[];
 }
