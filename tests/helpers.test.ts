@@ -44,7 +44,7 @@ describe("helpers", () => {
   test("Verify can load settings.json with secrets that are urls", () => {
     const secrets = { someSecret: "http://127.0.0.1:5000/" };
     writeFileSync(secretsFilePath, JSON.stringify(secrets));
-    const settings = { foo: "{{someSecret}}" };
+    const settings = { foo: "{{{someSecret}}}" };
     writeFileSync(settingsFilePath, JSON.stringify(settings));
 
     const actualSettings = helpers.readSettings(serviceName, settingsFilePath, secretsFilePath);
