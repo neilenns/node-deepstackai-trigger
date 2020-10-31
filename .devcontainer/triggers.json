@@ -30,6 +30,14 @@
         "minimum": 50,
         "maximum": 100
       },
+      "activateRegions": [
+        {
+          "xMinimum": 124,
+          "xMaximum": 200,
+          "yMinimum": 30,
+          "yMaximum": 200
+        }
+      ],
       "handlers": {
         "webRequest": {
           "triggerUris": ["http://localhost:81/admin?trigger&camera=Dog&memo={{formattedPredictions}}"]

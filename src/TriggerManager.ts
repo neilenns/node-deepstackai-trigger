@@ -89,6 +89,10 @@ export function loadConfiguration(configFilePaths: string[]): string {
     configuredTrigger.masks = triggerJson.masks?.map(
       mask => new Rect(mask.xMinimum, mask.yMinimum, mask.xMaximum, mask.yMaximum),
     );
+    // Set up the masks as real objects
+    configuredTrigger.activateRegions = triggerJson.activateRegions?.map(
+      mask => new Rect(mask.xMinimum, mask.yMinimum, mask.xMaximum, mask.yMaximum),
+    );
 
     // Set up the handlers
     if (triggerJson.handlers.mqtt) {
