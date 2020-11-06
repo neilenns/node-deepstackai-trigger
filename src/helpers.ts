@@ -28,6 +28,9 @@ function parseFile(serviceName: string, fileType: string, filePath: string) {
  * @type T The type the settings should return as.
  */
 function replaceSecrets<T>(settings: T, secrets: { a: string }) {
+  // If no secrets were provided don't attempt to do a replacement
+  if (!secrets) return;
+
   return JSONC.parse(Mustache.render(JSON.stringify(settings), secrets));
 }
 
