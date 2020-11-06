@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as helpers from "./helpers";
-import * as log from "./Log";
+import * as logger from "winston";
 
 import IMqttManagerConfigJson from "./handlers/mqttManager/IMqttManagerConfigJson";
 import IPushbulletManagerConfigJson from "./handlers/pushbulletManager/IPushbulletManagerConfigJson";
@@ -74,7 +74,7 @@ export function loadConfiguration(configurations: IConfiguration[]): IConfigurat
   telegram = settingsConfigJson.telegram;
   verbose = settingsConfigJson.verbose ?? false;
 
-  log.info("Settings", `Loaded settings from ${loadedConfiguration.baseFilePath}`);
+  logger.debug({ system: "Settings", message: `Loaded settings from ${loadedConfiguration.baseFilePath}` });
 
   return loadedConfiguration;
 }

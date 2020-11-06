@@ -12,7 +12,8 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/dist/src/main.js",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "outputCapture": "std"
     },
     {
       "type": "node",

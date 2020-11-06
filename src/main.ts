@@ -3,6 +3,11 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// Get those environment variables set up early!
+import * as path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+
 // See https://github.com/yagop/node-telegram-bot-api/issues/319
 process.env.NTBA_FIX_319 = "true";
 
@@ -47,9 +52,9 @@ function validateEnvironmentVariables(): boolean {
 }
 
 async function startup(): Promise<void> {
-  logger.info(`Starting up version ${npmPackageInfo.version}`, { system: "main" });
-  logger.info(`Timezone offset is ${new Date().getTimezoneOffset()}`, { system: "main" });
-  logger.info({ system: "main", message: `Current time is ${new Date()}` });
+  logger.info({ system: "main", message: `Starting up version ${npmPackageInfo.version}` });
+  logger.debug({ system: "main", message: `Timezone offset is ${new Date().getTimezoneOffset()}` });
+  logger.debug({ system: "main", message: `Current time is ${new Date()}` });
 
   try {
     // Load the settings file.
