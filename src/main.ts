@@ -10,6 +10,7 @@ import * as AnnotationManager from "./handlers/annotationManager/AnnotationManag
 import * as chokidar from "chokidar";
 import * as LocalStorageManager from "./LocalStorageManager";
 import * as log from "./Log";
+import logger from "./Logger";
 import * as MqttManager from "./handlers/mqttManager/MqttManager";
 import * as MqttRouter from "./MqttRouter";
 import * as PushbulletManager from "./handlers/pushbulletManager/PushbulletManager";
@@ -46,10 +47,9 @@ function validateEnvironmentVariables(): boolean {
 }
 
 async function startup(): Promise<void> {
-  log.info("Main", "****************************************");
-  log.info("Main", `Starting up version ${npmPackageInfo.version}`);
-  log.info("Main", `Timezone offset is ${new Date().getTimezoneOffset()}`);
-  log.info("Main", `Current time is ${new Date()}`);
+  logger.info(`Starting up version ${npmPackageInfo.version}`, { system: "main" });
+  logger.info(`Timezone offset is ${new Date().getTimezoneOffset()}`, { system: "main" });
+  logger.info({ system: "main", message: `Current time is ${new Date()}` });
 
   try {
     // Load the settings file.
