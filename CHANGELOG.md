@@ -1,5 +1,10 @@
 # Change Log
 
+## 5.5.1
+
+- Resolve an issue where the system fails to start if no secrets file exists but the existing `settings.json` or `triggers.json` file uses
+  mustache templates, or when the secrets method of loading the settings file isn't used. Resolves [issue 394](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/394).
+
 ## 5.5.0
 
 - Secrets can now be stored in a separate `secrets.json` file and inserted in `settings.json` and `triggers.json` via mustache templates. Resolves

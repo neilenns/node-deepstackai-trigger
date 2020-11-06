@@ -43,7 +43,8 @@ function replaceSecrets<T>(settings: T, secrets: { a: string }) {
 export function readSettings<T>(serviceName: string, serviceFilePath: string, secretsFilePath = ""): T {
   const settings = parseFile(serviceName, "settings", serviceFilePath);
   if (!settings) {
-    throw new Error(`[${serviceName}] Unable to load file ${serviceFilePath}.`);
+    log.warn(serviceName, `Unable to load file ${serviceFilePath}.`);
+    return null;
   }
   const secrets = parseFile(serviceName, "secrets", secretsFilePath);
   return replaceSecrets<T>(settings, secrets);
