@@ -28,6 +28,9 @@ function parseFile(serviceName: string, fileType: string, filePath: string) {
  * @type T The type the settings should return as.
  */
 function replaceSecrets<T>(settings: T, secrets: { a: string }) {
+  // If no secrets were provided don't attempt to do a replacement
+  if (!secrets) return settings;
+
   return JSONC.parse(Mustache.render(JSON.stringify(settings), secrets));
 }
 
@@ -40,7 +43,8 @@ function replaceSecrets<T>(settings: T, secrets: { a: string }) {
 export function readSettings<T>(serviceName: string, serviceFilePath: string, secretsFilePath = ""): T {
   const settings = parseFile(serviceName, "settings", serviceFilePath);
   if (!settings) {
-    throw new Error(`[${serviceName}] Unable to load file ${serviceFilePath}.`);
+    log.warn(serviceName, `Unable to load file ${serviceFilePath}.`);
+    return null;
   }
   const secrets = parseFile(serviceName, "secrets", secretsFilePath);
   return replaceSecrets<T>(settings, secrets);

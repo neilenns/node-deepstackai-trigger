@@ -90,16 +90,19 @@ describe("helpers", () => {
     expect(actualSettings).toEqual(expectedSettings);
   });
 
-  test("Verify throws if settings.json empty", () => {
+  test("Verify logs with message if settings.json empty", () => {
     const expectedSettings = "";
     writeFileSync(settingsFilePath, expectedSettings);
 
-    expect(() => {
-      helpers.readSettings(serviceName, settingsFilePath);
-    }).toThrow(Error);
+    helpers.readSettings(serviceName, settingsFilePath);
+
+    //eslint-disable-next-line no-console
+    expect(console.log).toHaveBeenCalledWith(
+      expect.stringContaining(`[${serviceName}] Unable to read the settings file: ENOENT: no such file or directory`),
+    );
   });
 
-  test("Verify throws with message if settings.json empty", () => {
+  test("Verify logs with message with message if settings.json empty", () => {
     const expectedSettings = "";
     writeFileSync(settingsFilePath, expectedSettings);
 
