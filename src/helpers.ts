@@ -29,7 +29,7 @@ function parseFile(serviceName: string, fileType: string, filePath: string) {
  */
 function replaceSecrets<T>(settings: T, secrets: { a: string }) {
   // If no secrets were provided don't attempt to do a replacement
-  if (!secrets) return;
+  if (!secrets) settings;
 
   return JSONC.parse(Mustache.render(JSON.stringify(settings), secrets));
 }
