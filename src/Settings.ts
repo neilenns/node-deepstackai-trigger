@@ -11,6 +11,7 @@ import IPushbulletManagerConfigJson from "./handlers/pushbulletManager/IPushbull
 import IPushoverManagerConfigJson from "./handlers/pushoverManager/IPushoverManagerConfigJson";
 import ISettingsConfigJson from "./types/ISettingsConfigJson";
 import ITelegramManagerConfigJson from "./handlers/telegramManager/ITelegramManagerConfigJson";
+import IConfiguration from "./types/IConfiguration";
 
 export let awaitWriteFinish: boolean;
 export let deepstackUri: string;
@@ -27,24 +28,28 @@ export let telegram: ITelegramManagerConfigJson;
 export let verbose: boolean;
 
 /**
- * Takes a path to a configuration file and loads all of the triggers from it.
- * @param configFilePath The path to the configuration file
- * @returns The path to the loaded configuration file
+ * Takes an object with a path to a configuration file and path to a secrets file and loads all of the settings from it.
+ * @param configurations A configuration object with the path to the configuration file and path to the secrets file
+ * @returns A configuration object with path to the loaded configuration file and path to the loaded secrets file
  */
-export function loadConfiguration(configFilePaths: string[]): string {
+export function loadConfiguration(configurations: IConfiguration[]): IConfiguration {
   let settingsConfigJson: ISettingsConfigJson;
-  let loadedSettingsFilePath: string;
+  let loadedConfiguration: IConfiguration;
 
   // Look through the list of possible loadable config files and try loading
   // them in turn until a valid one is found.
-  configFilePaths.some(configFilePath => {
-    settingsConfigJson = helpers.readSettings<ISettingsConfigJson>("Settings", configFilePath);
+  configurations.some(configuration => {
+    settingsConfigJson = helpers.readSettings<ISettingsConfigJson>(
+      "Settings",
+      configuration.baseFilePath,
+      configuration.secretsFilePath,
+    );
 
     if (!settingsConfigJson) {
       return false;
     }
 
-    loadedSettingsFilePath = configFilePath;
+    loadedConfiguration = configuration;
     return true;
   });
 
@@ -69,7 +74,7 @@ export function loadConfiguration(configFilePaths: string[]): string {
   telegram = settingsConfigJson.telegram;
   verbose = settingsConfigJson.verbose ?? false;
 
-  log.info("Settings", `Loaded settings from ${loadedSettingsFilePath}`);
+  log.info("Settings", `Loaded settings from ${loadedConfiguration.baseFilePath}`);
 
-  return loadedSettingsFilePath;
+  return loadedConfiguration;
 }

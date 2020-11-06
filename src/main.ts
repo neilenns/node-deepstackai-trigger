@@ -18,6 +18,7 @@ import * as Settings from "./Settings";
 import * as TelegramManager from "./handlers/telegramManager/TelegramManager";
 import * as TriggerManager from "./TriggerManager";
 import * as WebServer from "./WebServer";
+import IConfiguration from "./types/IConfiguration";
 
 import npmPackageInfo from "../package.json";
 
@@ -30,8 +31,8 @@ const watchers: chokidar.FSWatcher[] = [];
 
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
-let settingsFilePath: string;
-let triggersFilePath: string;
+let settingsConfiguration: IConfiguration;
+let triggersConfiguration: IConfiguration;
 
 function validateEnvironmentVariables(): boolean {
   let isValid = true;
@@ -52,7 +53,16 @@ async function startup(): Promise<void> {
 
   try {
     // Load the settings file.
-    settingsFilePath = Settings.loadConfiguration(["/run/secrets/settings", "/config/settings.json"]);
+    settingsConfiguration = Settings.loadConfiguration([
+      {
+        baseFilePath: "/run/secrets/settings",
+        secretsFilePath: "/run/secrets/secrets",
+      },
+      {
+        baseFilePath: "/config/settings.json",
+        secretsFilePath: "/config/secrets.json",
+      },
+    ]);
 
     // MQTT manager loads first so if it succeeds but other things fail we can report the failures via MQTT.
     await MqttManager.initialize();
@@ -84,7 +94,16 @@ async function startup(): Promise<void> {
     // Load the trigger configuration. Verifying the location is just a quick check for basic
     // mounting issues. It doesn't stop the startup of the system since globs are valid in
     // watchObject paths and that's not something that can easily be verified.
-    triggersFilePath = TriggerManager.loadConfiguration(["/run/secrets/triggers", "/config/triggers.json"]);
+    triggersConfiguration = TriggerManager.loadConfiguration([
+      {
+        baseFilePath: "/run/secrets/triggers",
+        secretsFilePath: "/run/secrets/secrets",
+      },
+      {
+        baseFilePath: "/config/triggers.json",
+        secretsFilePath: "/config/secrets.json",
+      },
+    ]);
     TriggerManager.verifyTriggerWatchLocations();
 
     // Initialize the other handler managers. MQTT got done earlier
@@ -162,8 +181,8 @@ async function shutdown(): Promise<void> {
  * Shuts everything down and then restarts the service with a new settings file.
  * @param path The path to the settings file that changed.
  */
-async function hotLoadSettings(path: string) {
-  log.info("Main", `${path} change detected, reloading.`);
+async function hotLoadSettings(configuration: IConfiguration) {
+  log.info("Main", `${configuration.baseFilePath} change detected, reloading.`);
 
   await shutdown();
   await startup();
@@ -173,8 +192,8 @@ async function hotLoadSettings(path: string) {
  * Reloads the list of triggers.
  * @param path The path to the trigger file that changed.
  */
-async function hotLoadTriggers(path: string) {
-  log.info("Main", `${path} change detected, reloading.`);
+async function hotLoadTriggers(configuration: IConfiguration) {
+  log.info("Main", `${configuration.baseFilePath} change detected, reloading.`);
 
   // Shut down things that are running
   await TriggerManager.stopWatching();
@@ -182,7 +201,7 @@ async function hotLoadTriggers(path: string) {
   // Load the trigger configuration. Verifying the location is just a quick check for basic
   // mounting issues. It doesn't stop the startup of the system since globs are valid in
   // watchObject paths and that's not something that can easily be verified.
-  TriggerManager.loadConfiguration([path]);
+  TriggerManager.loadConfiguration([configuration]);
   TriggerManager.verifyTriggerWatchLocations();
 
   TriggerManager.startWatching();
@@ -192,12 +211,13 @@ async function hotLoadTriggers(path: string) {
  * Starts watching for changes to settings files
  */
 function startWatching(): void {
+  const settingsFilePath = settingsConfiguration.baseFilePath;
   try {
     if (settingsFilePath) {
       watchers.push(
         chokidar
           .watch(settingsFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
-          .on("change", path => hotLoadSettings(path)),
+          .on("change", () => hotLoadSettings(settingsConfiguration)),
       );
       log.verbose("Main", `Watching for changes to ${settingsFilePath}`);
     }
@@ -205,12 +225,13 @@ function startWatching(): void {
     log.warn("Main", `Unable to watch for changes to ${settingsFilePath}: ${e}`);
   }
 
+  const triggersFilePath = triggersConfiguration.baseFilePath;
   try {
     if (triggersFilePath) {
       watchers.push(
         chokidar
           .watch(triggersFilePath, { awaitWriteFinish: Settings.awaitWriteFinish })
-          .on("change", path => hotLoadTriggers(path)),
+          .on("change", () => hotLoadTriggers(triggersConfiguration)),
       );
       log.verbose("Main", `Watching for changes to ${triggersFilePath}`);
     }
