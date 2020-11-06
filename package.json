@@ -52,7 +52,8 @@
     "request-promise-native": "^1.0.8",
     "safe-regex": "^2.1.1",
     "serve-index": "^1.9.1",
-    "utf-8-validate": "^5.0.2"
+    "utf-8-validate": "^5.0.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/ajv-keywords": "^3.4.0",
