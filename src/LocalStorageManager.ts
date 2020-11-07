@@ -37,9 +37,15 @@ export const localStoragePath = "/node-deepstackai-trigger";
 export async function initializeStorage(): Promise<void> {
   log.verbose("Local storage", `Creating local storage folders in ${localStoragePath}.`);
 
-  await mkdirp(path.join(localStoragePath, Locations.Annotations));
-  await mkdirp(path.join(localStoragePath, Locations.Snapshots));
-  await mkdirp(path.join(localStoragePath, Locations.Originals));
+  await mkdirp(path.join(localStoragePath, Locations.Annotations)).catch(e => {
+    log.verbose("Local storage", `Unable to create annotations folder: ${e.message}`);
+  });
+  await mkdirp(path.join(localStoragePath, Locations.Snapshots)).catch(e => {
+    log.verbose("Local storage", `Unable to create snapshots folder: ${e.message}`);
+  });
+  await mkdirp(path.join(localStoragePath, Locations.Originals)).catch(e => {
+    log.verbose("Local storage", `Unable to create originals folder: ${e.message}`);
+  });
 }
 
 /**
