@@ -18,7 +18,7 @@ import * as Settings from "./Settings";
  */
 function formatMessage(source: string, message: string) {
   const paddedString = `[${source}]`.padEnd(20);
-  return `${moment().format()} ${paddedString} ${message}`;
+  return `${moment().format("YYYY-MM-DD HH:mm:ss")} ${paddedString} ${message}`;
 }
 
 export function verbose(source: string, message: string): void {
