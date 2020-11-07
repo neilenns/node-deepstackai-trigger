@@ -19,18 +19,18 @@ export async function initialize(): Promise<void> {
   const client = MqttManager.client;
 
   try {
-    log.info("Mqtt router", `Subscribing to ${_statusResetTopic}.`);
+    log.verbose("Mqtt router", `Subscribing to ${_statusResetTopic}.`);
     await client.subscribe(_statusResetTopic);
 
-    log.info("Mqtt router", `Subscribing to ${_triggerResetTopic}.`);
+    log.verbose("Mqtt router", `Subscribing to ${_triggerResetTopic}.`);
     await client.subscribe(_triggerResetTopic);
 
-    log.info("Mqtt router", `Subscribing to ${_triggerMotionTopic}.`);
+    log.verbose("Mqtt router", `Subscribing to ${_triggerMotionTopic}.`);
     await client.subscribe(_triggerMotionTopic);
 
     client.on("message", (topic, message) => processReceivedMessage(topic, message));
   } catch (e) {
-    log.warn("Mqtt router", `Unable to subscribe to topics: ${e}`);
+    log.error("Mqtt router", `Unable to subscribe to topics: ${e}`);
   }
 }
 
@@ -40,7 +40,7 @@ export async function initialize(): Promise<void> {
  * @param message The message received
  */
 function processReceivedMessage(topic: string, message: Buffer): void {
-  log.info("Mqtt router", `Received message: ${_statusResetTopic}`);
+  log.verbose("Mqtt router", `Received message: ${_statusResetTopic}`);
 
   if (topic === _statusResetTopic) {
     log.verbose("Mqtt router", `Received overall statistics reset request.`);
@@ -53,12 +53,12 @@ function processReceivedMessage(topic: string, message: Buffer): void {
   try {
     triggerName = JSON.parse(message.toString())?.name;
   } catch (e) {
-    log.warn("Mqtt router", `Unable to process incoming message: ${e}`);
+    log.error("Mqtt router", `Unable to process incoming message: ${e}`);
     return;
   }
 
   if (!triggerName) {
-    log.warn("Mqtt router", `Received a statistics reset request but no trigger name was provided`);
+    log.verbose("Mqtt router", `Received a statistics reset request but no trigger name was provided`);
   }
 
   // Now that the name exists process the remaining topics

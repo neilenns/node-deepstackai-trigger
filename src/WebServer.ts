@@ -42,7 +42,7 @@ export function startApp(): void {
       server,
     });
   } catch (e) {
-    log.warn("Web server", `Unable to start web server: ${e.error}`);
+    log.error("Web server", `Unable to start web server: ${e.error}`);
   }
 }
 

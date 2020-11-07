@@ -29,7 +29,7 @@ export async function initialize(): Promise<void> {
   _isEnabled = Settings.pushbullet.enabled ?? true;
 
   if (!_isEnabled) {
-    log.info("Pushbullet", "Pushbullet is disabled via settings.");
+    log.verbose("Pushbullet", "Pushbullet is disabled via settings.");
     return;
   }
 
@@ -99,7 +99,7 @@ export async function processTrigger(
     // This returns an array to keep it consistent with all the other managers.
     return [await sendPushbulletMessage(pushbulletMessage)];
   } catch (e) {
-    log.warn("Pushbullet", `Unable to send message: ${e.error}`);
+    log.error("Pushbullet", `Unable to send message: ${e.error}`);
     return;
   }
 }

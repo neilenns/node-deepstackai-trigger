@@ -11,7 +11,7 @@ function readFile(serviceName: string, fileType: string, filePath: string): stri
   try {
     return fs.readFileSync(filePath, "utf-8");
   } catch (e) {
-    log.warn(serviceName, `Unable to read the ${fileType} file: ${e.message}.`);
+    log.verbose(serviceName, `Unable to read the ${fileType} file: ${e.message}.`);
     return null;
   }
 }
@@ -43,7 +43,7 @@ function replaceSecrets<T>(settings: T, secrets: { a: string }) {
 export function readSettings<T>(serviceName: string, serviceFilePath: string, secretsFilePath = ""): T {
   const settings = parseFile(serviceName, "settings", serviceFilePath);
   if (!settings) {
-    log.warn(serviceName, `Unable to load file ${serviceFilePath}.`);
+    log.verbose(serviceName, `Unable to load file ${serviceFilePath}.`);
     return null;
   }
   const secrets = parseFile(serviceName, "secrets", secretsFilePath);

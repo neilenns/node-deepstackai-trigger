@@ -74,29 +74,26 @@ export default class Trigger {
   }
 
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
-    log.verbose(`Trigger ${this.name}`, `${fileName}: Analyzing`);
+    log.verbose(`${this.name}`, `${fileName}: Analyzing`);
     const startTime = new Date();
     const analysis = await analyzeImage(fileName).catch(e => {
-      log.warn(`Trigger ${this.name}`, e);
+      log.error(`${this.name}`, e);
       return undefined;
     });
 
     this.analysisDuration = new Date().getTime() - startTime.getTime();
 
     if (!analysis?.success) {
-      log.error(`Trigger ${this.name}`, `${fileName}: Analysis failed`);
+      log.error(`${this.name}`, `${fileName}: Analysis failed`);
       return undefined;
     }
 
     if (analysis.predictions.length == 0) {
-      log.verbose(`Trigger ${this.name}`, `${fileName}: No objects detected. (${this.analysisDuration} ms)`);
+      log.verbose(`${this.name}`, `${fileName}: No objects detected. (${this.analysisDuration} ms)`);
       return undefined;
     }
 
-    log.verbose(
-      `Trigger ${this.name}`,
-      `${fileName}: Found at least one object in the photo. (${this.analysisDuration} ms)`,
-    );
+    log.verbose(`${this.name}`, `${fileName}: Found at least one object in the photo. (${this.analysisDuration} ms)`);
     return analysis.predictions;
   }
 
@@ -178,7 +175,7 @@ export default class Trigger {
     this.receivedDate = new Date(stats.atimeMs);
 
     if (this.receivedDate < this._initializedTime && !Settings.processExistingImages) {
-      log.verbose(`Trigger ${this.name}`, `${fileName}: Skipping as it was created before the service started.`);
+      log.verbose(`${this.name}`, `${fileName}: Skipping as it was created before the service started.`);
       return false;
     }
 
@@ -193,7 +190,7 @@ export default class Trigger {
     // that arrived prior to startup when _processExisting is true.
     if (secondsSinceLastTrigger < this.cooldownTime && this.receivedDate > this._initializedTime) {
       log.verbose(
-        `Trigger ${this.name}`,
+        `${this.name}`,
         `${fileName}: Skipping as it was received before the cooldown period of ${this.cooldownTime} seconds expired.`,
       );
       return false;
@@ -219,9 +216,9 @@ export default class Trigger {
       this.isMasked(fileName, this.activateRegions, false, prediction);
 
     if (!isTriggered) {
-      log.verbose(`Trigger ${this.name}`, `${fileName}: Not triggered by ${label} (${scaledConfidence})`);
+      log.verbose(`${this.name}`, `${fileName}: Not triggered by ${label} (${scaledConfidence})`);
     } else {
-      log.verbose(`Trigger ${this.name}`, `${fileName}: Triggered by ${label} (${scaledConfidence})`);
+      log.info(`${this.name}`, `${fileName}: Triggered by ${label} (${scaledConfidence})`);
     }
     return isTriggered;
   }
@@ -237,20 +234,14 @@ export default class Trigger {
   public isMasked(fileName: string, masks: Rect[], block: boolean, prediction: IDeepStackPrediction): boolean {
     // If no masks are specified and this is a blocking mask return false since nothing could possibly be blocked.
     if (!masks && block) {
-      log.verbose(
-        `Trigger ${this.name}`,
-        "No blocking masks specified and block is true so skipping blocking masks check.",
-      );
+      log.verbose(`${this.name}`, "No blocking masks specified and block is true so skipping blocking masks check.");
       return false;
     }
 
     // If no masks are specified and this is a non-blocking mask return true since everything should get accepted
     // to maintain backwards compatibility.
     if (!masks && !block) {
-      log.verbose(
-        `Trigger ${this.name}`,
-        "No activate masks specified and block is false so skipping activate masks check.",
-      );
+      log.verbose(`${this.name}`, "No activate masks specified and block is false so skipping activate masks check.");
       return true;
     }
 
@@ -261,12 +252,12 @@ export default class Trigger {
 
       if (doesOverlap) {
         log.verbose(
-          `Trigger ${this.name}`,
+          `${this.name}`,
           `Prediction region ${predictionRect} ${block ? "blocked" : "activated"} by mask ${mask}.`,
         );
       } else {
         log.verbose(
-          `Trigger ${this.name}`,
+          `${this.name}`,
           `Prediction region ${predictionRect} does not overlap with ${block ? "block" : "activate"} region ${mask}.`,
         );
       }
@@ -289,11 +280,11 @@ export default class Trigger {
 
     if (!isRegistered) {
       log.verbose(
-        `Trigger ${this.name}`,
+        `${this.name}`,
         `${fileName}: Detected object ${label} is not in the watch objects list [${this.watchObjects?.join(", ")}]`,
       );
     } else {
-      log.verbose(`Trigger ${this.name}`, `${fileName}: Matched triggering object ${label}`);
+      log.verbose(`${this.name}`, `${fileName}: Matched triggering object ${label}`);
     }
 
     return isRegistered ?? false;
@@ -311,12 +302,12 @@ export default class Trigger {
 
     if (!meetsThreshold) {
       log.verbose(
-        `Trigger ${this.name}`,
+        `${this.name}`,
         `${fileName}: Confidence ${confidence} wasn't between threshold ${this.threshold.minimum} and ${this.threshold.maximum}`,
       );
     } else {
       log.verbose(
-        `Trigger ${this.name}`,
+        `${this.name}`,
         `${fileName}: Confidence ${confidence} meets threshold ${this.threshold.minimum} and ${this.threshold.maximum}`,
       );
     }
@@ -342,9 +333,9 @@ export default class Trigger {
       this._watcher = chokidar
         .watch(this.watchPattern, { awaitWriteFinish: Settings.awaitWriteFinish })
         .on("add", this.processImage.bind(this));
-      log.verbose(`Trigger ${this.name}`, `Listening for new images in ${this.watchPattern}`);
+      log.verbose(`${this.name}`, `Listening for new images in ${this.watchPattern}`);
     } catch (e) {
-      throw Error(`Trigger ${this.name} unable to start watching for images: ${e}`);
+      throw Error(`${this.name} unable to start watching for images: ${e}`);
     }
 
     return true;
@@ -356,10 +347,10 @@ export default class Trigger {
   public async stopWatching(): Promise<void> {
     if (this._watcher) {
       await this._watcher.close().catch(e => {
-        log.warn(`Trigger ${this.name}`, `unable to stop watching for images: ${e}`);
+        log.error(`${this.name}`, `unable to stop watching for images: ${e}`);
       });
 
-      log.verbose(`Trigger ${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
+      log.verbose(`${this.name}`, `Stopped listening for new images in ${this.watchPattern}`);
     }
   }
 
@@ -368,16 +359,16 @@ export default class Trigger {
    */
   public async downloadWebImage(): Promise<string> {
     if (!this.snapshotUri) {
-      log.warn(`Trigger ${this.name}`, `Unable to download snapshot: snapshotUri not specified.`);
+      log.error(`${this.name}`, `Unable to download snapshot: snapshotUri not specified.`);
       return;
     }
 
     if (!this.enabled) {
-      log.warn(`Trigger ${this.name}`, `Snapshot downloaded requested however this trigger isn't enabled.`);
+      log.warn(`${this.name}`, `Snapshot downloaded requested however this trigger isn't enabled.`);
       return;
     }
 
-    log.verbose(`Trigger ${this.name}`, `Downloading snapshot from ${this.snapshotUri}.`);
+    log.verbose(`${this.name}`, `Downloading snapshot from ${this.snapshotUri}.`);
 
     // The image gets saved to local storage using the name of the trigger and a unique-enough number.
     const localStoragePath = LocalStorage.mapToLocalStorage(
@@ -389,7 +380,7 @@ export default class Trigger {
     // then passes straight to writeFile and generates a proper image file in local storage.
     // If encoding: null is omitted then the resulting local file is corrupted.
     const response = await request.get(this.snapshotUri, { encoding: null }).catch(e => {
-      log.warn(`Trigger ${this.name}`, `Unable to download snapshot from ${this.snapshotUri}: ${e}`);
+      log.verbose(`${this.name}`, `Unable to download snapshot from ${this.snapshotUri}: ${e}`);
       return;
     });
 
@@ -398,11 +389,11 @@ export default class Trigger {
     }
 
     await fsPromise.writeFile(localStoragePath, response).catch(e => {
-      log.warn(`Trigger ${this.name}`, `Unable to save snapshot: ${e}`);
+      log.verbose(`${this.name}`, `Unable to save snapshot: ${e}`);
       return;
     });
 
-    log.verbose(`Trigger ${this.name}`, `Download from ${this.snapshotUri} complete.`);
+    log.verbose(`${this.name}`, `Download from ${this.snapshotUri} complete.`);
 
     return localStoragePath;
   }

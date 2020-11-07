@@ -31,7 +31,7 @@ export async function initialize(): Promise<void> {
   isEnabled = Settings.telegram.enabled ?? true;
 
   if (!isEnabled) {
-    log.info("Telegram", "Telegram is disabled via settings.");
+    log.verbose("Telegram", "Telegram is disabled via settings.");
     return;
   }
 
@@ -91,7 +91,7 @@ export async function processTrigger(
       trigger.telegramConfig.chatIds.map(chatId => sendTelegramMessage(caption, imageFileName, chatId)),
     );
   } catch (e) {
-    log.warn("Telegram", `Unable to send message: ${e.error}`);
+    log.error("Telegram", `Unable to send message: ${e.error}`);
     return [];
   }
 }
@@ -104,7 +104,7 @@ async function sendTelegramMessage(
   log.verbose("Telegram", `Sending message to ${chatId}`);
 
   const imageBuffer = await fsPromise.readFile(fileName).catch(e => {
-    log.warn("Telegram", `Unable to load file: ${e.message}`);
+    log.error("Telegram", `Unable to load file: ${e.message}`);
     return undefined;
   });
 
@@ -113,7 +113,7 @@ async function sendTelegramMessage(
       caption: triggerName,
     })
     .catch(e => {
-      log.warn("Telegram", `Unable to send message: ${e.message}`);
+      log.error("Telegram", `Unable to send message: ${e.message}`);
       return undefined;
     });
 

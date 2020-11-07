@@ -48,8 +48,8 @@ function validateEnvironmentVariables(): boolean {
 async function startup(): Promise<void> {
   log.info("Main", "****************************************");
   log.info("Main", `Starting up version ${npmPackageInfo.version}`);
-  log.info("Main", `Timezone offset is ${new Date().getTimezoneOffset()}`);
-  log.info("Main", `Current time is ${new Date()}`);
+  log.verbose("Main", `Timezone offset is ${new Date().getTimezoneOffset()}`);
+  log.verbose("Main", `Current time is ${new Date()}`);
 
   try {
     // Load the settings file.
@@ -81,13 +81,13 @@ async function startup(): Promise<void> {
     LocalStorageManager.startBackgroundPurge();
 
     if (Settings.enableAnnotations) {
-      log.info("Main", "Annotated image generation enabled.");
+      log.verbose("Main", "Annotated image generation enabled.");
       await AnnotationManager.initialize();
     }
 
     // Enable the web server.
     if (Settings.enableWebServer) {
-      log.info("Main", "Web server enabled.");
+      log.verbose("Main", "Web server enabled.");
       WebServer.startApp();
     }
 
@@ -129,11 +129,9 @@ async function startup(): Promise<void> {
     // restarts.
     restartAttemptCount = 0;
 
-    log.info("Main", "****************************************");
     log.info("Main", "Up and running!");
   } catch (e) {
     log.error("Main", e.message);
-    log.error("Main", "****************************************");
     log.error(
       "Main",
       "Startup failed due to errors. For troubleshooting assistance see https://github.com/danecreekphotography/node-deepstackai-trigger/wiki/Troubleshooting.",
@@ -182,7 +180,7 @@ async function shutdown(): Promise<void> {
  * @param path The path to the settings file that changed.
  */
 async function hotLoadSettings(configuration: IConfiguration) {
-  log.info("Main", `${configuration.baseFilePath} change detected, reloading.`);
+  log.verbose("Main", `${configuration.baseFilePath} change detected, reloading.`);
 
   await shutdown();
   await startup();
@@ -193,7 +191,7 @@ async function hotLoadSettings(configuration: IConfiguration) {
  * @param path The path to the trigger file that changed.
  */
 async function hotLoadTriggers(configuration: IConfiguration) {
-  log.info("Main", `${configuration.baseFilePath} change detected, reloading.`);
+  log.verbose("Main", `${configuration.baseFilePath} change detected, reloading.`);
 
   // Shut down things that are running
   await TriggerManager.stopWatching();
@@ -222,7 +220,7 @@ function startWatching(): void {
       log.verbose("Main", `Watching for changes to ${settingsFilePath}`);
     }
   } catch (e) {
-    log.warn("Main", `Unable to watch for changes to ${settingsFilePath}: ${e}`);
+    log.error("Main", `Unable to watch for changes to ${settingsFilePath}: ${e}`);
   }
 
   const triggersFilePath = triggersConfiguration.baseFilePath;
@@ -236,7 +234,7 @@ function startWatching(): void {
       log.verbose("Main", `Watching for changes to ${triggersFilePath}`);
     }
   } catch (e) {
-    log.warn("Main", `Unable to watch for changes to ${triggersFilePath}: ${e}`);
+    log.error("Main", `Unable to watch for changes to ${triggersFilePath}: ${e}`);
   }
 }
 

@@ -134,7 +134,7 @@ export async function activateWebTrigger(triggerName: string): Promise<void> {
   });
 
   if (!triggerToActivate) {
-    log.warn("Trigger manager", `No trigger found matching ${triggerName}`);
+    log.verbose("Trigger manager", `No trigger found matching ${triggerName}`);
     return;
   }
 
@@ -278,7 +278,7 @@ export function verifyTriggerWatchLocations(): boolean {
     try {
       files = fs.readdirSync(watchFolder);
     } catch (e) {
-      log.warn(
+      log.verbose(
         "Trigger manager",
         `Unable to read contents of watch folder ${watchFolder} for trigger ${trigger.name}. Check and make sure the image folder is mounted properly. ${e}`,
       );

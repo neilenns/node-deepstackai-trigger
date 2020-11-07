@@ -29,7 +29,7 @@ export async function initialize(): Promise<void> {
   _isEnabled = Settings.pushover.enabled ?? true;
 
   if (!_isEnabled) {
-    log.info("Pushover", "Pushover is disabled via settings.");
+    log.verbose("Pushover", "Pushover is disabled via settings.");
     return;
   }
 
@@ -100,7 +100,7 @@ export async function processTrigger(
       }),
     );
   } catch (e) {
-    log.warn("Pushover", `Unable to send message: ${e.error}`);
+    log.error("Pushover", `Unable to send message: ${e.error}`);
     return;
   }
 }

@@ -60,7 +60,7 @@ export function mapToLocalStorage(location: Locations, fileName: string): string
 export async function copyToLocalStorage(location: Locations, fileName: string): Promise<string> {
   const localFileName = path.join(localStoragePath, location, path.basename(fileName));
   await fsPromise.copyFile(fileName, localFileName).catch(e => {
-    log.warn("Local storage", `Unable to copy to local storage: ${e.message}`);
+    log.verbose("Local storage", `Unable to copy to local storage: ${e.message}`);
   });
 
   return localFileName;

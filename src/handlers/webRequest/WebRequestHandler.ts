@@ -41,6 +41,6 @@ async function callTriggerUri(fileName: string, trigger: Trigger, uri: string): 
   try {
     await request.get(uri);
   } catch (e) {
-    log.warn("Web request", `${fileName}: Failed to call trigger uri ${uri}: ${e}`);
+    log.error("Web request", `${fileName}: Failed to call trigger uri ${uri}: ${e}`);
   }
 }

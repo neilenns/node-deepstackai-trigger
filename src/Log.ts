@@ -17,7 +17,8 @@ import * as Settings from "./Settings";
  * @param message The message
  */
 function formatMessage(source: string, message: string) {
-  return `${moment().format()} [${source}] ${message}`;
+  const paddedString = `[${source}]`.padEnd(20);
+  return `${moment().format()} ${paddedString} ${message}`;
 }
 
 export function verbose(source: string, message: string): void {
