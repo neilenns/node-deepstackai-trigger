@@ -74,7 +74,7 @@ export function loadConfiguration(configurations: IConfiguration[]): IConfigurat
   telegram = settingsConfigJson.telegram;
   verbose = settingsConfigJson.verbose ?? false;
 
-  logger.debug({ system: "Settings", message: `Loaded settings from ${loadedConfiguration.baseFilePath}` });
+  logger.debug({ label: "Settings", message: `Loaded settings from ${loadedConfiguration.baseFilePath}` });
 
   return loadedConfiguration;
 }

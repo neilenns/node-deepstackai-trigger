@@ -52,9 +52,9 @@ function validateEnvironmentVariables(): boolean {
 }
 
 async function startup(): Promise<void> {
-  logger.info({ system: "main", message: `Starting up version ${npmPackageInfo.version}` });
-  logger.debug({ system: "main", message: `Timezone offset is ${new Date().getTimezoneOffset()}` });
-  logger.debug({ system: "main", message: `Current time is ${new Date()}` });
+  logger.info({ label: "Main", message: `Starting up version ${npmPackageInfo.version}` });
+  logger.debug({ label: "Main", message: `Timezone offset is ${new Date().getTimezoneOffset()}` });
+  logger.debug({ label: "Main", message: `Current time is ${new Date()}` });
 
   try {
     // Load the settings file.
