@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.6.0
+
+- Support disabling auto-purge by specifying a `purgeInterval` of `0`. Resolves [issue 399](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/399).
+
 ## 5.5.1
 
 - Resolve an issue where the system fails to start if no secrets file exists but the existing `settings.json` or `triggers.json` file uses
