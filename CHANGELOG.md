@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.6.1
+
+- Address a minor security vulnerability in a dependency. Resolves [issue 407](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/407).
+
 ## 5.6.0
 
 - Support disabling auto-purge by specifying a `purgeInterval` of `0`. Resolves [issue 399](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/399).
