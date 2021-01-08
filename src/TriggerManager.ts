@@ -282,6 +282,10 @@ export function verifyTriggerWatchLocations(): boolean {
         "Trigger manager",
         `Unable to read contents of watch folder ${watchFolder} for trigger ${trigger.name}. Check and make sure the image folder is mounted properly. ${e}`,
       );
+      if (watchFolder.indexOf("*") >= 0) {
+        log.warn("Trigger manager", `Path contains a '*'. Suspecting a glob string. will allow to continue.`);
+        return false;
+      }
       return true;
     }
 
