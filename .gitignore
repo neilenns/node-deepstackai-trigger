@@ -109,4 +109,3 @@ dist
 # sample configuration files
 triggers.json
 settings.json
-package-lock.json
