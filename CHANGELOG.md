@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Support for glob patterns in trigger watchPatterns. Resolves [issue 412](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/412)
+
 ## 5.6.1
 
 - Address a minor security vulnerability in a dependency. Resolves [issue 407](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/407).
