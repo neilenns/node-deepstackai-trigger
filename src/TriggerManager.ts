@@ -8,6 +8,7 @@ import * as MQTTManager from "./handlers/mqttManager/MqttManager";
 
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
 import * as fs from "fs";
+import glob from "glob"
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import path from "path";
 import PushbulletConfig from "./handlers/pushbulletManager/PushbulletConfig";
@@ -69,7 +70,7 @@ export function loadConfiguration(configurations: IConfiguration[]): IConfigurat
   if (!triggerConfigJson) {
     throw Error(
       "Unable to find a trigger configuration file. Verify the trigger secret points to a file " +
-        "called triggers.json or that the /config mount point contains a file called triggers.json.",
+      "called triggers.json or that the /config mount point contains a file called triggers.json.",
     );
   }
 
@@ -271,25 +272,19 @@ export function resetOverallStatistics(): ITriggerStatistics {
  */
 export function verifyTriggerWatchLocations(): boolean {
   const invalidWatchLocations = triggers?.filter(trigger => {
-    const watchFolder = path.dirname(trigger.watchPattern);
-
     let files: string[];
 
     try {
-      files = fs.readdirSync(watchFolder);
+      files = glob.sync(trigger.watchPattern);
     } catch (e) {
       log.warn(
         "Trigger manager",
-        `Unable to read contents of watch folder ${watchFolder} for trigger ${trigger.name}. Check and make sure the image folder is mounted properly. ${e}`,
+        `Unable to read contents of watch folder ${trigger.watchPattern} for trigger ${trigger.name}. Check and make sure the image folder is mounted properly. ${e}`,
       );
-      if (watchFolder.indexOf("*") >= 0) {
-        log.warn("Trigger manager", `Path contains a '*'. Suspecting a glob string. will allow to continue.`);
-        return false;
-      }
       return true;
     }
 
-    log.verbose("Trigger manager", `There are ${files.length} images waiting in ${watchFolder} for ${trigger.name}.`);
+    log.verbose("Trigger manager", `There are ${files.length} images waiting in ${trigger.watchPattern} for ${trigger.name}.`);
     return false;
   });
 
