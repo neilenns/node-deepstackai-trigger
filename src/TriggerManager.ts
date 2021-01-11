@@ -7,10 +7,8 @@ import * as log from "./Log";
 import * as MQTTManager from "./handlers/mqttManager/MqttManager";
 
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
-import * as fs from "fs";
 import glob from "glob"
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
-import path from "path";
 import PushbulletConfig from "./handlers/pushbulletManager/PushbulletConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
 import Rect from "./Rect";
