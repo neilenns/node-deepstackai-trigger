@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Support for glob patterns in trigger watchPatterns. Resolves [issue 412](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/412)
+- Support for glob patterns in trigger watchPatterns. Resolves [issue 412](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/412).
 
 ## 5.6.1
 
