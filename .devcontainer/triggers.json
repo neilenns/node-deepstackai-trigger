@@ -24,7 +24,7 @@
     },
     {
       "name": "Dog detector",
-      "watchPattern": "/aiinput/Dog*.jpg",
+      "watchPattern": "/aiinput/**/Dog*.jpg",
       "enabled": true,
       "threshold": {
         "minimum": 50,
