@@ -37,6 +37,7 @@ export default class Trigger {
    * Use the incrementAnalyzedFiles() method to update the total.
    */
   public analyzedFilesCount = 0;
+  public customEndpoint?: string;
   public cooldownTime: number;
   public enabled = true;
   public name: string;
@@ -76,7 +77,7 @@ export default class Trigger {
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
     log.verbose(`Trigger ${this.name}`, `${fileName}: Analyzing`);
     const startTime = new Date();
-    const analysis = await analyzeImage(fileName).catch(e => {
+    const analysis = await analyzeImage(fileName, this.customEndpoint).catch(e => {
       log.warn(`Trigger ${this.name}`, e);
       return undefined;
     });
@@ -283,6 +284,16 @@ export default class Trigger {
    * @returns True if the trigger is activated by the label
    */
   public isRegisteredForObject(fileName: string, label: string): boolean {
+    // If a custom endpoint is specified then watchObjects don't apply and it is assumed
+    // the trigger is always registered for the detected object.
+    if (this.customEndpoint) {
+      log.verbose(`Trigger ${this.name}`, `${fileName}: Custom endpoint matched triggering object ${label}`);
+      return true;
+    }
+
+    // In the far more common, normal, case where no custom endpoint is specified
+    // check and see if the detected object is in the list of registered objects
+    // to watch.
     const isRegistered = this.watchObjects?.some(watchLabel => {
       return watchLabel.toLowerCase() === label?.toLowerCase();
     });

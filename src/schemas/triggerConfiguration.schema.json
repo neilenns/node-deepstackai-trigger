@@ -24,8 +24,11 @@
         "title": "Trigger",
         "description": "A trigger that responds to DeepStack predictions.",
         "type": "object",
-        "anyOf": [{ "required": ["watchPattern"] }, { "required": ["snapshotUri"] }],
-        "required": ["handlers", "name", "watchObjects"],
+        "allOf": [
+          { "anyOf": [{ "required": ["watchPattern"] }, { "required": ["snapshotUri"] }] },
+          { "oneOf": [{ "required": ["watchObjects"] }, { "required": ["customEndpoint"] }] },
+          { "required": ["handlers", "name"] }
+        ],
         "additionalProperties": false,
         "properties": {
           "name": {
@@ -44,6 +47,11 @@
             "exclusiveMinimum": 0,
             "maximum": 600,
             "type": "integer"
+          },
+          "customEndpoint": {
+            "description": "Custom endpoint for DeepStack, used to call a custom model. When specified watchObjects is ignored.",
+            "examples": ["/v1/vision/custom/my_custom_model_name?image"],
+            "type": "string"
           },
           "enabled": {
             "description": "Set to true to enable the trigger. If false the trigger will be ignored.",
