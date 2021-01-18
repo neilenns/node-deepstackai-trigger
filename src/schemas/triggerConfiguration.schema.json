@@ -45,6 +45,11 @@
             "maximum": 600,
             "type": "integer"
           },
+          "customEndpoint": {
+            "description": "Custom endpoint for DeepStack, used to call a custom model. When specified watchObjects is ignored.",
+            "examples": ["/v1/vision/custom/my_custom_model_name?image"],
+            "type": "string"
+          },
           "enabled": {
             "description": "Set to true to enable the trigger. If false the trigger will be ignored.",
             "examples": [true],

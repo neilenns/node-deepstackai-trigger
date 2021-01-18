@@ -78,6 +78,7 @@ export function loadConfiguration(configurations: IConfiguration[]): IConfigurat
   triggers = triggerConfigJson.triggers.map(triggerJson => {
     log.info("Triggers", `Loaded configuration for ${triggerJson.name}`);
     const configuredTrigger = new Trigger({
+      customEndpoint: triggerJson.customEndpoint,
       cooldownTime: triggerJson.cooldownTime,
       enabled: triggerJson.enabled ?? true, // If it isn't specified then enable the camera
       name: triggerJson.name,

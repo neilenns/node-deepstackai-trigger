@@ -11,6 +11,7 @@ import IPushbulletConfigJson from "../handlers/pushbulletManager/IPushoverConfig
 
 export default interface ITriggerJson {
   cooldownTime: number;
+  customEndpoint?: string;
   enabled: boolean;
   name: string;
   snapshotUri: string;
