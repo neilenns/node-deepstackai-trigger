@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Add support for `customEndpoint` on a trigger to support custom Deepstack models. Resolves [issue 416](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/416).
+
 ## 5.6.1
 
 - Address a minor security vulnerability in a dependency. Resolves [issue 407](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/407).
