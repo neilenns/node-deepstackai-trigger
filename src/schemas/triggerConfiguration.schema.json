@@ -24,9 +24,11 @@
         "title": "Trigger",
         "description": "A trigger that responds to DeepStack predictions.",
         "type": "object",
-        "anyOf": [{ "required": ["watchPattern"] }, { "required": ["snapshotUri"] }],
-        "oneOf": [{ "required": ["watchObjects"] }, { "required": ["customEndpoint"] }],
-        "required": ["handlers", "name"],
+        "allOf": [
+          { "anyOf": [{ "required": ["watchPattern"] }, { "required": ["snapshotUri"] }] },
+          { "oneOf": [{ "required": ["watchObjects"] }, { "required": ["customEndpoint"] }] },
+          { "required": ["handlers", "name"] }
+        ],
         "additionalProperties": false,
         "properties": {
           "name": {
