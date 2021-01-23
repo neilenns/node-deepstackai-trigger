@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 5.7.0
 
 - Add support for `customEndpoint` on a trigger to support custom Deepstack models. Resolves [issue 416](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/416).
 - Support for glob patterns in trigger watchPatterns. Resolves [issue 412](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/412).
