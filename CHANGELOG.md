@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 5.8.0
 
 - System now sends an MQTT message every 60 seconds to report its status as online. Resolves [issue 423](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/423).
 
