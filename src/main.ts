@@ -122,7 +122,7 @@ async function startup(): Promise<void> {
     TriggerManager.startWatching();
 
     // Notify it's up and running
-    sendHealthMessage();
+    await sendHealthMessage();
 
     // Start watching for config file changes
     startWatching();
