@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- System now sends an MQTT message every 60 seconds to report its status as online. Resolves [issue 423](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/423).
+
 ## 5.7.0
 
 - Add support for `customEndpoint` on a trigger to support custom Deepstack models. Resolves [issue 416](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/416).

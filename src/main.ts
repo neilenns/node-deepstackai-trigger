@@ -22,6 +22,8 @@ import IConfiguration from "./types/IConfiguration";
 
 import npmPackageInfo from "../package.json";
 
+// Health message is sent via MQTT every 60 seconds
+const healthWaitTime = 60 * 1000;
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
 const maxRestartAttempts = 5;
@@ -29,6 +31,7 @@ const maxRestartAttempts = 5;
 // The list of settings file watchers, used to stop them on hot reloading of settings.
 const watchers: chokidar.FSWatcher[] = [];
 
+let healthTimer: NodeJS.Timeout;
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
 let settingsConfiguration: IConfiguration;
@@ -119,7 +122,7 @@ async function startup(): Promise<void> {
     TriggerManager.startWatching();
 
     // Notify it's up and running
-    await MqttManager.publishServerState("online");
+    await sendHealthMessage();
 
     // Start watching for config file changes
     startWatching();
@@ -140,6 +143,7 @@ async function startup(): Promise<void> {
     );
 
     // Notify it's not up and running
+    clearTimeout(healthTimer);
     await MqttManager.publishServerState("offline", e.message);
 
     // Shutdown the web server plus other things that may have spun up successfully.
@@ -163,6 +167,19 @@ async function startup(): Promise<void> {
       return;
     }
   }
+}
+
+/**
+ * Sends a health message via MQTT every n seconds to indicate the server is online.
+ */
+async function sendHealthMessage(): Promise<void> {
+  if (!MqttManager.isEnabled) {
+    return;
+  }
+
+  await MqttManager.publishServerState("online");
+
+  healthTimer = setTimeout(sendHealthMessage, healthWaitTime);
 }
 
 /**
