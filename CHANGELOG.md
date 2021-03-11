@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.8.1
+
+- Addresses a security vulnerability in a dependency. Resolves [issue 427](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/427).
+
 ## 5.8.0
 
 - System now sends an MQTT message every 60 seconds to report its status as online. Resolves [issue 423](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/423).
