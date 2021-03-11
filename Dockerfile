@@ -1,5 +1,5 @@
 # This temporary image is used to produce the build.
-FROM node:slim as build
+FROM node:12 as build
 RUN mkdir -p /home/node/app/fonts && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app

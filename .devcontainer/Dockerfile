@@ -2,7 +2,7 @@
 # This is most important for git: if git is installed via postCreateCommand it actually isn't there in
 # time for first container creation. VSCode will attempt to copy the .gitconfig file and fail
 # because git isn't installed
-FROM node:slim
+FROM node:12
 
 ARG NPM_GLOBAL=/usr/local/share/npm-global
 ARG USERNAME=node
