@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Address security vulnerabilities in dependent packages. Resolves [issue 434](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/434).
+
 ## 5.8.1
 
 - Addresses a security vulnerability in a dependency. Resolves [issue 427](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/427).
