@@ -1,6 +1,6 @@
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/danecreekphotography/node-deepstackai-trigger)
-
 # DeepStack AI Triggers
+
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/danecreekphotography/node-deepstackai-trigger)
 
 This system uses Docker containers to run [DeepStack AI](https://deepstack.cc/) and process images
 from a watch folder, then fires a set of registered triggers to make web request calls, send MQTT
