@@ -1,4 +1,4 @@
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/danecreekphotography/node-deepstackai-trigger).
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/danecreekphotography/node-deepstackai-trigger)
 
 # DeepStack AI Triggers
 
