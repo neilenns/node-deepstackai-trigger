@@ -1,3 +1,5 @@
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/danecreekphotography/node-deepstackai-trigger).
+
 # DeepStack AI Triggers
 
 This system uses Docker containers to run [DeepStack AI](https://deepstack.cc/) and process images
