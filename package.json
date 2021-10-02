@@ -3,9 +3,7 @@
   "version": "5.8.4",
   "description": "Detects motion using DeepStack AI and calls registered triggers based on trigger rules.",
   "main": "dist/src/main.js",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "scripts": {
     "build": "tsc",
     "lint": "npm run lint:eslint && npm run lint:markdown",
@@ -22,14 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danecreekphotography/node-deepstackai-trigger"
+    "url": "git+https://github.com/neile/node-deepstackai-trigger"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/danecreekphotography/node-deepstackai-trigger/Issues"
+    "url": "https://github.com/neile/node-deepstackai-trigger/Issues"
   },
-  "homepage": "https://github.com/danecreekphotography/node-deepstackai-trigger#readme",
+  "homepage": "https://github.com/neile/node-deepstackai-trigger#readme",
   "dependencies": {
     "ajv": "^6.12.4",
     "ajv-keywords": "^3.4.1",
