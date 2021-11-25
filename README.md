@@ -54,10 +54,9 @@ The [project wiki](https://github.com/danecreekphotography/node-deepstackai-trig
 
 ## Supported Docker image tags
 
-The following tags are available in the Docker repository:
+The following tags are available in the [repository](https://github.com/neilenns/ambientweather2mqtt/pkgs/container/ambientweather2mqtt):
 
-| Tag name            | Description                                                                                                                       |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `latest`            | The latest released build. This lags slightly behind `dev`.                                                                       |
-| `dev`               | The latest code as it is checked into the project's master branch. This may contain breaking changes that aren't documented yet.  |
-| `version-<version>` | The specific [released version](https://github.com/danecreekphotography/node-deepstackai-trigger/releases), e.g. `version-1.5.0`. |
+| Tag name    | Description                                                                                                                |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `latest`    | The latest released build.                                                                                                 |
+| `<version>` | The specific [released version](https://github.com/danecreekphotography/node-deepstackai-trigger/releases), e.g. `v1.5.0`. |
