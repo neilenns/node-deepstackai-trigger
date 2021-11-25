@@ -29,7 +29,7 @@ services:
     secrets:
       - triggers
       - settings
-    image: danecreekphotography/node-deepstackai-trigger:latest
+    image: ghcr.io/neilenns/node-deepstackai-trigger:latest
     restart: always
     depends_on:
       - deepstack-ai
