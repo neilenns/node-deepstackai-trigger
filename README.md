@@ -60,3 +60,28 @@ The following tags are available in the [repository](https://github.com/neilenns
 | ----------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `latest`    | The latest released build.                                                                                                 |
 | `<version>` | The specific [released version](https://github.com/danecreekphotography/node-deepstackai-trigger/releases), e.g. `v1.5.0`. |
+
+
+## To manually publish docker image under your own docker repository
+
+Build the docker image locally, by running these commands in the root of the project directory:
+
+* First let us log in to docker hub
+```shell
+   docker login -u <username>
+```
+
+* build a local image of the app
+```shell
+   docker build . --file Dockerfile --tag node-deepstackai-trigger:<your-version-number>
+```
+
+* tag the local image with your dockerhub repository
+```shell
+   docker tag node-deepstackai-trigger:<your-version-number> <docker-hub-user-name>/node-deepstackai-trigger:<your-version-number>
+```
+
+* publish the image to docker hub as tagged
+```shell
+   docker push <docker-hub-user-name>/node-deepstackai-trigger:<your-version-number>
+```
