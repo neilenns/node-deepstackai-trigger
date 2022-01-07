@@ -78,8 +78,7 @@ export default class Trigger {
   @retry({
     retries: 2,
     onRetry: (err: Error) => {
-      // eslint-disable-next-line no-console
-      console.warn(`failed to analyze Image, retrying: ${err.message}`);
+      log.warn(`Trigger.analyzeImage()`,`failed to analyze Image, retrying: ${err.message}`);
     },
   })
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
