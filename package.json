@@ -3,7 +3,9 @@
   "version": "5.8.4",
   "description": "Detects motion using DeepStack AI and calls registered triggers based on trigger rules.",
   "main": "dist/src/main.js",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build": "tsc",
     "lint": "npm run lint:eslint && npm run lint:markdown",
@@ -29,9 +31,12 @@
   },
   "homepage": "https://github.com/neile/node-deepstackai-trigger#readme",
   "dependencies": {
+    "@types/async-retry": "^1.4.3",
     "ajv": "^6.12.4",
     "ajv-keywords": "^3.4.1",
     "async-mqtt": "^2.6.0",
+    "async-retry": "^1.3.3",
+    "async-retry-decorator": "^1.10.0",
     "bufferutil": "^4.0.1",
     "chalk": "^3.0.0",
     "chokidar": "^3.4.2",

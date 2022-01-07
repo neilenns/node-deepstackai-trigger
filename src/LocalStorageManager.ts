@@ -76,12 +76,8 @@ export function startBackgroundPurge(): void {
       `Enabling background purge every ${Settings.purgeInterval} minutes for files older than ${Settings.purgeAge} minutes.`,
     );
     purgeOldFiles();
-  }
-  else {
-    log.verbose(
-      "Local storage",
-      `Background purge is disabled via settings.`,
-    );  
+  } else {
+    log.verbose("Local storage", `Background purge is disabled via settings.`);
   }
 }
 
@@ -119,7 +115,7 @@ async function purgeOldFiles(): Promise<void> {
 
   log.verbose("Local storage", "Purge complete");
 
-  if (Settings.purgeInterval > 0 ) {
+  if (Settings.purgeInterval > 0) {
     _backgroundTimer = setTimeout(purgeOldFiles, Settings.purgeInterval * _millisecondsInAMinute);
   }
 }

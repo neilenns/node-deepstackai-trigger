@@ -7,7 +7,7 @@ import * as log from "./Log";
 import * as MQTTManager from "./handlers/mqttManager/MqttManager";
 
 import ITriggerConfigJson from "./types/ITriggerConfigJson";
-import glob from "glob"
+import glob from "glob";
 import MqttHandlerConfig from "./handlers/mqttManager/MqttHandlerConfig";
 import PushbulletConfig from "./handlers/pushbulletManager/PushbulletConfig";
 import PushoverConfig from "./handlers/pushoverManager/PushoverConfig";
@@ -37,8 +37,8 @@ export let triggers: Trigger[];
 
 /**
  * Takes a path to a configuration file and loads all of the triggers from it.
- * @param configFilePath The path to the configuration file
  * @returns The path to the loaded configuration file
+ * @param configurations Path to configuration file and secrets
  */
 export function loadConfiguration(configurations: IConfiguration[]): IConfiguration {
   let loadedConfiguration: IConfiguration;
@@ -68,7 +68,7 @@ export function loadConfiguration(configurations: IConfiguration[]): IConfigurat
   if (!triggerConfigJson) {
     throw Error(
       "Unable to find a trigger configuration file. Verify the trigger secret points to a file " +
-      "called triggers.json or that the /config mount point contains a file called triggers.json.",
+        "called triggers.json or that the /config mount point contains a file called triggers.json.",
     );
   }
 
@@ -283,7 +283,10 @@ export function verifyTriggerWatchLocations(): boolean {
       return true;
     }
 
-    log.verbose("Trigger manager", `There are ${files.length} images waiting in ${trigger.watchPattern} for ${trigger.name}.`);
+    log.verbose(
+      "Trigger manager",
+      `There are ${files.length} images waiting in ${trigger.watchPattern} for ${trigger.name}.`,
+    );
     return false;
   });
 

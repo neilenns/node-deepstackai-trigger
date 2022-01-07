@@ -24,7 +24,7 @@ export default async function analyzeImage(fileName: string, endpoint?: string):
       uri: deepstackUri.toString(),
     })
     .catch(e => {
-      throw Error(`Failed to call DeepStack at ${Settings.deepstackUri}: ${e.error}`);
+      throw Error(`Failed to call DeepStack at ${Settings.deepstackUri} for filename ${fileName} => ${e.error}`);
     });
 
   return JSONC.parse(rawResponse) as IDeepStackResponse;

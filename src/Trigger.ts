@@ -25,6 +25,7 @@ import Rect from "./Rect";
 import request from "request-promise-native";
 import WebRequestConfig from "./handlers/webRequest/WebRequestConfig";
 import ITriggerStatistics from "./types/ITriggerStatistics";
+import { retry } from "async-retry-decorator";
 
 export default class Trigger {
   private _initializedTime: Date;
@@ -74,6 +75,13 @@ export default class Trigger {
     this._lastTriggerTime = new Date("1/1/1970");
   }
 
+  @retry({
+    retries: 2,
+    onRetry: (err: Error) => {
+      // eslint-disable-next-line no-console
+      console.warn(`failed to analyze Image, retrying: ${err.message}`);
+    },
+  })
   private async analyzeImage(fileName: string): Promise<IDeepStackPrediction[] | undefined> {
     log.verbose(`Trigger ${this.name}`, `${fileName}: Analyzing`);
     const startTime = new Date();
@@ -151,6 +159,7 @@ export default class Trigger {
 
   /**
    * Goes through a list of predictions and returns the ones that triggered
+   * @param fileName
    * @param predictions The list of predictions to check
    * @returns The predictions that are within the confidence range for requested objects
    */
@@ -206,8 +215,7 @@ export default class Trigger {
    * Checks to see if an identified object is registered for the trigger, and if the
    * confidence level is high enough to fire the trigger.
    * @param fileName The filename of the image being evaluated
-   * @param label The label of the identified object
-   * @param confidence The confidence level of the identification
+   * @param prediction
    * @returns True if the label is associated with the trigger and the confidence is within the threshold range
    */
   private isTriggered(fileName: string, prediction: IDeepStackPrediction): boolean {
@@ -232,7 +240,7 @@ export default class Trigger {
    * @param fileName The filename of the image being evaluated
    * @param masks The array of masks to check against
    * @param block True if this is a blocking mask.
-   * @param predictions The list of predictions found in the image
+   * @param prediction
    * @returns True if any of the predictions are masked
    */
   public isMasked(fileName: string, masks: Rect[], block: boolean, prediction: IDeepStackPrediction): boolean {
@@ -256,6 +264,7 @@ export default class Trigger {
     }
 
     // Loop through the masks to see if any overlap the prediction
+    // noinspection UnnecessaryLocalVariableJS
     const result = masks.some(mask => {
       const predictionRect = new Rect(prediction.x_min, prediction.y_min, prediction.x_max, prediction.y_max);
       const doesOverlap = mask.overlaps(predictionRect);
@@ -280,6 +289,7 @@ export default class Trigger {
 
   /**
    * Checks to see if the trigger is supposed to activate on the identified object.
+   * @param fileName
    * @param label The object label
    * @returns True if the trigger is activated by the label
    */
@@ -336,7 +346,6 @@ export default class Trigger {
 
   /**
    * Starts watching for file changes.
-   * @param awaitWrite True if Chokidar should wait for writes to complete before firing events. Slows things
    * down but necessary when this runs on a Docker container with images stored on a network drive.
    * @returns True if watching was started, false if it was skipped because the trigger isn't enabled
    */
