@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+- Upgrade node from v12 to v16
+- Whenever a image processing attempt fails, retry at least 2 more times before giving up. This is to avoid losing notifications due to occasional blips during the Ai identification process.
+- Added readme documentation to describe how to manually publish your own version of this project to docker hub.
+
 ## 5.8.5
 
 - Address security vulnerabilities in dependent packages. Resolves [issue 443](https://github.com/danecreekphotography/node-deepstackai-trigger/issues/443) and
