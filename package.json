@@ -41,7 +41,7 @@
     "glob": "^7.1.6",
     "http-terminator": "^2.0.3",
     "jsonc-parser": "^2.2.1",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "mustache": "^4.0.1",
     "node-telegram-bot-api": "^0.50.0",
     "pureimage": "^0.2.1",
