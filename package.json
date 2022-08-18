@@ -76,7 +76,7 @@
     "file-loader": "^6.0.0",
     "jest": "^26.4.0",
     "jest-cli": "^26.4.0",
-    "markdownlint-cli": "^0.21.0",
+    "markdownlint-cli": "^0.32.1",
     "prettier": "^1.19.1",
     "ts-jest": "^26.2.0",
     "ts-loader": "^7.0.5",
