@@ -1,5 +1,9 @@
 # DeepStack AI Triggers
 
+> [!NOTE]
+> This project is no longer maintained. BlueIris has comprehensive support for AI detection, and many
+> cameras include AI detection capabilities.
+
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/danecreekphotography/node-deepstackai-trigger)
 
 This system uses Docker containers to run [DeepStack AI](https://deepstack.cc/) and process images
