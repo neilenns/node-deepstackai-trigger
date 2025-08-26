@@ -39,7 +39,7 @@
     "chokidar": "^3.4.2",
     "commander": "^4.1.1",
     "emitter": "^0.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "glob": "^7.1.6",
     "http-terminator": "^2.0.3",
     "jsonc-parser": "^2.2.1",
